@@ -136,8 +136,18 @@ async def to_admin(bot: Bot, m: Message, header: str, body: str, media_ids: list
 
 # ---------- Общие ----------
 @router.message(CommandStart(), F.chat.type == ChatType.PRIVATE)
-async def start(m: Message, state: FSMContext):
+async def start(m: Message, state: FSMContext, bot: Bot):
+    """/start [sos|scan|partner|private] — deep-links с сайта: t.me/<bot>?start=sos"""
     await state.clear()
+    arg = (m.text or "").split(maxsplit=1)[1].strip().lower() if " " in (m.text or "") else ""
+    if arg == "sos":
+        return await sos_start(m, state, bot)
+    if arg == "scan":
+        return await scan_start(m, state)
+    if arg == "partner":
+        return await partner_start(m, state)
+    if arg == "private":
+        return await private_start(m, state)
     await m.answer(T.START, reply_markup=kb_main())
 
 
@@ -256,6 +266,25 @@ async def partner_about(m: Message, state: FSMContext, bot: Bot):
     await to_admin(bot, m, "🤝 <b>ПАРТНЁР</b>", m.text)
     await lead_add(m.from_user.id, "partner")
     await m.answer(T.PARTNER_DONE, reply_markup=kb_main())
+
+
+# ---------- Private ----------
+class Private(StatesGroup):
+    note = State()
+
+
+async def private_start(m: Message, state: FSMContext):
+    await state.set_state(Private.note)
+    await m.answer(T.PRIVATE_INTRO, reply_markup=kb_cancel(T.BTN_SKIP))
+
+
+@router.message(Private.note, F.text)
+async def private_note(m: Message, state: FSMContext, bot: Bot):
+    await state.clear()
+    note = "" if m.text == T.BTN_SKIP else m.text
+    await to_admin(bot, m, "🖤 <b>PRIVATE — запрос консультации</b>", note or "(без комментария)")
+    await lead_add(m.from_user.id, "private")
+    await m.answer(T.PRIVATE_DONE, reply_markup=kb_main())
 
 
 # ---------- Обратная связь: оператор → клиентка (реплай в группе) ----------

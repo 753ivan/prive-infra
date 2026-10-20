@@ -64,7 +64,7 @@ section h2{font-size:clamp(1.8rem,4.5vw,2.5rem)}
 .note-p{color:var(--muted);font-size:.9rem;max-width:64ch}
 .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .cta code{font:600 1rem var(--body);background:var(--surface);border:1px solid var(--line);padding:12px 16px;border-radius:12px;user-select:all}
-.btn{display:inline-flex;padding:13px 20px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent);font:700 .95rem var(--body);cursor:pointer}
+.btn{display:inline-flex;text-decoration:none;align-items:center;padding:13px 20px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent);font:700 .95rem var(--body);cursor:pointer}
 footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.8rem;display:grid;gap:6px}
 </style>
 </head>
@@ -131,12 +131,12 @@ footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);fo
   <section aria-labelledby="flow-h">
     <h2 id="flow-h">Как начать</h2>
     <div class="steps">
-      <div><h3>Напишите в бот</h3><p>Одно слово: «Private». Без имени и подробностей.</p></div>
+      <div><h3>Нажмите кнопку</h3><p>Бот откроет сценарий Private. Без имени и подробностей.</p></div>
       <div><h3>Подпишите NDA</h3><p>Документ придёт в ответ. Подпись электронная, займёт пару минут.</p></div>
       <div><h3>Приватная консультация</h3><p>40 минут с менеджером: голосом или текстом. Подбираем формат и считаем стоимость.</p></div>
     </div>
     <p class="note-p">Консультация бесплатная и ни к чему не обязывает. Если формат вам не подойдёт, мы удалим переписку при вас.</p>
-    <div class="cta"><code id="h">@prive_private</code><button class="btn" id="copy" type="button">Скопировать</button></div>
+    <div class="cta"><a class="btn" href="https://t.me/prive_scan_bot?start=private">Открыть в Telegram</a><code id="h">@prive_scan_bot</code></div>
   </section>
 
   <footer>
@@ -144,12 +144,5 @@ footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);fo
     <span>18+ · <a href="index.html">Все услуги</a> · <a href="sos.html">SOS</a> · <a href="partners.html">Партнёрам</a>. Мы оказываем услуги защиты приватности и авторских прав и не предоставляем интимные услуги.</span>
   </footer>
 </div>
-<script>
-document.getElementById('copy').addEventListener('click',function(){
-  var b=this;
-  var sel=function(){var r=document.createRange();r.selectNodeContents(document.getElementById('h'));getSelection().removeAllRanges();getSelection().addRange(r)};
-  try{navigator.clipboard.writeText('@prive_private').then(function(){b.textContent='Скопировано'},sel)}catch(e){sel()}
-});
-</script>
 </body>
 </html>

@@ -67,7 +67,7 @@ section h2{font-size:clamp(1.9rem,5vw,2.6rem)}
 .bar .in{max-width:760px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .bar code{font:700 1.05rem var(--body);user-select:all}
 .bar small{display:block;color:var(--muted);font-size:.78rem}
-.btn{display:inline-flex;padding:13px 20px;border-radius:999px;font-weight:700;border:0;background:var(--accent);color:var(--on-accent);font:700 .95rem var(--body);cursor:pointer}
+.btn{display:inline-flex;text-decoration:none;align-items:center;text-decoration:none;align-items:center;padding:13px 20px;border-radius:999px;font-weight:700;border:0;background:var(--accent);color:var(--on-accent);font:700 .95rem var(--body);cursor:pointer}
 .foot{color:var(--muted);font-size:.8rem;margin-top:40px}
 .foot a{text-decoration:underline}
 @media (prefers-reduced-motion:reduce){.live i{animation:none}}
@@ -127,15 +127,8 @@ section h2{font-size:clamp(1.9rem,5vw,2.6rem)}
 </div>
 
 <div class="bar"><div class="in">
-  <div><code id="h">@prive_sos</code><small>Telegram · ответ за 15 минут</small></div>
-  <button class="btn" id="copy" type="button">Скопировать контакт</button>
+  <div><code id="h">@prive_scan_bot</code><small>Telegram · ответ за 15 минут</small></div>
+  <a class="btn" href="https://t.me/prive_scan_bot?start=sos">Написать в SOS</a>
 </div></div>
-<script>
-document.getElementById('copy').addEventListener('click',function(){
-  var b=this;
-  var sel=function(){var r=document.createRange();r.selectNodeContents(document.getElementById('h'));getSelection().removeAllRanges();getSelection().addRange(r)};
-  try{navigator.clipboard.writeText('@prive_sos').then(function(){b.textContent='Скопировано'},sel)}catch(e){sel()}
-});
-</script>
 </body>
 </html>

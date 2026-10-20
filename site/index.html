@@ -164,7 +164,7 @@ footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);fo
       <h1>Не для <em>чужих</em> глаз.</h1>
       <p class="lead"><b class="desc">Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.</b> Сносим анкеты, которые висят у бывшего менеджера, фейки с твоими фото и сливы. Убираем лицо из поиска по фото. Помогаем, если шантажируют. Нас сделали девочки, которые сами работали.</p>
       <div class="ctas">
-        <a class="btn btn-main" href="#scan">Проверить, где я вишу</a>
+        <a class="btn btn-main" href="https://t.me/prive_scan_bot?start=scan">Проверить, где я вишу</a>
         <a class="btn btn-ghost" href="#how">Почему у нас получается</a>
       </div>
     </div>
@@ -405,9 +405,8 @@ footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);fo
     <h2 id="final-h">Узнай, где ты висишь. <em>Бесплатно.</em></h2>
     <p class="note">Отправь в бот ник и 3 фото, запиши кружок. Через сутки получишь проверку: анкеты, фейки, сливы, совпадения по лицу. Есть код подруги — введи, проверка пройдёт без очереди.</p>
     <div class="handle">
+      <a class="btn btn-main" href="https://t.me/prive_scan_bot?start=scan">Открыть бот в Telegram</a>
       <code>@prive_scan_bot</code>
-      <button class="btn btn-main" id="copy" type="button">Скопировать</button>
-      <span id="copied" hidden>Скопировано</span>
     </div>
   </section>
 
@@ -417,12 +416,4 @@ footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);fo
     <span>Мы оказываем услуги защиты приватности и авторских прав. Мы не предоставляем и не рекламируем интимные услуги.</span>
   </footer>
 </main>
-<script>
-document.getElementById('copy').addEventListener('click',function(){
-  var code=document.querySelector('.handle code');
-  var sel=function(){var r=document.createRange();r.selectNodeContents(code);getSelection().removeAllRanges();getSelection().addRange(r)};
-  try{navigator.clipboard.writeText('@prive_scan_bot').then(function(){document.getElementById('copied').hidden=false},sel)}catch(e){sel()}
-});
-</script>
-
 </body></html>
