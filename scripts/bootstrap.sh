@@ -16,7 +16,9 @@ echo "--------------------------------------------------------------------------
 echo
 
 echo "==> 2/4 Проверка доступа к GitHub"
-if ! ssh -n -o BatchMode=yes -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+GH_OUT=$(ssh -n -o BatchMode=yes -T git@github.com 2>&1 || true)
+if ! grep -q "successfully authenticated" <<<"$GH_OUT"; then
+  echo "$GH_OUT"
   echo "Ключ ещё не добавлен в GitHub. Добавьте его (Deploy keys, read-only) и запустите скрипт повторно."
   exit 1
 fi
