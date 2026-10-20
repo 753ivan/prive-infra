@@ -1,0 +1,33 @@
+services:
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [web]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  # Приложение подключим, когда будет код. Пример:
+  # app:
+  #   build: ./app
+  #   container_name: app
+  #   restart: unless-stopped
+  #   env_file: .env          # .env НЕ в git, лежит на сервере в /opt/prive/.env
+  #   networks: [web]
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  web:
+    name: web
