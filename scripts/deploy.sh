@@ -11,8 +11,8 @@ REMOTE=$(git rev-parse origin/main)
 echo "[$(date -Is)] deploy $LOCAL -> $REMOTE"
 git reset -q --hard origin/main
 
-docker compose pull -q
-docker compose up -d --remove-orphans
+docker compose pull -q --ignore-buildable 2>/dev/null || true
+docker compose up -d --build --remove-orphans
 docker image prune -f -q >/dev/null
 
 # Перечитать Caddyfile без даунтайма

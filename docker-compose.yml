@@ -17,17 +17,23 @@ services:
       driver: json-file
       options: { max-size: "10m", max-file: "3" }
 
-  # Бот и API подключим следующими шагами. Пример:
-  # bot:
-  #   build: ./bot
-  #   container_name: app
-  #   restart: unless-stopped
-  #   env_file: .env          # .env НЕ в git, лежит на сервере в /opt/prive/.env
-  #   networks: [web]
+  bot:
+    build: ./bot
+    container_name: bot
+    restart: unless-stopped
+    env_file:
+      - path: .env            # НЕ в git; лежит на сервере в /opt/prive/.env
+        required: false
+    volumes:
+      - bot_data:/data
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
 
 volumes:
   caddy_data:
   caddy_config:
+  bot_data:
 
 networks:
   web:
