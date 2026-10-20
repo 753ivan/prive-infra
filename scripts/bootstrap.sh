@@ -16,7 +16,7 @@ echo "--------------------------------------------------------------------------
 echo
 
 echo "==> 2/4 Проверка доступа к GitHub"
-if ! ssh -o BatchMode=yes -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+if ! ssh -n -o BatchMode=yes -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
   echo "Ключ ещё не добавлен в GitHub. Добавьте его (Deploy keys, read-only) и запустите скрипт повторно."
   exit 1
 fi
@@ -27,7 +27,7 @@ docker compose down 2>/dev/null || true
 if [ ! -d .git ]; then
   git init -q
   git remote add origin "$REPO"
-  git fetch -q origin main
+  git fetch -q origin main </dev/null
   git reset -q --hard origin/main
   git branch -q -M main
   git branch -q --set-upstream-to=origin/main main
