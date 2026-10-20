@@ -1,0 +1,18 @@
+{
+  "_comment": "Справочник площадок для конвейера снятия (M6). domain → канал и шаблон. Заполняется по находкам первых заказов. Ключ '*' — правило по умолчанию: DMCA хостеру по whois.",
+  "platforms": {
+    "telegram.org": {"name": "Telegram", "channel": "email", "to": "abuse@telegram.org", "template": "ncii", "form": "https://telegram.org/support", "notes": "Ссылка на конкретный пост (t.me/c/… или t.me/канал/номер). Дублировать в форму поддержки."},
+    "t.me": {"alias": "telegram.org"},
+    "instagram.com": {"name": "Instagram", "channel": "form", "form": "https://help.instagram.com/contact/584460464982589", "template": "impersonation", "notes": "Фейк-профиль: форма «Report impersonation». Интимные фото: форма NCII через StopNCII."},
+    "facebook.com": {"name": "Facebook", "channel": "form", "form": "https://www.facebook.com/help/contact/169486816475808", "template": "impersonation"},
+    "x.com": {"name": "X", "channel": "form", "form": "https://help.x.com/forms/private_information", "template": "ncii"},
+    "twitter.com": {"alias": "x.com"},
+    "tiktok.com": {"name": "TikTok", "channel": "form", "form": "https://www.tiktok.com/legal/report/privacy", "template": "ncii"},
+    "reddit.com": {"name": "Reddit", "channel": "form", "form": "https://www.reddit.com/report", "template": "ncii"},
+    "vk.com": {"name": "VK", "channel": "form", "form": "https://vk.com/support?act=new", "template": "impersonation"},
+    "google.com": {"name": "Google Search", "channel": "form", "form": "https://reportcontent.google.com/forms/rtbf", "template": "search_removal", "notes": "Удаление из выдачи: форма «удалить результаты о себе» или DMCA (https://reportcontent.google.com/forms/dmca_search)."},
+    "yandex.ru": {"name": "Yandex Search", "channel": "form", "form": "https://yandex.ru/support/search/troubleshooting/delete.html", "template": "search_removal"},
+    "cloudflare.com": {"name": "Cloudflare (хостер за прокси)", "channel": "form", "form": "https://abuse.cloudflare.com/", "template": "dmca", "notes": "Cloudflare пересылает жалобу реальному хостеру; выбрать категорию DMCA."},
+    "*": {"name": "Хостер по whois", "channel": "email", "to": "", "template": "dmca", "notes": "Найти abuse-контакт хостера или регистратора (whois / RDAP) и вписать адрес."}
+  }
+}

@@ -1,0 +1,18 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+sqlalchemy>=2.0
+httpx>=0.27
+jinja2>=3.1
+python-multipart>=0.0.9
+pydantic-settings>=2.2
+imagehash>=4.3
+pillow>=10
+reportlab>=4
+pypdf>=5
+apscheduler>=3.10,<4
+pytest>=8
+# необязательно:
+# playwright>=1.44          # скриншоты страниц (ENABLE_PLAYWRIGHT=true, затем: playwright install chromium)
+# opentimestamps-client     # метки времени для хешей
+# insightface onnxruntime opencv-python-headless   # модуль лица (авто-сверка кружка, поиск лица); нужен ffmpeg; модель ~300 МБ скачается сама
+psycopg[binary]>=3.1        # PostgreSQL (docker-compose.prod.yml)

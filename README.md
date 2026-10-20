@@ -14,7 +14,7 @@
 | `docker-compose.yml` | Сервисы: Caddy (reverse proxy, авто-HTTPS) + приложение |
 | `caddy/Caddyfile` | Домены, заголовки безопасности, маршрутизация |
 | `site/` | Статический сайт getprive.me (index, sos, partners, private) |
-| `bot/` | Telegram-бот: заявки на проверку / SOS / партнёры → группа операторов, ответы реплаем |
+| `ops/` | PRIVÉ Ops — панель операторов (FastAPI) + Telegram-бот через webhook; подробности в `ops/README.md` |
 | `scripts/deploy.sh` | Авто-деплой (cron, раз в минуту) |
 | `scripts/bootstrap.sh` | Одноразовое подключение сервера к репозиторию |
 
@@ -25,11 +25,10 @@ cd /opt/prive && docker compose ps     # состояние контейнеро
 cd /opt/prive && docker compose logs -f caddy
 ```
 
-## Telegram-бот
-Секреты в `/opt/prive/.env` на сервере:
-```
-BOT_TOKEN=...        # от @BotFather
-ADMIN_CHAT_ID=-100…  # закрытая группа операторов; узнать: добавить бота в группу, написать /id
-```
-После изменения `.env`: `cd /opt/prive && docker compose up -d --force-recreate bot`.
-Оператор отвечает клиентке **реплаем** на любое сообщение заявки в группе. Слово «помощь» от клиентки = сигнал принуждения.
+## PRIVÉ Ops (панель + бот)
+- Панель: https://ops.getprive.me (HTTP Basic: `ADMIN_USER` / `ADMIN_PASSWORD` из `.env`).
+- Бот `@prive_scan_bot` работает через webhook панели: после первого запуска открыть панель → Интеграции → «Установить webhook».
+- Секреты в `/opt/prive/.env` (см. `.env.example`). После изменения: `cd /opt/prive && docker compose up -d --force-recreate ops`.
+- База: PostgreSQL (volume `pgdata`); файлы (кружки, эталоны, доказательства): volume `ops_storage`.
+- Бэкапы: ежедневно в `/opt/prive/backups/` (дамп БД + архив хранилища, 14 последних).
+- Deep-links с сайта: `t.me/prive_scan_bot?start=sos|scan|partner|private`.

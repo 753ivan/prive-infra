@@ -17,24 +17,67 @@ services:
       driver: json-file
       options: { max-size: "10m", max-file: "3" }
 
-  bot:
-    build: ./bot
-    container_name: bot
+  # ---------- PRIVÉ Ops: панель + Telegram-бот (webhook) ----------
+  db:
+    image: postgres:16-alpine
+    container_name: db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: prive
+      POSTGRES_USER: prive
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-prive-change-me}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prive"]
+      interval: 10s
+      retries: 10
+
+  ops:
+    build: ./ops
+    container_name: ops
     restart: unless-stopped
     env_file:
-      - path: .env            # НЕ в git; лежит на сервере в /opt/prive/.env
+      - path: .env            # НЕ в git; /opt/prive/.env
         required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://prive:${POSTGRES_PASSWORD:-prive-change-me}@db/prive
+      STORAGE_DIR: /srv/storage
+      PUBLIC_BASE_URL: https://ops.getprive.me
+      TELEGRAM_BOT_TOKEN: ${BOT_TOKEN:-}
+      TELEGRAM_OPERATOR_CHAT_ID: ${ADMIN_CHAT_ID:-}
     volumes:
-      - bot_data:/data
+      - ops_storage:/srv/storage
+    depends_on:
+      db: { condition: service_healthy }
+    networks: [web, internal]
     logging:
       driver: json-file
       options: { max-size: "10m", max-file: "3" }
 
+  backup:
+    image: postgres:16-alpine
+    container_name: backup
+    restart: unless-stopped
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD:-prive-change-me}
+    volumes:
+      - ./backups:/backups
+      - ops_storage:/srv/app/data/storage:ro
+      - ./ops/deploy/backup.sh:/backup.sh:ro
+    entrypoint: ["sh", "-c", "sleep 60; while true; do sh /backup.sh; sleep 86400; done"]
+    depends_on: [db]
+    networks: [internal]
+
 volumes:
   caddy_data:
   caddy_config:
-  bot_data:
+  pgdata:
+  ops_storage:
 
 networks:
   web:
     name: web
+  internal:
+    internal: true

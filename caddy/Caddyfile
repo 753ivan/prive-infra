@@ -28,6 +28,20 @@ getprive.me {
 
 # www.getprive.me — добавить сюда redir после создания DNS-записи www
 
+# Панель операторов (вход: HTTP Basic внутри приложения)
+ops.getprive.me {
+    encode zstd gzip
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Frame-Options DENY
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        X-Robots-Tag "noindex, nofollow"
+        -Server
+    }
+    reverse_proxy ops:8000
+}
+
 # Доступ по IP (пока DNS не настроен / для проверки)
 :80 {
     import prive_site

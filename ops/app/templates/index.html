@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRIVÉ Ops</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav id="nav">
+  <div class="brand">PRIVÉ <span>Ops</span></div>
+  <a href="#dashboard" data-view="dashboard">Дашборд <b id="n-dash"></b></a>
+  <a href="#verify" data-view="verify">Заявки <b id="n-verify"></b></a>
+  <a href="#orders" data-view="orders">Заказы</a>
+  <a href="#findings" data-view="findings">Находки <b id="n-findings"></b></a>
+  <a href="#takedowns" data-view="takedowns">Снятия <b id="n-td"></b></a>
+  <a href="#sources" data-view="sources">Источники</a>
+  <a href="#platforms" data-view="platforms">Площадки</a>
+  <a href="#integrations" data-view="integrations">Интеграции</a>
+  <a href="#team" data-view="team">Команда</a>
+  <div class="spacer"></div>
+  <button class="btn ghost" onclick="api('POST','/api/scheduler/tick').then(()=>toast('Планировщик запущен'))">▶ Тик планировщика</button>
+  <span class="user" id="who"></span>
+</nav>
+<main id="view"></main>
+<div id="modal" class="hidden"><div class="modal-box" id="modal-box"></div></div>
+<div id="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

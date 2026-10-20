@@ -1,3 +1,8 @@
 .env
 *.env
 .DS_Store
+backups/
+ops/app/data/prive.db
+ops/app/data/storage/
+ops/.pytest_cache/
+__pycache__/
