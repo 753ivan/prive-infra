@@ -2,7 +2,7 @@
 # Одноразовое подключение сервера к репозиторию prive-infra (GitOps).
 # Запуск с Mac:  ssh root@2.29.103.21 'bash -s' < bootstrap.sh
 set -euo pipefail
-REPO="git@github.com:__GITHUB_USER__/prive-infra.git"
+REPO="git@github.com:753ivan/prive-infra.git"
 
 echo "==> 1/4 Deploy-ключ сервера"
 if [ ! -f /root/.ssh/id_ed25519 ]; then
