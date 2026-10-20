@@ -10,7 +10,7 @@ from fastapi import BackgroundTasks, Depends, FastAPI, Header, HTTPException, Re
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from sqlalchemy import func
+from sqlalchemy import cast, String, func
 from sqlalchemy.orm import Session
 
 from . import bot, pipeline
@@ -84,7 +84,9 @@ def dashboard(db: Session = Depends(get_db), user: Principal = Depends(current_u
     q = db.query
     return {
         "funnel": funnel(30, db, user),
-        "clients_to_verify": q(Client).filter(Client.status == "new", Client.reference_photos != []).count(),
+        # cast в текст: оператор != для JSON есть в SQLite, но не в PostgreSQL
+        "clients_to_verify": q(Client).filter(Client.status == "new",
+                                              cast(Client.reference_photos, String) != "[]").count(),
         "orders_by_status": dict(q(Order.status, func.count()).group_by(Order.status).all()),
         "sos_open": q(Order).filter(Order.service.in_(["sos", "sos_consult"]), Order.status.notin_(["done", "cancelled"])).count(),
         "findings_to_review": q(Finding).filter(Finding.status == "new").count(),

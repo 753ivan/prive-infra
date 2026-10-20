@@ -7,7 +7,8 @@ import pytest
 os.environ["SCHEDULER_ENABLED"] = "false"
 os.environ["ADMIN_PASSWORD"] = "test"
 _tmp = tempfile.mkdtemp()
-os.environ["DATABASE_URL"] = f"sqlite:///{_tmp}/test.db"
+# TEST_DATABASE_URL=postgresql+psycopg://... — прогон на PostgreSQL (как в проде)
+os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL") or f"sqlite:///{_tmp}/test.db"
 os.environ["STORAGE_DIR"] = f"{_tmp}/storage"
 
 from fastapi.testclient import TestClient  # noqa: E402
