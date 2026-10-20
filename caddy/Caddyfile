@@ -1,17 +1,36 @@
-# Пока домена нет — заглушка по IP.
-# После покупки домена заменить блок на:
-#
-# prive.app {
-#     encode zstd gzip
-#     header {
-#         Strict-Transport-Security "max-age=31536000; includeSubDomains"
-#         X-Content-Type-Options nosniff
-#         X-Frame-Options DENY
-#         Referrer-Policy no-referrer
-#     }
-#     reverse_proxy app:3000
-# }
+{
+    email 753ivan@gmail.com
+}
 
+(prive_site) {
+    root * /srv/site
+    encode zstd gzip
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy no-referrer
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        -Server
+    }
+    # Красивые URL: /sos → sos.html
+    try_files {path} {path}.html
+    file_server
+    handle_errors {
+        @404 expression {http.error.status_code} == 404
+        redir @404 / 302
+    }
+}
+
+getprive.me {
+    import prive_site
+}
+
+www.getprive.me {
+    redir https://getprive.me{uri} permanent
+}
+
+# Доступ по IP (пока DNS не настроен / для проверки)
 :80 {
-    respond "PRIVÉ — coming soon (deploy test 1)" 200
+    import prive_site
 }

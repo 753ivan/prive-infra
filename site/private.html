@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PRIVÉ Private</title>
+<meta name="description" content="PRIVÉ Private — Не для чужих глаз. Закрытый сервис, который возвращает вам контроль над тем, что о вас видно в интернете. Персональное сопровождение по договору и NDA.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400;1,6..96,500&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: private-banking register of the same noir brand — quiet hero, a menu of five engagements set like a tasting card, the terms of trust, a single discreet entry point. */
+:root{
+  --bg:#120d0f; --surface:#1b1417; --line:#3a2a2f; --fg:#f3e9e4; --muted:#b9a7a6;
+  --accent:#b3263f; --accent-soft:#3b1620; --champagne:#e5c9a6; --on-accent:#fff6f2;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:900px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--champagne);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.08}
+p{margin:0}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--champagne);font-weight:600}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:18px;font-size:.88rem;color:var(--muted)}
+.logo{font-family:var(--display);font-size:1.4rem;letter-spacing:.32em;color:var(--fg);text-decoration:none}
+.logo small{font-family:var(--body);font-size:.62rem;letter-spacing:.24em;color:var(--champagne);margin-left:6px;vertical-align:middle}
+.hero{padding-block:56px 32px;display:grid;gap:20px}
+.hero h1{font-size:clamp(2.6rem,8vw,4.6rem)}
+.hero h1 em{color:var(--champagne)}
+.hero .desc{font-size:1.15rem;color:var(--fg);max-width:46ch;font-weight:500}
+.hero p.lead{color:var(--muted);max-width:56ch;font-size:1.02rem}
+section{padding-block:52px;border-top:1px solid var(--line);display:grid;gap:24px}
+section h2{font-size:clamp(1.8rem,4.5vw,2.5rem)}
+.menu{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.dish{background:var(--bg);padding:24px;display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:baseline}
+.dish h3{font-size:1.45rem}
+.dish .price{font-family:var(--display);font-size:1.3rem;color:var(--champagne);text-align:right;white-space:nowrap}
+.dish p{grid-column:1/-1;color:var(--muted);font-size:.94rem;max-width:68ch}
+.dish.year{background:linear-gradient(135deg,var(--accent-soft),var(--bg) 70%)}
+.dish .note{grid-column:1/-1;font-size:.82rem;color:var(--champagne)}
+@media (max-width:560px){.dish{grid-template-columns:1fr}.dish .price{text-align:left}}
+.who{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.who div{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:8px;align-content:start}
+.who p{color:var(--muted);font-size:.93rem}
+@media (max-width:720px){.who{grid-template-columns:1fr}}
+.terms{margin:0;padding:0;list-style:none;display:grid;gap:14px}
+.terms li{display:grid;gap:4px;padding:18px 20px;border-left:2px solid var(--champagne);background:var(--surface);border-radius:0 14px 14px 0}
+.terms li span{color:var(--muted);font-size:.93rem}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;counter-reset:s}
+.steps div{display:grid;gap:6px;counter-increment:s;align-content:start}
+.steps div::before{content:counter(s);font-family:var(--display);font-size:2.2rem;color:var(--champagne);line-height:1}
+.steps p{color:var(--muted);font-size:.93rem}
+@media (max-width:720px){.steps{grid-template-columns:1fr}}
+.note-p{color:var(--muted);font-size:.9rem;max-width:64ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta code{font:600 1rem var(--body);background:var(--surface);border:1px solid var(--line);padding:12px 16px;border-radius:12px;user-select:all}
+.btn{display:inline-flex;padding:13px 20px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent);font:700 .95rem var(--body);cursor:pointer}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.8rem;display:grid;gap:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="index.html">PRIVÉ<small>PRIVATE</small></a><a href="index.html">← Все услуги</a></div>
+
+  <div class="hero">
+    <p class="eyebrow">Персональное сопровождение</p>
+    <h1>Не для <em>чужих</em> глаз.</h1>
+    <p class="desc">Закрытый сервис, который возвращает вам контроль над тем, что о вас видно в интернете.</p>
+    <p class="lead">PRIVÉ Private — для тех, кому есть что терять помимо анонимности: публичный профиль, поездки, бизнес, будущая семья. Один персональный менеджер, договор и NDA до первого разговора, ответ в течение часа.</p>
+  </div>
+
+  <section aria-labelledby="who-h">
+    <h2 id="who-h">Для кого это</h2>
+    <div class="who">
+      <div><h3>Публичная жизнь</h3><p>Блог, модельные контракты, известный партнёр. Любая связь с прошлым может стать новостью.</p></div>
+      <div><h3>Частые поездки</h3><p>Новая страна, новые риски: чужие трекеры, проверки на границе, нет своего юриста рядом.</p></div>
+      <div><h3>Новый этап</h3><p>Работа с проверкой службы безопасности, брак, переезд. Прошлое должно остаться вашим.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="menu-h">
+    <h2 id="menu-h">Пять форматов работы</h2>
+    <div class="menu">
+      <div class="dish">
+        <h3>Аудит телефона</h3><span class="price">$690</span>
+        <p>Видеосессия 60–90 минут: Apple ID, «Локатор», общие альбомы и вкладки, профили управления, чужие AirTag, «Экранное время». План отключения, пароли и двухфакторная защита, повторная проверка через 2 недели.</p>
+        <span class="note">+$290 за каждое следующее устройство</span>
+      </div>
+      <div class="dish">
+        <h3>Перед поездкой</h3><span class="price">$1 190</span>
+        <p>Зачистка до вылета, дежурный менеджер на всю поездку, SOS без доплаты, юрист в стране пребывания.</p>
+        <span class="note">Поездка до 14 дней, +$390 за неделю · для подписчиц VIP $590</span>
+      </div>
+      <div class="dish">
+        <h3>Проверка как у службы безопасности</h3><span class="price">$1 490</span>
+        <p>Ищем вас так, как ищут проверяющие перед наймом или сделкой. Отчёт с картой рисков и план удаления за 5–7 дней.</p>
+        <span class="note">Сумма засчитывается в пакет «Выход»</span>
+      </div>
+      <div class="dish">
+        <h3>Публичная персона</h3><span class="price">$2 900 + $890/мес</span>
+        <p>Разрываем связь публичного профиля с работой, удаляем из каналов «разоблачений», ведём мониторинг и реагируем в течение суток.</p>
+      </div>
+      <div class="dish year">
+        <h3>Private на год</h3><span class="price">$1 190/мес</span>
+        <p>Всё из VIP, сопровождение персоны, аудит телефона раз в полгода и две поездки в год. Договор на 12 месяцев.</p>
+        <span class="note">По отдельности — от $1 480 в месяц</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="terms-h">
+    <h2 id="terms-h">Условия доверия</h2>
+    <ul class="terms">
+      <li><b>NDA и договор до разговора</b><span>Вы подписываете их первыми, ещё до того, как расскажете о себе. Договор на нейтральное юрлицо, в выписке — «Digital Privacy Services».</span></li>
+      <li><b>Один человек знает вашу историю</b><span>Персональный менеджер ведёт вас от начала до конца. Остальные сотрудники работают только с задачами, без вашего имени.</span></li>
+      <li><b>Решаете только вы</b><span>Ничего не удаляем и не меняем без вашего согласия. Отчёт по каждому действию.</span></li>
+      <li><b>Если телефоном управляет другой человек</b><span>И вы не можете от этого отказаться, помощь бесплатная. Мы на вашей стороне, не на стороне того, кто платит.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="flow-h">
+    <h2 id="flow-h">Как начать</h2>
+    <div class="steps">
+      <div><h3>Напишите в бот</h3><p>Одно слово: «Private». Без имени и подробностей.</p></div>
+      <div><h3>Подпишите NDA</h3><p>Документ придёт в ответ. Подпись электронная, займёт пару минут.</p></div>
+      <div><h3>Приватная консультация</h3><p>40 минут с менеджером: голосом или текстом. Подбираем формат и считаем стоимость.</p></div>
+    </div>
+    <p class="note-p">Консультация бесплатная и ни к чему не обязывает. Если формат вам не подойдёт, мы удалим переписку при вас.</p>
+    <div class="cta"><code id="h">@prive_private</code><button class="btn" id="copy" type="button">Скопировать</button></div>
+  </section>
+
+  <footer>
+    <span><b>PRIVÉ</b> · Не для чужих глаз. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.</span>
+    <span>18+ · <a href="index.html">Все услуги</a> · <a href="sos.html">SOS</a> · <a href="partners.html">Партнёрам</a>. Мы оказываем услуги защиты приватности и авторских прав и не предоставляем интимные услуги.</span>
+  </footer>
+</div>
+<script>
+document.getElementById('copy').addEventListener('click',function(){
+  var b=this;
+  var sel=function(){var r=document.createRange();r.selectNodeContents(document.getElementById('h'));getSelection().removeAllRanges();getSelection().addRange(r)};
+  try{navigator.clipboard.writeText('@prive_private').then(function(){b.textContent='Скопировано'},sel)}catch(e){sel()}
+});
+</script>
+</body>
+</html>

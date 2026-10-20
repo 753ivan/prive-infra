@@ -13,7 +13,7 @@
 |---|---|
 | `docker-compose.yml` | Сервисы: Caddy (reverse proxy, авто-HTTPS) + приложение |
 | `caddy/Caddyfile` | Домены, заголовки безопасности, маршрутизация |
-| `app/` | Код приложения |
+| `site/` | Статический сайт getprive.me (index, sos, partners, private) |
 | `scripts/deploy.sh` | Авто-деплой (cron, раз в минуту) |
 | `scripts/bootstrap.sh` | Одноразовое подключение сервера к репозиторию |
 

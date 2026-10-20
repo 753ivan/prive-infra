@@ -9,6 +9,7 @@ services:
       - "443:443/udp"
     volumes:
       - ./caddy:/etc/caddy:ro
+      - ./site:/srv/site:ro
       - caddy_data:/data
       - caddy_config:/config
     networks: [web]
@@ -16,9 +17,9 @@ services:
       driver: json-file
       options: { max-size: "10m", max-file: "3" }
 
-  # Приложение подключим, когда будет код. Пример:
-  # app:
-  #   build: ./app
+  # Бот и API подключим следующими шагами. Пример:
+  # bot:
+  #   build: ./bot
   #   container_name: app
   #   restart: unless-stopped
   #   env_file: .env          # .env НЕ в git, лежит на сервере в /opt/prive/.env

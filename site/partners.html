@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PRIVÉ Partners</title>
+<meta name="description" content="Партнёрская программа PRIVÉ — Не для чужих глаз. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: partner terms sheet — business register of the same noir brand: tier table first, model-protection rules given equal weight. */
+:root{
+  --bg:#120d0f; --surface:#1b1417; --line:#3a2a2f; --fg:#f3e9e4; --muted:#b9a7a6;
+  --accent:#b3263f; --accent-soft:#3b1620; --champagne:#e5c9a6; --on-accent:#fff6f2;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:900px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--champagne);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.08}
+p{margin:0}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--champagne);font-weight:600}
+.top{display:flex;justify-content:space-between;align-items:center;padding-block:18px;font-size:.88rem;color:var(--muted)}
+.logo{font-family:var(--display);font-size:1.4rem;letter-spacing:.32em;color:var(--fg);text-decoration:none}
+.hero{padding-block:48px 24px;display:grid;gap:18px}
+.hero h1{font-size:clamp(2.4rem,7vw,4rem)}
+.hero h1 em{color:var(--accent)}
+.hero p{color:var(--muted);max-width:56ch;font-size:1.08rem}
+section{padding-block:48px;border-top:1px solid var(--line);display:grid;gap:22px}
+section h2{font-size:clamp(1.8rem,4.5vw,2.5rem)}
+.tbl{border:1px solid var(--line);border-radius:18px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.94rem;min-width:560px}
+th,td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line)}
+tr:last-child td{border:0}
+th{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.num{font-variant-numeric:tabular-nums;color:var(--champagne);font-weight:600}
+td b{font-family:var(--display);font-weight:400;font-size:1.2rem}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:8px;align-content:start}
+.card p{color:var(--muted);font-size:.93rem}
+@media (max-width:640px){.cards{grid-template-columns:1fr}}
+.rules{margin:0;padding:0;list-style:none;display:grid;gap:14px}
+.rules li{display:grid;gap:4px;padding:18px 20px;border-left:2px solid var(--accent);background:var(--surface);border-radius:0 14px 14px 0}
+.rules li span{color:var(--muted);font-size:.93rem}
+.note{color:var(--muted);font-size:.9rem;max-width:64ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta code{font:600 1rem var(--body);background:var(--surface);border:1px solid var(--line);padding:12px 16px;border-radius:12px;user-select:all}
+.btn{display:inline-flex;padding:13px 20px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent);font:700 .95rem var(--body);cursor:pointer}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="index.html">PRIVÉ</a><a href="index.html">← Для моделей</a></div>
+
+  <div class="hero">
+    <p class="eyebrow">Партнёрская программа</p>
+    <h1>Защищённые модели — <em>спокойное</em> агентство</h1>
+    <p>Фейк с фото вашей девушки собирает предоплаты от её имени и бьёт по репутации всего агентства. Рекомендуйте PRIVÉ или оплачивайте защиту моделей пакетом — и получайте комиссию или скидку.</p>
+  </div>
+
+  <section aria-labelledby="tiers-h">
+    <h2 id="tiers-h">Уровни и комиссии</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Уровень</th><th>Моделей в месяц</th><th>С первого заказа</th><th>С подписки, 12 мес</th><th>Корпоративные места</th></tr></thead>
+        <tbody>
+          <tr><td><b>Партнёр</b></td><td>1–4</td><td class="num">20%</td><td class="num">10%</td><td class="num">−15%</td></tr>
+          <tr><td><b>Серебро</b></td><td>5–14</td><td class="num">25%</td><td class="num">12%</td><td class="num">−25%</td></tr>
+          <tr><td><b>Золото</b></td><td>15+</td><td class="num">30%</td><td class="num">15%</td><td class="num">−35%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Пример: модель по вашему коду берёт «Выход Стандарт» за $3 900 и подписку Pro за $299. На уровне «Серебро» вы получаете $975 сразу и около $36 каждый месяц в течение года.</p>
+  </section>
+
+  <section aria-labelledby="who-h">
+    <h2 id="who-h">Два способа работать с нами</h2>
+    <div class="cards">
+      <div class="card"><h3>Рекомендация</h3><p>Личный код и ссылка на бот. Модель приходит, проходит проверку сама и платит сама. Вы получаете комиссию.</p></div>
+      <div class="card"><h3>Корпоративная защита</h3><p>Агентство оплачивает подписки моделей пакетом со скидкой. Модель получает защиту, агентство — меньше фейков и жалоб.</p></div>
+      <div class="card"><h3>Админам болталок</h3><p>Уровень «Партнёр» без минимального объёма. Вам доверяют больше всех — рекомендуйте то, за что не стыдно.</p></div>
+      <div class="card"><h3>Фотографам и стилистам</h3><p>Ваши кадры чаще всего воруют для фейков. Рекомендуйте защиту клиенткам вместе со съёмкой.</p></div>
+    </div>
+    <p class="note">Выплаты раз в месяц в USDT, от $100, через 30 дней после оплаты клиентки.</p>
+  </section>
+
+  <section aria-labelledby="rules-h">
+    <h2 id="rules-h">Правила, которые не обсуждаются</h2>
+    <p class="note">Защита принадлежит модели, даже если платит агентство. Мы говорим это открыто, потому что модели должны знать: PRIVÉ на их стороне.</p>
+    <ul class="rules">
+      <li><b>Аккаунт принадлежит модели</b><span>Она сама проходит проверку и сама решает, что удалять. Отчёты, ссылки и её данные агентство не видит без её согласия.</span></li>
+      <li><b>Защита уходит вместе с моделью</b><span>Ушла из агентства — оплаченный период остаётся у неё. Отозвать его нельзя.</span></li>
+      <li><b>Ушла — снимите её анкеты</b><span>Самая частая жалоба в болталках: девушка ушла, а анкеты висят и на них крутится реклама. Партнёр снимает анкеты в течение 7 дней после ухода. Иначе их снимем мы, а партнёрство закончится.</span></li>
+      <li><b>Никаких заказов «на модель»</b><span>Агентство не может заказать удаление её контента, поиск модели или информацию о ней. Ни текущей, ни бывшей.</span></li>
+      <li><b>Комиссия — только за самостоятельную проверку</b><span>Модель, которая не прошла верификацию сама, в программу не засчитывается.</span></li>
+      <li><b>Признаки принуждения — конец партнёрства</b><span>Если модель не может говорить сама или у неё нет доступа к своему телефону, мы приостанавливаем партнёрство и предлагаем ей бесплатную помощь и контакты La Strada.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="go-h">
+    <h2 id="go-h">Стать партнёром</h2>
+    <p class="note">Напишите в бот слово «партнёр». Мы выдадим код, ссылку и готовые тексты для ваших моделей.</p>
+    <div class="cta"><code id="h">@prive_partners_bot</code><button class="btn" id="copy" type="button">Скопировать</button></div>
+  </section>
+
+  <footer><b>PRIVÉ</b> · Не для чужих глаз. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.<br>18+. Мы оказываем услуги защиты приватности и авторских прав и не предоставляем интимные услуги.</footer>
+</div>
+<script>
+document.getElementById('copy').addEventListener('click',function(){
+  var b=this;
+  var sel=function(){var r=document.createRange();r.selectNodeContents(document.getElementById('h'));getSelection().removeAllRanges();getSelection().addRange(r)};
+  try{navigator.clipboard.writeText('@prive_partners_bot').then(function(){b.textContent='Скопировано'},sel)}catch(e){sel()}
+});
+</script>
+</body>
+</html>

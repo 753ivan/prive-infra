@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PRIVÉ SOS</title>
+<meta name="description" content="PRIVÉ SOS — помощь при шантаже. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400;1,6..96,500&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one-screen emergency landing — calm first-hour protocol up top, the offer below, a sticky contact bar. */
+:root{
+  --bg:#120d0f; --surface:#1b1417; --line:#3a2a2f; --fg:#f3e9e4; --muted:#b9a7a6;
+  --accent:#b3263f; --accent-soft:#3b1620; --champagne:#e5c9a6; --on-accent:#fff6f2;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  padding-top:env(safe-area-inset-top,0px);
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; color-scheme:light}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:110px}
+.wrap{max-width:760px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--champagne);outline-offset:3px}
+h1,h2{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.08}
+p{margin:0}
+.top{display:flex;justify-content:space-between;align-items:center;padding-block:18px;font-size:.88rem;color:var(--muted)}
+.logo{font-family:var(--display);font-size:1.4rem;letter-spacing:.32em;color:var(--fg);text-decoration:none}
+.live{display:inline-flex;align-items:center;gap:8px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.hero{padding-block:40px 32px;display:grid;gap:18px}
+.hero .quote{font-family:var(--display);font-style:italic;font-size:clamp(1.5rem,4.5vw,2rem);color:var(--muted)}
+.hero h1{font-size:clamp(2.6rem,9vw,4.6rem)}
+.hero h1 em{color:var(--accent)}
+.hero p.lead{font-size:1.1rem;color:var(--muted);max-width:44ch}
+.protocol{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px;display:grid;gap:18px;margin-top:8px}
+.protocol h2{font-size:1.7rem}
+.protocol ol{margin:0;padding:0;list-style:none;display:grid;gap:14px;counter-reset:p}
+.protocol li{display:grid;grid-template-columns:40px 1fr;gap:12px;counter-increment:p}
+.protocol li::before{content:counter(p);font-family:var(--display);font-size:1.8rem;color:var(--accent);line-height:1}
+.protocol li b{display:block}
+.protocol li span{color:var(--muted);font-size:.93rem}
+section{padding-block:48px;border-top:1px solid var(--line);margin-top:48px;display:grid;gap:22px}
+section h2{font-size:clamp(1.9rem,5vw,2.6rem)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.item{border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:6px;align-content:start}
+.item b{font-size:1rem}
+.item span{color:var(--muted);font-size:.92rem}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.offer{background:linear-gradient(135deg,var(--accent-soft),var(--surface) 75%);border:1px solid var(--line);border-radius:22px;padding:28px;display:grid;gap:12px}
+.offer .amt{font-family:var(--display);font-size:clamp(2.2rem,8vw,3.2rem);line-height:1}
+.offer .amt small{font:500 .9rem var(--body);color:var(--muted)}
+.offer p{color:var(--muted)}
+.myth{display:grid;gap:14px}
+.myth div{display:grid;gap:4px;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.myth s{color:var(--muted)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.bar .in{max-width:760px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar code{font:700 1.05rem var(--body);user-select:all}
+.bar small{display:block;color:var(--muted);font-size:.78rem}
+.btn{display:inline-flex;padding:13px 20px;border-radius:999px;font-weight:700;border:0;background:var(--accent);color:var(--on-accent);font:700 .95rem var(--body);cursor:pointer}
+.foot{color:var(--muted);font-size:.8rem;margin-top:40px}
+.foot a{text-decoration:underline}
+@media (prefers-reduced-motion:reduce){.live i{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="index.html">PRIVÉ</a><span class="live"><i></i>SOS на связи 24/7</span></div>
+
+  <div class="hero">
+    <p class="quote">«Скинь 35 тысяч, или завтра это увидят твои друзья».</p>
+    <h1>Дыши. <em>Не плати.</em> Мы рядом.</h1>
+    <p class="lead">Таких сообщений в болталках десятки, и почти все по одной схеме. А у схемы есть выход. Ответим за 15 минут, днём и ночью, и возьмём первые 72 часа на себя.</p>
+  </div>
+
+  <div class="protocol" aria-labelledby="proto-h">
+    <h2 id="proto-h">Что сделать прямо сейчас</h2>
+    <ol>
+      <li><div><b>Ничего не удаляй</b><span>Переписка, номер, ник, ссылки — это доказательства. Сделай скриншоты с датой.</span></div></li>
+      <li><div><b>Не плати и не торгуйся</b><span>Девочки в чатах рассказывают одно и то же: заплатила — через неделю пришла новая сумма.</span></div></li>
+      <li><div><b>Не отвечай и не оправдывайся</b><span>Любой ответ показывает, что ты на крючке. Молчание — твой ход.</span></div></li>
+      <li><div><b>Закрой профили</b><span>Скрой друзей и подписчиков в ВК и Инстаграме — через них находят маму и подруг. Не удаляй страницы, просто закрой.</span></div></li>
+      <li><div><b>Напиши нам</b><span>Дальше мы. Ты не одна и ты не первая.</span></div></li>
+    </ol>
+  </div>
+
+  <section aria-labelledby="do-h">
+    <h2 id="do-h">Что мы делаем за 72 часа</h2>
+    <div class="grid">
+      <div class="item"><b>Фиксируем доказательства</b><span>Собираем всё так, чтобы это приняли площадки, юрист и, если решишь, полиция.</span></div>
+      <div class="item"><b>Ставим цифровые отпечатки</b><span>Хэши твоих фото уходят в StopNCII: крупные соцсети блокируют загрузку ещё до публикации.</span></div>
+      <div class="item"><b>Удаляем то, что выложат</b><span>Telegram, сайты, поисковики. Следим круглосуточно все 72 часа.</span></div>
+      <div class="item"><b>Даём юриста</b><span>По запросу — юрист в твоей стране, который не скажет «сама виновата».</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="myth-h">
+    <h2 id="myth-h">Что тебе говорит паника и как на самом деле</h2>
+    <div class="myth">
+      <div><s>«Если заплачу — он отстанет»</s><span>Шантажисты возвращаются к тем, кто платит. Это их бизнес-модель.</span></div>
+      <div><s>«В полицию нельзя, меня же и накажут»</s><span>Вымогательство — преступление против тебя. Идти или нет, решаешь ты, а мы подготовим всё, чтобы был выбор.</span></div>
+      <div><s>«Уже поздно, всё разошлось»</s><span>Почти никогда. Большинство угроз так и остаются угрозами, а опубликованное удаляется.</span></div>
+      <div><s>«Он уже написал маме, всё кончено»</s><span>Нет. Предупреди родных, что пишет мошенник, и не отвечай ему. Дальше мы закроем то, что он может разослать.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="offer-h">
+    <div class="offer">
+      <h2 id="offer-h">PRIVÉ SOS</h2>
+      <p class="amt">$149 <small>разговор с оператором и план</small></p>
+      <p class="amt">$490 <small>72 часа под ключ</small></p>
+      <p>Начинаем с разговора: в течение часа оператор говорит, что делать, и составляет план. Платишь после него. Если нужна помощь дальше — 72 часа с тобой живой оператор, а не бот, и $149 засчитываются в эту сумму. Если после этого захочешь остаться под защитой — первый месяц подписки VIP за полцены. Если тебя заставляют работать — поможем бесплатно и свяжем с La Strada.</p>
+    </div>
+  </section>
+
+  <p class="foot"><b>PRIVÉ</b> · Не для чужих глаз. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.<br>18+. Мы не пробиваем и не ищем людей, только защищаем тебя. <a href="index.html">Все услуги</a></p>
+</div>
+
+<div class="bar"><div class="in">
+  <div><code id="h">@prive_sos</code><small>Telegram · ответ за 15 минут</small></div>
+  <button class="btn" id="copy" type="button">Скопировать контакт</button>
+</div></div>
+<script>
+document.getElementById('copy').addEventListener('click',function(){
+  var b=this;
+  var sel=function(){var r=document.createRange();r.selectNodeContents(document.getElementById('h'));getSelection().removeAllRanges();getSelection().addRange(r)};
+  try{navigator.clipboard.writeText('@prive_sos').then(function(){b.textContent='Скопировано'},sel)}catch(e){sel()}
+});
+</script>
+</body>
+</html>

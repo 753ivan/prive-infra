@@ -1,0 +1,428 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PRIVÉ</title>
+<meta name="description" content="PRIVÉ — Не для чужих глаз. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: noir after-hours lookbook — one tall italic serif statement, services as a boutique menu, a price list set like a wine card. Dark-first. */
+:root{
+  --bg:#120d0f; --surface:#1b1417; --line:#3a2a2f; --fg:#f3e9e4; --muted:#b9a7a6;
+  --accent:#b3263f; --accent-soft:#3b1620; --champagne:#e5c9a6; --on-accent:#fff6f2;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; --on-accent:#fff6f2; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; --on-accent:#fff6f2; color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1080px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--champagne);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.05}
+h2{font-size:clamp(2rem,5vw,3.2rem)}
+h3{font-size:1.6rem}
+p{margin:0}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--champagne);font-weight:600}
+.sub{color:var(--muted);max-width:60ch;margin-top:14px}
+section{padding-block:72px;border-top:1px solid var(--line)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:600;text-decoration:none;font-size:.95rem;border:1px solid transparent;transition:transform .2s;font-family:var(--body);cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn-main{background:var(--accent);color:var(--on-accent)}
+.btn-ghost{border-color:var(--line);color:var(--fg);background:transparent}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)))}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px max(16px,env(safe-area-inset-left,0px))}
+.logo{font-family:var(--display);font-size:1.5rem;letter-spacing:.32em;text-decoration:none}
+nav{display:flex;gap:22px;font-size:.88rem;color:var(--muted)}
+nav a{text-decoration:none}
+nav a:hover{color:var(--fg)}
+.sos-pill{background:var(--accent-soft);color:var(--fg);padding:8px 14px;border-radius:999px;font-size:.82rem;font-weight:600;text-decoration:none;white-space:nowrap}
+.sos-pill b{color:var(--accent)}
+@media (max-width:860px){nav{display:none}}
+
+.hero{padding-block:72px 64px;border:0;display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:end}
+.hero h1{font-size:clamp(2.9rem,8.5vw,6.2rem);letter-spacing:-.01em}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero .desc{display:block;color:var(--fg);font-weight:500;margin-bottom:10px}
+.hero .lead{font-size:1.12rem;color:var(--muted);max-width:38ch;margin-top:24px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;gap:14px}
+.scan-row{display:flex;justify-content:space-between;gap:12px;font-size:.92rem;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.scan-row:last-of-type{border:0;padding:0}
+.scan-row span:last-child{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.hot{color:var(--accent)}
+.ok{color:var(--champagne)}
+.hero-card small{color:var(--muted);font-size:.78rem}
+@media (max-width:820px){.hero{grid-template-columns:1fr;align-items:start}}
+
+.pains{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:36px}
+.pain{background:var(--bg);padding:24px;display:grid;gap:10px;align-content:start}
+.pain q{font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.25;quotes:"«" "»"}
+.pain p{color:var(--muted);font-size:.92rem}
+
+.tech{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:36px}
+.tech article{display:grid;gap:12px;align-content:start;padding-top:20px;border-top:2px solid var(--accent)}
+.tech .vs{font-size:.86rem;color:var(--muted);display:grid;gap:4px}
+.tech .vs b{color:var(--fg);font-weight:600}
+.tech p{color:var(--muted);font-size:.95rem}
+.motto{margin-top:36px;font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,3.4vw,2rem);line-height:1.3;max-width:34ch}
+@media (max-width:820px){.tech{grid-template-columns:1fr}}
+
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:40px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px;display:grid;gap:14px;align-content:start}
+.svc.flag{grid-column:1/-1;background:linear-gradient(135deg,var(--accent-soft),var(--surface) 70%)}
+.svc-head{display:flex;justify-content:space-between;gap:16px;align-items:baseline;flex-wrap:wrap}
+.svc .price{font-family:var(--display);font-size:1.5rem;color:var(--champagne);white-space:nowrap}
+.svc .tag{font-size:.78rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.svc ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:4px;font-size:.94rem}
+.svc .meta{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;display:flex;gap:6px 18px;flex-wrap:wrap}
+@media (max-width:720px){.services{grid-template-columns:1fr}}
+
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:36px;counter-reset:s}
+.step{display:grid;gap:8px;counter-increment:s;align-content:start}
+.step::before{content:counter(s);font-family:var(--display);font-size:2.4rem;color:var(--accent);line-height:1}
+.step p{color:var(--muted);font-size:.93rem}
+@media (max-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.why{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:8px;max-width:760px}
+.why p{color:var(--muted);font-size:.93rem}
+
+.pricelist{margin-top:36px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tier .amt{white-space:nowrap}
+.tier{border:1px solid var(--line);border-radius:22px;padding:26px;display:grid;gap:12px;align-content:start}
+.tier.pop{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.tier .amt{font-family:var(--display);font-size:2.6rem;line-height:1}
+.tier .amt small{font-family:var(--body);font-size:.85rem;color:var(--muted)}
+.tier ul{margin:0;padding-left:18px;color:var(--muted);font-size:.92rem;display:grid;gap:4px}
+.badge{justify-self:start;background:var(--accent);color:var(--on-accent);font-size:.72rem;padding:4px 10px;border-radius:999px;font-weight:700;letter-spacing:.06em}
+@media (max-width:980px){.pricelist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.pricelist{grid-template-columns:1fr}}
+.oneoff{margin-top:28px;border:1px solid var(--line);border-radius:18px;overflow-x:auto}
+.oneoff table{width:100%;border-collapse:collapse;font-size:.94rem;min-width:520px}
+.oneoff td,.oneoff th{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.oneoff tr:last-child td{border:0}
+.oneoff th{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.oneoff td:last-child{font-variant-numeric:tabular-nums;text-align:right;color:var(--champagne);font-weight:600;white-space:nowrap}
+.pay{margin-top:16px;color:var(--muted);font-size:.9rem;max-width:70ch}
+
+.ref{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start}
+.ref-ladder{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.rung{background:var(--bg);padding:18px 20px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline}
+.rung .n{font-family:var(--display);font-size:1.9rem;color:var(--accent);line-height:1;grid-row:span 2;min-width:2.2ch}
+.rung b{font-weight:600}
+.rung span{color:var(--muted);font-size:.9rem}
+.ref-rules{margin:20px 0 0;padding-left:18px;color:var(--muted);font-size:.92rem;display:grid;gap:6px}
+@media (max-width:820px){.ref{grid-template-columns:1fr}}
+
+.partners{display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px}
+.partners div{display:grid;gap:8px;max-width:60ch;min-width:0}
+.partners p{color:var(--muted)}
+
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-top:36px}
+.rule{display:grid;gap:8px}
+.rule h3{font-size:1.3rem}
+.rule p{color:var(--muted);font-size:.93rem}
+
+details{border-bottom:1px solid var(--line);padding-block:18px}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-size:1.3rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px;max-width:68ch}
+.faq{margin-top:28px}
+
+.final{display:grid;gap:20px;padding-block:88px}
+.final h2{font-size:clamp(2.4rem,7vw,4.8rem)}
+.final h2 em{color:var(--accent)}
+.final .note{color:var(--muted);max-width:52ch}
+.handle{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.handle code{font:600 1rem var(--body);background:var(--surface);border:1px solid var(--line);padding:12px 16px;border-radius:12px;user-select:all}
+#copied{color:var(--champagne);font-size:.85rem}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.8rem;display:grid;gap:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="#top">PRIVÉ</a>
+  <nav aria-label="Разделы">
+    <a href="#how">Как мы ищем</a><a href="#services">Услуги</a><a href="#prices">Цены</a><a href="#friend">Подруге</a><a href="private.html">Private</a><a href="partners.html">Агентствам</a>
+  </nav>
+  <a class="sos-pill" href="sos.html"><b>SOS</b> · шантажируют?</a>
+</div></header>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">От своих — для своих</p>
+      <h1>Не для <em>чужих</em> глаз.</h1>
+      <p class="lead"><b class="desc">Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.</b> Сносим анкеты, которые висят у бывшего менеджера, фейки с твоими фото и сливы. Убираем лицо из поиска по фото. Помогаем, если шантажируют. Нас сделали девочки, которые сами работали.</p>
+      <div class="ctas">
+        <a class="btn btn-main" href="#scan">Проверить, где я вишу</a>
+        <a class="btn btn-ghost" href="#how">Почему у нас получается</a>
+      </div>
+    </div>
+    <aside class="hero-card" aria-label="Пример бесплатной проверки">
+      <p class="eyebrow">Пример бесплатной проверки</p>
+      <div class="scan-row"><span>Анкеты и фейки с твоими фото</span><span class="hot">14</span></div>
+      <div class="scan-row"><span>Находят по лицу</span><span class="hot">37</span></div>
+      <div class="scan-row"><span>Сливы в Telegram</span><span class="hot">3</span></div>
+      <div class="scan-row"><span>Отзывы на форумах с твоим ником</span><span>9</span></div>
+      <div class="scan-row"><span>Связь с личным ВК и Инстаграмом</span><span class="ok">не нашли</span></div>
+      <small>Цифры для примера. Твою проверку сделаем после кружка, что на фото ты.</small>
+    </aside>
+  </div>
+
+  <section aria-labelledby="pains-h">
+    <p class="eyebrow">Знакомо?</p>
+    <h2 id="pains-h">Такое мы слышим в болталках каждую неделю</h2>
+    <div class="pains">
+      <div class="pain"><q>С менеджером не работаю уже месяц, а она до сих пор крутит рекламу на мою анкету.</q><p>Сайт отвечает только владельцу аккаунта. Сама ты анкету не удалишь, мы — удалим.</p></div>
+      <div class="pain"><q>Мне пишут: «ты кинула моего друга». А это фейк с моими фото.</q><p>Фейк собирает предоплаты от твоего имени, а разбираться потом тебе.</p></div>
+      <div class="pain"><q>Нашла себя через поиск по лицу. Там даже фотки со школы.</q><p>По одному рабочему фото находят твой ВК, а через него маму и подруг.</p></div>
+      <div class="pain"><q>Написал маме. Потом попросил 35 тысяч, чтобы не отправлять друзьям.</q><p>Заплатишь — придёт новая сумма. Тут нужен план, а не перевод.</p></div>
+    </div>
+  </section>
+
+  <section id="how" aria-labelledby="tech-h">
+    <p class="eyebrow">Почему у нас получается</p>
+    <h2 id="tech-h">Три вещи, которых нет у других</h2>
+    <p class="sub">Юрист пишет письмо и ждёт. Сервисы из рекламы в чатах гонят автоматику по Гуглу. Мы знаем, на каких сайтах висят анкеты, где прячутся фейки и сливы и кому писать, когда сайт молчит.</p>
+    <div class="tech">
+      <article>
+        <h3>Слепок</h3>
+        <div class="vs"><span>Обычный поиск ищет картинку.</span><b>Мы ищем лицо.</b></div>
+        <p>Делаем цифровой слепок твоего лица и того, по чему тебя узнают: тату, родинки, интерьер. Находим даже обрезанные, отзеркаленные и перекрашенные фильтром копии.</p>
+      </article>
+      <article>
+        <h3>Тёмная карта</h3>
+        <div class="vs"><span>Гугл видит открытый интернет.</span><b>Мы знаем, где вас вешают.</b></div>
+        <p>Свой список сайтов с анкетами, их зеркал, агрегаторов, которые тянут фото из Инстаграма, и Telegram-каналов со сливами. Пополняем каждую неделю. Половину этих мест поисковики не видят.</p>
+      </article>
+      <article>
+        <h3>Через голову</h3>
+        <div class="vs"><span>Сайт не отвечает на жалобу?</span><b>Пишем тому, кто держит его сервер.</b></div>
+        <p>У любого сайта есть хостинг, защита от атак и регистратор домена. У нас прямые контакты в их отделах жалоб: там, где тебе приходит автоответ, наш запрос читает живой человек.</p>
+      </article>
+    </div>
+    <p class="motto">Найти то, что не видит Гугл. Удалить там, где тебе не ответили.</p>
+  </section>
+
+  <section id="services" aria-labelledby="svc-h">
+    <p class="eyebrow">Услуги</p>
+    <h2 id="svc-h">Что мы делаем</h2>
+    <div class="services">
+      <article class="svc">
+        <div class="svc-head"><h3>Проверка</h3><span class="price">$190</span></div>
+        <p class="tag">Где ты висишь и кто тебя может найти</p>
+        <p>Ищем тебя так, как ищут бывшие и шантажисты, только раньше них: по лицу, нику, номеру, тату. Проходим сайты с анкетами, форумы с отзывами и Telegram. Получаешь список ссылок и план, что удалять первым.</p>
+        <div class="meta"><span>48 часов</span><span>Сумма засчитывается в любую следующую услугу</span></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head"><h3>Фейки и чужие анкеты</h3><span class="price">$490</span></div>
+        <p class="tag">Анкета висит у менеджера или фейк с твоими фото</p>
+        <p>Ушла от менеджера, а анкеты висят? Кто-то собирает предоплаты на твоих фото? Сносим везде: на сайте, у хостинга, в Гугле и Яндексе. По каждой анкете скрин «до» и подтверждение, что её нет.</p>
+        <div class="meta"><span>2–10 дней</span><span>До 10 анкет, далее $39 за каждую</span><span>50% сразу, 50% после первой удалённой</span></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head"><h3>Сливы</h3><span class="price">$790</span></div>
+        <p class="tag">Фото и видео, которые выложили без тебя</p>
+        <p>Удаляем с сайтов, хостингов, из Гугла, Яндекса и Telegram. Форма Гугла не помогает, если съёмка была за деньги, поэтому мы идём через авторское право и правила площадок. 60 дней следим: появилась новая копия — удаляем без доплаты.</p>
+        <div class="meta"><span>3–21 день</span><span>До 30 ссылок, далее $15 за ссылку</span><span>50% сразу, 50% после первой удалённой</span></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head"><h3>Невидимка</h3><span class="price">$990</span></div>
+        <p class="tag">Чтобы не нашли по фото и номеру</p>
+        <p>Убираем тебя из поисковиков по лицу, удаляем номер из баз, где это возможно, чистим данные в фото. Оператор помогает развести рабочее и личное: телефон, Telegram, почту, облако, чтобы по рабочему номеру не нашли твой ВК.</p>
+        <div class="meta"><span>5–7 дней</span><span>$690 для подписчиц Pro и VIP</span></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head"><h3>SOS</h3><span class="price">от $149</span></div>
+        <p class="tag">Шантажируют прямо сейчас</p>
+        <p>Отвечаем за 15 минут, днём и ночью. Сначала разговор с оператором: что делать в первый час, что сказать маме, как не дать денег. Нужна помощь дальше — 72 часа с тобой живой оператор: собирает доказательства, ставит цифровые отпечатки на твои фото, чтобы крупные соцсети не дали их загрузить, и удаляет всё, что успеют выложить. Юрист в твоей стране — если нужен.</p>
+        <div class="meta"><span>Разговор и план — $149</span><span>72 часа под ключ — $490</span><span>Платишь после первого разговора</span><a href="sos.html">Подробнее о SOS →</a></div>
+      </article>
+      <article class="svc">
+        <div class="svc-head"><h3>Охрана</h3><span class="price">от $149/мес</span></div>
+        <p class="tag">Подписка</p>
+        <p>Регулярно проверяем сайты, каналы и поиск по лицу. Нашли новую анкету, фейк или слив — удаляем без доплаты и пишем тебе в Telegram. Ты работаешь, а мы смотрим, чтобы не было палева.</p>
+        <div class="meta"><span>Lite / Pro / VIP</span><span>Отмена в любой момент</span></div>
+      </article>
+      <article class="svc flag">
+        <div class="svc-head"><h3>Выход</h3><span class="price">от $3 900</span></div>
+        <p class="tag">Когда уходишь из темы</p>
+        <p>Ты закрыла этот этап. Теперь закроем его в интернете: анкеты, архивы сайтов, отзывы на форумах, сливы, кеш поисковиков, базы поиска по лицу. Составляем план, удаляем и следим, чтобы прошлое не всплыло перед новой работой, парнем или его мамой.</p>
+        <ul>
+          <li>Всё из «Проверки», «Фейков», «Сливов» и «Невидимки»</li>
+          <li>Личный менеджер, отчёт каждую неделю</li>
+          <li>Рассрочка на 3–4 платежа</li>
+        </ul>
+        <div class="meta"><span>«Стандарт» $3 900: до 300 ссылок, 6 месяцев контроля</span><span>«Тотал» $7 900: без лимита, 12 месяцев, юрист включён</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="flow-h">
+    <p class="eyebrow">Как это работает</p>
+    <h2 id="flow-h">Четыре шага</h2>
+    <div class="steps">
+      <div class="step"><h3>Пишешь в бот</h3><p>Ник и 3 фото. Без имени и паспорта.</p></div>
+      <div class="step"><h3>Записываешь кружок</h3><p>Бот даёт слово и жест. 2 минуты, кружок удаляем сразу после сверки.</p></div>
+      <div class="step"><h3>Получаешь проверку</h3><p>За сутки: сколько анкет, фейков, сливов и совпадений по лицу. Бесплатно.</p></div>
+      <div class="step"><h3>Мы удаляем</h3><p>Отчёт по каждой ссылке. Не удалили, что договорились, в срок — вернём деньги.</p></div>
+    </div>
+    <div class="why">
+      <b>Зачем кружок?</b>
+      <p>Чтобы тебя не «проверил» кто-то другой. Бывший или шантажист тоже может прислать твоё фото. Мы проверяем только ту, кто сама на фото. Не хочешь кружок — проверка за $29, сумма засчитывается в заказ.</p>
+    </div>
+  </section>
+
+  <section id="prices" aria-labelledby="price-h">
+    <p class="eyebrow">Цены</p>
+    <h2 id="price-h">Платишь за результат, а не за обещания</h2>
+    <p class="sub">Бесплатно смотрим, что есть. За удаление фейков и сливов берём половину вперёд, вторую — когда увидишь первую удалённую ссылку. SOS оплачиваешь после первого разговора, когда понятен план. Не удалили, что договорились, — возвращаем.</p>
+    <div class="pricelist">
+      <div class="tier">
+        <h3>Старт</h3>
+        <p class="amt">5 990 ₽ <small>/ мес</small></p>
+        <ul><li>1 ник</li><li>Проверка раз в месяц</li><li>Удаляем до 5 ссылок в месяц</li><li>Оплата в рублях</li></ul>
+      </div>
+      <div class="tier">
+        <h3>Lite</h3>
+        <p class="amt">$149 <small>/ мес</small></p>
+        <ul><li>1 ник, 10 твоих фото для поиска</li><li>Проверка раз в 2 недели</li><li>Удаляем найденное без доплаты</li></ul>
+      </div>
+      <div class="tier pop">
+        <span class="badge">БЕРУТ ЧАЩЕ</span>
+        <h3>Pro</h3>
+        <p class="amt">$299 <small>/ мес</small></p>
+        <ul><li>3 ника</li><li>Проверка каждую неделю, фейки и чужие анкеты</li><li>Удаления без лимита</li><li>«Невидимка» за $690</li></ul>
+      </div>
+      <div class="tier">
+        <h3>VIP</h3>
+        <p class="amt">$590 <small>/ мес</small></p>
+        <ul><li>Без лимитов, проверка каждый день</li><li>Личный менеджер</li><li>SOS включён</li><li>Отчёт каждую неделю</li></ul>
+      </div>
+    </div>
+    <div class="oneoff">
+      <table>
+        <thead><tr><th>Разовая услуга</th><th>Что входит</th><th>Цена</th></tr></thead>
+        <tbody>
+          <tr><td>Бесплатная проверка</td><td>С кружком / без кружка</td><td>бесплатно / $29</td></tr>
+          <tr><td>Проверка</td><td>Все ссылки и план удаления</td><td>$190</td></tr>
+          <tr><td>Фейки и чужие анкеты</td><td>До 10 анкет с отчётом</td><td>$490</td></tr>
+          <tr><td>SOS-разговор</td><td>Оператор в течение часа и план на 72 часа</td><td>$149</td></tr>
+          <tr><td>SOS</td><td>72 часа под ключ, живой оператор</td><td>$490</td></tr>
+          <tr><td>Сливы</td><td>До 30 ссылок + 60 дней контроля</td><td>$790</td></tr>
+          <tr><td>Невидимка</td><td>Лицо, номер, рабочее отдельно от личного</td><td>$990</td></tr>
+          <tr><td>Выход</td><td>Полная зачистка + 6–12 месяцев контроля</td><td>$3 900 / $7 900</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="pay">Оплата в USDT или картой. В выписке — нейтральное «Digital Privacy Services», в счёте ни слова о том, чем ты занимаешься.</p>
+  </section>
+
+  <section id="friend" aria-labelledby="friend-h">
+    <div class="ref">
+      <div>
+        <p class="eyebrow">Приведи подругу</p>
+        <h2 id="friend-h">Своим — по-своему</h2>
+        <p class="sub">У каждой в боте есть свой код. Подруга получает −20% на первый заказ и проверку без очереди, а ты — $100 на баланс за каждую подругу, которая оплатила защиту.</p>
+        <ul class="ref-rules">
+          <li>Подруга не узнает, кто её привёл, если ты сама не скажешь. В коде нет ни ника, ни номера.</li>
+          <li>Бонус приходит через 14 дней после её оплаты.</li>
+          <li>Баланс тратится на любые услуги PRIVÉ.</li>
+        </ul>
+      </div>
+      <div class="ref-ladder" aria-label="Бонусы за подруг">
+        <div class="rung"><span class="n">1</span><b>$100 на баланс</b><span>за каждую подругу с заказом от $490 или подпиской</span></div>
+        <div class="rung"><span class="n">3</span><b>«Невидимка» в подарок</b><span>лицо и номер под защитой бесплатно</span></div>
+        <div class="rung"><span class="n">5</span><b>3 месяца Pro</b><span>и статус «Своя»</span></div>
+        <div class="rung"><span class="n">10</span><b>−30% на всё навсегда</b><span>если полчата пришло по твоему коду</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="PRIVÉ Private">
+    <div class="partners">
+      <div>
+        <p class="eyebrow">PRIVÉ Private</p>
+        <h3>Когда на кону больше, чем анонимность</h3>
+        <p>Публичный профиль, поездки, проверка перед новой работой. Персональный менеджер, договор и NDA до первого разговора. От $690.</p>
+      </div>
+      <a class="btn btn-ghost" href="private.html">Узнать о Private</a>
+    </div>
+  </section>
+
+  <section aria-label="Для менеджеров и агентств">
+    <div class="partners">
+      <div>
+        <p class="eyebrow">Менеджерам, агентствам, админам чатов</p>
+        <h3>Фейки уводят клиентов у всего агентства</h3>
+        <p>Комиссия до 30% с первого заказа и до 15% с подписок в течение года, места для ваших девочек со скидкой до 35%. Защита при этом принадлежит девушке.</p>
+      </div>
+      <a class="btn btn-ghost" href="partners.html">Условия для партнёров</a>
+    </div>
+  </section>
+
+  <section id="rules" aria-labelledby="rules-h">
+    <p class="eyebrow">Наши правила</p>
+    <h2 id="rules-h">Чего мы не делаем никогда</h2>
+    <div class="rules">
+      <div class="rule"><h3>Не проверяем чужих</h3><p>Работаем только с той, кто на фото. Ни бывший, ни менеджер, ни «подруга» не закажут поиск или удаление за тебя.</p></div>
+      <div class="rule"><h3>Не пробиваем людей</h3><p>Мужиков и шантажистов не ищем и ничего не взламываем. Наша работа — чтобы не нашли тебя: удаляем, собираем доказательства, подключаем юриста.</p></div>
+      <div class="rule"><h3>Не храним лишнее</h3><p>Кружок удаляем после сверки, фото — после поиска. NDA с каждым сотрудником.</p></div>
+      <div class="rule"><h3>Не читаем мораль</h3><p>Ни «одумайся», ни «сама виновата». Если тебя заставляют работать или забрали паспорт — поможем бесплатно и свяжем с La Strada.</p></div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-h">
+    <p class="eyebrow">Вопросы</p>
+    <h2 id="faq-h">Что обычно спрашивают в болталках</h2>
+    <div class="faq">
+      <details><summary>Анкета висит у бывшего менеджера. Её правда можно удалить?</summary><p>Да. Сайт удаляет анкету по запросу владельца аккаунта или того, чьи фото на ней. Мы подтверждаем, что на фото ты, и пишем сайту. Если он молчит — хостингу. Отдельно убираем копии в архиве сайта и на зеркалах.</p></details>
+      <details><summary>Можно убрать фото из поиска по лицу?</summary><p>Из PimEyes и похожих сервисов — да, через их форму исключения. Но они только показывают ссылки, сами фото лежат на других сайтах. Поэтому мы убираем и сервис, и сайты, откуда он их взял.</p></details>
+      <details><summary>Почему у вас получается, а у других нет?</summary><p>Ищем по лицу, а не по картинке, знаем сайты, которые не видит Гугл, и, когда сайт молчит, пишем его хостингу и регистратору. Плюс знаем, на какую жалобу реагирует каждая площадка.</p></details>
+      <details><summary>Кто-нибудь с вами уже работал?</summary><p>Спроси в своей болталке. Мы не покупаем отзывы и не пишем их сами: нам важнее, что скажут девочки, чем что напишем мы.</p></details>
+      <details><summary>Можно удалить вообще всё?</summary><p>Всё, что на нормальных сайтах, в поисковиках и у нормальных хостингов, — да. Однодневки иногда держатся дольше, тогда убираем их из поиска, чтобы их никто не нашёл. До начала ты видишь список, что удалим, и срок.</p></details>
+      <details><summary>А если вы меня кинете?</summary><p>Проверка бесплатная, за удаление — половина вперёд, вторая после первой удалённой ссылки. SOS — после первого разговора. Не удалили, что договорились, — возвращаем деньги.</p></details>
+      <details><summary>Я в регионе, у меня час стоит не как в Москве. Есть дешевле?</summary><p>Да, тариф Старт за 5 990 ₽ в месяц: проверка раз в месяц и удаление до 5 ссылок. Платишь в рублях.</p></details>
+      <details><summary>Мне нужно показывать паспорт?</summary><p>Нам — нет. Хватит кружка и доступа к своей анкете. Некоторые поисковики по лицу сами просят документ для удаления — подскажем, как закрыть в нём лишнее.</p></details>
+      <details><summary>Почему Гугл отказал мне в удалении?</summary><p>Его форма для интимных фото не подходит, если съёмка была за деньги. Для рабочих фото работает другой путь: авторское право и правила площадок.</p></details>
+      <details><summary>Почему так дорого?</summary><p>Работает живой оператор, а не робот, и мы отвечаем деньгами за результат. Дешёвые сервисы в этой теме — это или автоматика, которая не видит сайты с анкетами, или риск, что твои фото окажутся в чужой базе.</p></details>
+      <details><summary>Мне платит агентство. Оно увидит мои данные?</summary><p>Нет. Аккаунт твой, отчёты видишь только ты. Уйдёшь из агентства — защита уйдёт с тобой.</p></details>
+    </div>
+  </section>
+
+  <section class="final" id="scan" aria-labelledby="final-h">
+    <p class="eyebrow">Начать</p>
+    <h2 id="final-h">Узнай, где ты висишь. <em>Бесплатно.</em></h2>
+    <p class="note">Отправь в бот ник и 3 фото, запиши кружок. Через сутки получишь проверку: анкеты, фейки, сливы, совпадения по лицу. Есть код подруги — введи, проверка пройдёт без очереди.</p>
+    <div class="handle">
+      <code>@prive_scan_bot</code>
+      <button class="btn btn-main" id="copy" type="button">Скопировать</button>
+      <span id="copied" hidden>Скопировано</span>
+    </div>
+  </section>
+
+  <footer>
+    <span><b>PRIVÉ</b> · От своих — для своих. Не для чужих глаз. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.</span>
+    <span>18+ · <a href="sos.html">SOS</a> · <a href="private.html">Private</a> · <a href="partners.html">Партнёрам</a></span>
+    <span>Мы оказываем услуги защиты приватности и авторских прав. Мы не предоставляем и не рекламируем интимные услуги.</span>
+  </footer>
+</main>
+<script>
+document.getElementById('copy').addEventListener('click',function(){
+  var code=document.querySelector('.handle code');
+  var sel=function(){var r=document.createRange();r.selectNodeContents(code);getSelection().removeAllRanges();getSelection().addRange(r)};
+  try{navigator.clipboard.writeText('@prive_scan_bot').then(function(){document.getElementById('copied').hidden=false},sel)}catch(e){sel()}
+});
+</script>
+
+</body></html>
