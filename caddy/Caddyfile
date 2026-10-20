@@ -26,9 +26,7 @@ getprive.me {
     import prive_site
 }
 
-www.getprive.me {
-    redir https://getprive.me{uri} permanent
-}
+# www.getprive.me — добавить сюда redir после создания DNS-записи www
 
 # Доступ по IP (пока DNS не настроен / для проверки)
 :80 {
