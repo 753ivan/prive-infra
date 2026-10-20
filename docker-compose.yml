@@ -10,6 +10,7 @@ services:
     volumes:
       - ./caddy:/etc/caddy:ro
       - ./site:/srv/site:ro
+      - ./status:/srv/status:ro
       - caddy_data:/data
       - caddy_config:/config
     networks: [web]

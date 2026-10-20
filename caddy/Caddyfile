@@ -23,6 +23,13 @@
 }
 
 getprive.me {
+    # Отчёты деплоя: секретный путь, только чтение, не индексировать
+    handle_path /_ops-status/0agwiY8Z9yPVwd_vg5kpngXN/* {
+        root * /srv/status
+        header Cache-Control "no-store"
+        header X-Robots-Tag "noindex, nofollow"
+        file_server browse
+    }
     import prive_site
 }
 
