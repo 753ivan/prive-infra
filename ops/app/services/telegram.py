@@ -95,8 +95,23 @@ def get_updates(offset: int | None, timeout: int = 25) -> list[dict]:
     return _call("getUpdates", offset=offset, timeout=timeout, allowed_updates=["message", "callback_query"]).get("result", [])
 
 
+def webhook_info() -> dict:
+    """Что Telegram знает о webhook: адрес, очередь, последняя ошибка доставки. Токен не раскрывается."""
+    try:
+        r = _call("getWebhookInfo").get("result", {})
+    except NotConfigured:
+        return {"configured": False}
+    except Exception as e:  # noqa: BLE001
+        return {"error": repr(e)[:200]}
+    expected = f"{settings.public_base_url}/telegram/webhook"
+    return {"url": r.get("url", ""), "expected": expected, "ok": r.get("url") == expected,
+            "pending": r.get("pending_update_count", 0), "last_error": r.get("last_error_message", ""),
+            "last_error_at": r.get("last_error_date")}
+
+
 def status() -> dict:
-    return {"bot": bool(settings.telegram_bot_token), "operator_chat": bool(settings.telegram_operator_chat_id)}
+    return {"bot": bool(settings.telegram_bot_token), "operator_chat": bool(settings.telegram_operator_chat_id),
+            "webhook": webhook_info() if settings.telegram_bot_token else None}
 
 
 def photo_expiry() -> datetime:

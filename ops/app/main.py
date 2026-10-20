@@ -39,6 +39,8 @@ def startup():
     Base.metadata.create_all(engine)
     migrate_light()
     ensure_admin()
+    if settings.telegram_bot_token:  # в лог контейнера — для диагностики без входа в панель
+        print("telegram webhook:", tg_svc.webhook_info(), flush=True)
     if settings.scheduler_enabled:
         scheduler.add_job(pipeline.scheduled_tick, "interval", hours=1, id="tick", replace_existing=True)
         scheduler.start()
