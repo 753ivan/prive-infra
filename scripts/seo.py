@@ -30,6 +30,7 @@ BASE = "https://getprive.me"
 BRAND = "PRIVÉ"
 SLOGAN = "Не для чужих глаз"
 BOT = "https://t.me/prive_scan_bot"
+GA4_ID = "G-55DZMGMHMN"  # Google Analytics 4 — подключён напрямую; НЕ добавлять второй GA4-тег в GTM (будет двойной счёт)
 GTM_ID = "GTM-K67NSMPB"  # Google Tag Manager (GA4 и прочие теги настраиваются внутри GTM)
 RENDER = "--no-render" not in sys.argv
 
@@ -170,6 +171,9 @@ def build_block(*, url, title, desc, og_title, og_desc, og_image, og_type, ld, n
         "var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;"
         "j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);"
         f"}})(window,document,'script','dataLayer','{GTM_ID}');</script>",
+        f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>',
+        "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"
+        f"gtag('js',new Date());gtag('config','{GA4_ID}');</script>",
         f"<title>{e(title)}</title>",
         f'<meta name="description" content="{e(desc)}">',
     ]
