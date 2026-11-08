@@ -30,6 +30,7 @@ BASE = "https://getprive.me"
 BRAND = "PRIVÉ"
 SLOGAN = "Не для чужих глаз"
 BOT = "https://t.me/prive_scan_bot"
+GTM_ID = "GTM-K67NSMPB"  # Google Tag Manager (GA4 и прочие теги настраиваются внутри GTM)
 RENDER = "--no-render" not in sys.argv
 
 # ---- Основные страницы: path -> (файл, title, description, тип JSON-LD, крошка) ----
@@ -165,6 +166,10 @@ def build_block(*, url, title, desc, og_title, og_desc, og_image, og_type, ld, n
     e = lambda t: html.escape(t, quote=True)
     lines = [
         SEO_START,
+        "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});"
+        "var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;"
+        "j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);"
+        f"}})(window,document,'script','dataLayer','{GTM_ID}');</script>",
         f"<title>{e(title)}</title>",
         f'<meta name="description" content="{e(desc)}">',
     ]
@@ -293,6 +298,7 @@ def render_assets(cards):
             # пререндер React-страниц
             await pg.set_viewport_size({"width": 1280, "height": 900})
             await pg.route("**/fonts.g*/**", lambda r: r.abort())
+            await pg.route("**/*googletagmanager*/**", lambda r: r.abort())
             for f in SITE.rglob("*.html"):
                 s = f.read_text(encoding="utf-8")
                 if not re.search(r"<div id=\"?root\"?>", s):
