@@ -78,15 +78,15 @@ PAGES = {
 
 # ---- Статьи блога: slug -> дата публикации (ISO). Заголовок и описание берутся из файла. ----
 POSTS = {
-    "zima-v-gruzii": "2026-11-08",
-    "issledovanie-chata": "2026-11-08",
-    "slili-foto-24-chasa": "2026-11-08",
-    "udalenie-po-zakonu": "2026-11-08",
+    "zima-v-gruzii": "2026-11-01",
+    "issledovanie-chata": "2026-10-05",
+    "slili-foto-24-chasa": "2026-09-25",
+    "udalenie-po-zakonu": "2026-09-11",
     "armeniya-ili-gruziya": "2026-11-08",
-    "shantazh-i-sliv": "2026-11-08",
-    "proverka-menedzhera": "2026-11-08",
-    "byuti-v-gruzii": "2026-11-08",
-    "doksing": "2026-11-08",
+    "shantazh-i-sliv": "2026-09-01",
+    "proverka-menedzhera": "2026-10-27",
+    "byuti-v-gruzii": "2026-10-22",
+    "doksing": "2026-08-12",
 }
 
 # Если заголовок статьи длиннее ~65 символов, Google его обрежет — короткий <title> для выдачи
