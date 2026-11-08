@@ -16,6 +16,9 @@
 
 Новая статья блога: положить site/blog/<slug>/index.html с <title> и <meta name="description">,
 добавить slug в POSTS ниже (дата публикации), запустить скрипт, закоммитить.
+
+Языковые версии (/uk/, /en/): после правки русских страниц — `python3 scripts/i18n.py extract`,
+перевести i18n/todo-*.txt (см. i18n/merge.py), `python3 scripts/i18n.py build`, затем этот скрипт.
 """
 import html
 import json
