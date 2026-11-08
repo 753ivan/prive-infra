@@ -173,7 +173,11 @@ def build_block(*, url, title, desc, og_title, og_desc, og_image, og_type, ld, n
         f"}})(window,document,'script','dataLayer','{GTM_ID}');</script>",
         f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>',
         "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"
-        f"gtag('js',new Date());gtag('config','{GA4_ID}');</script>",
+        f"gtag('js',new Date());gtag('config','{GA4_ID}');"
+        # Ключевое событие: переход в Telegram-бот (параметр start = источник: scan/sos/partner/private)
+        "document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*=\"t.me/prive_scan_bot\"]');"
+        "if(!a)return;var m=a.href.match(/start=([\\w-]+)/);gtag('event','bot_open',{bot_start:m?m[1]:'none',"
+        "link_text:(a.textContent||'').trim().slice(0,60)});},true);</script>",
         f"<title>{e(title)}</title>",
         f'<meta name="description" content="{e(desc)}">',
     ]
