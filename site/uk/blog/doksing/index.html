@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="uk"><head><meta charset="utf-8">
+<!-- seo:start -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K67NSMPB');</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-55DZMGMHMN"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-55DZMGMHMN');document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="t.me/prive_scan_bot"]');if(!a)return;var m=a.href.match(/start=([\w-]+)/);gtag('event','bot_open',{bot_start:m?m[1]:'none',link_text:(a.textContent||'').trim().slice(0,60)});},true);</script>
+<title>Доксинг: як захиститися заздалегідь і що робити під час атаки · Блог PRIVÉ</title>
+<meta name="description" content="Адаптація гайду EFF про доксинг (CC BY 4.0): як скоротити цифровий слід — витоки, реєстри, соцмережі, «пробив», пошук за обличчям — і як реагувати на атаку: журнал інцидентів, ролі, план PACE, захист номера.">
+<link rel="canonical" href="https://getprive.me/uk/blog/doksing/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="alternate" hreflang="ru" href="https://getprive.me/blog/doksing/">
+<link rel="alternate" hreflang="uk" href="https://getprive.me/uk/blog/doksing/">
+<link rel="alternate" hreflang="en" href="https://getprive.me/en/blog/doksing/">
+<link rel="alternate" hreflang="x-default" href="https://getprive.me/blog/doksing/">
+<meta property="og:site_name" content="PRIVÉ">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Доксинг: як захиститися заздалегідь і що робити під час атаки">
+<meta property="og:description" content="Адаптація гайду EFF про доксинг (CC BY 4.0): як скоротити цифровий слід — витоки, реєстри, соцмережі, «пробив», пошук за обличчям — і як реагувати на атаку: журнал інцидентів, ролі, план PACE, захист номера.">
+<meta property="og:url" content="https://getprive.me/uk/blog/doksing/">
+<meta property="og:image" content="https://getprive.me/og/uk/doksing.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#120d0f">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://getprive.me/#org","name":"PRIVÉ","url":"https://getprive.me/","logo":"https://getprive.me/logo-512.png","slogan":"Не для чужих глаз","description":"Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.","contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://t.me/prive_scan_bot","availableLanguage":["ru","uk"]}},{"@type":"BlogPosting","headline":"Доксинг: як захиститися заздалегідь і що робити під час атаки","description":"Адаптація гайду EFF про доксинг (CC BY 4.0): як скоротити цифровий слід — витоки, реєстри, соцмережі, «пробив», пошук за обличчям — і як реагувати на атаку: журнал інцидентів, ролі, план PACE, захист номера.","inLanguage":"uk","url":"https://getprive.me/uk/blog/doksing/","mainEntityOfPage":"https://getprive.me/uk/blog/doksing/","image":"https://getprive.me/og/uk/doksing.jpg","datePublished":"2026-09-03","dateModified":"2026-09-03","author":{"@id":"https://getprive.me/#org"},"publisher":{"@id":"https://getprive.me/#org"},"isPartOf":{"@type":"Blog","@id":"https://getprive.me/uk/blog/#blog"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"PRIVÉ","item":"https://getprive.me/uk/"},{"@type":"ListItem","position":2,"name":"Блог","item":"https://getprive.me/uk/blog/"},{"@type":"ListItem","position":3,"name":"Доксинг: як захиститися заздалегідь і що робити під час атаки","item":"https://getprive.me/uk/blog/doksing/"}]}]}</script>
+<!-- seo:end -->
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+/* Layout: noir after-hours lookbook — one tall italic serif statement, services as a boutique menu, a price list set like a wine card. Dark-first. */
+:root{
+  --bg:#120d0f; --surface:#1b1417; --line:#3a2a2f; --fg:#f3e9e4; --muted:#b9a7a6;
+  --accent:#b3263f; --accent-soft:#3b1620; --champagne:#e5c9a6; --on-accent:#fff6f2;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; --on-accent:#fff6f2; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f7efeb; --surface:#fffaf7; --line:#e3d2cc; --fg:#22161a; --muted:#6f5a5c;
+  --accent:#9e1d35; --accent-soft:#f3dcdf; --champagne:#8a6236; --on-accent:#fff6f2; color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1080px;margin:0 auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--champagne);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.05}
+h2{font-size:clamp(2rem,5vw,3.2rem)}
+h3{font-size:1.6rem}
+p{margin:0}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--champagne);font-weight:600}
+.sub{color:var(--muted);max-width:60ch;margin-top:14px}
+section{padding-block:72px;border-top:1px solid var(--line)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:600;text-decoration:none;font-size:.95rem;border:1px solid transparent;transition:transform .2s;font-family:var(--body);cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn-main{background:var(--accent);color:var(--on-accent)}
+.btn-ghost{border-color:var(--line);color:var(--fg);background:transparent}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)))}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px max(16px,env(safe-area-inset-left,0px))}
+.logo{font-family:var(--display);font-size:1.5rem;letter-spacing:.32em;text-decoration:none}
+nav{display:flex;gap:22px;font-size:.88rem;color:var(--muted)}
+nav a{text-decoration:none}
+nav a:hover{color:var(--fg)}
+.sos-pill{background:var(--accent-soft);color:var(--fg);padding:8px 14px;border-radius:999px;font-size:.82rem;font-weight:600;text-decoration:none;white-space:nowrap}
+.sos-pill b{color:var(--accent)}
+@media (max-width:860px){header.top .wrap{flex-wrap:wrap;row-gap:6px}header.top nav{display:flex;order:3;flex:1 0 100%;gap:18px;overflow-x:auto;white-space:nowrap;padding:4px 0 2px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}header.top nav::-webkit-scrollbar{display:none}header.top nav a{padding:4px 0}}
+
+.hero{padding-block:72px 64px;border:0;display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:end}
+.hero h1{font-size:clamp(2.9rem,8.5vw,6.2rem);letter-spacing:-.01em}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero .desc{display:block;color:var(--fg);font-weight:500;margin-bottom:10px}
+.hero .lead{font-size:1.12rem;color:var(--muted);max-width:38ch;margin-top:24px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero-card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;gap:14px}
+.scan-row{display:flex;justify-content:space-between;gap:12px;font-size:.92rem;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.scan-row:last-of-type{border:0;padding:0}
+.scan-row span:last-child{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.hot{color:var(--accent)}
+.ok{color:var(--champagne)}
+.hero-card small{color:var(--muted);font-size:.78rem}
+@media (max-width:820px){.hero{grid-template-columns:1fr;align-items:start}}
+
+.pains{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:36px}
+.pain{background:var(--bg);padding:24px;display:grid;gap:10px;align-content:start}
+.pain q{font-family:var(--display);font-style:italic;font-size:1.3rem;line-height:1.25;quotes:"«" "»"}
+.pain p{color:var(--muted);font-size:.92rem}
+
+.tech{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:36px}
+.tech article{display:grid;gap:12px;align-content:start;padding-top:20px;border-top:2px solid var(--accent)}
+.tech .vs{font-size:.86rem;color:var(--muted);display:grid;gap:4px}
+.tech .vs b{color:var(--fg);font-weight:600}
+.tech p{color:var(--muted);font-size:.95rem}
+.motto{margin-top:36px;font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,3.4vw,2rem);line-height:1.3;max-width:34ch}
+@media (max-width:820px){.tech{grid-template-columns:1fr}}
+
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:40px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px;display:grid;gap:14px;align-content:start}
+.svc.flag{grid-column:1/-1;background:linear-gradient(135deg,var(--accent-soft),var(--surface) 70%)}
+.svc-head{display:flex;justify-content:space-between;gap:16px;align-items:baseline;flex-wrap:wrap}
+.svc .price{font-family:var(--display);font-size:1.5rem;color:var(--champagne);white-space:nowrap}
+.svc .tag{font-size:.78rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.svc ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:4px;font-size:.94rem}
+.svc .meta{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;display:flex;gap:6px 18px;flex-wrap:wrap}
+@media (max-width:720px){.services{grid-template-columns:1fr}}
+
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:36px;counter-reset:s}
+.step{display:grid;gap:8px;counter-increment:s;align-content:start}
+.step::before{content:counter(s);font-family:var(--display);font-size:2.4rem;color:var(--accent);line-height:1}
+.step p{color:var(--muted);font-size:.93rem}
+@media (max-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.why{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:8px;max-width:760px}
+.why p{color:var(--muted);font-size:.93rem}
+
+.pricelist{margin-top:36px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tier .amt{white-space:nowrap}
+.tier{border:1px solid var(--line);border-radius:22px;padding:26px;display:grid;gap:12px;align-content:start}
+.tier.pop{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.tier .amt{font-family:var(--display);font-size:2.6rem;line-height:1}
+.tier .amt small{font-family:var(--body);font-size:.85rem;color:var(--muted)}
+.tier ul{margin:0;padding-left:18px;color:var(--muted);font-size:.92rem;display:grid;gap:4px}
+.badge{justify-self:start;background:var(--accent);color:var(--on-accent);font-size:.72rem;padding:4px 10px;border-radius:999px;font-weight:700;letter-spacing:.06em}
+@media (max-width:980px){.pricelist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.pricelist{grid-template-columns:1fr}}
+.oneoff{margin-top:28px;border:1px solid var(--line);border-radius:18px;overflow-x:auto}
+.oneoff table{width:100%;border-collapse:collapse;font-size:.94rem;min-width:520px}
+.oneoff td,.oneoff th{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.oneoff tr:last-child td{border:0}
+.oneoff th{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.oneoff td:last-child{font-variant-numeric:tabular-nums;text-align:right;color:var(--champagne);font-weight:600;white-space:nowrap}
+.pay{margin-top:16px;color:var(--muted);font-size:.9rem;max-width:70ch}
+
+.ref{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start}
+.ref-ladder{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.rung{background:var(--bg);padding:18px 20px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline}
+.rung .n{font-family:var(--display);font-size:1.9rem;color:var(--accent);line-height:1;grid-row:span 2;min-width:2.2ch}
+.rung b{font-weight:600}
+.rung span{color:var(--muted);font-size:.9rem}
+.ref-rules{margin:20px 0 0;padding-left:18px;color:var(--muted);font-size:.92rem;display:grid;gap:6px}
+@media (max-width:820px){.ref{grid-template-columns:1fr}}
+
+.partners{display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px}
+.partners div{display:grid;gap:8px;max-width:60ch;min-width:0}
+.partners p{color:var(--muted)}
+
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-top:36px}
+.rule{display:grid;gap:8px}
+.rule h3{font-size:1.3rem}
+.rule p{color:var(--muted);font-size:.93rem}
+
+details{border-bottom:1px solid var(--line);padding-block:18px}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-size:1.3rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px;max-width:68ch}
+.faq{margin-top:28px}
+
+.final{display:grid;gap:20px;padding-block:88px}
+.final h2{font-size:clamp(2.4rem,7vw,4.8rem)}
+.final h2 em{color:var(--accent)}
+.final .note{color:var(--muted);max-width:52ch}
+.handle{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.handle code{font:600 1rem var(--body);background:var(--surface);border:1px solid var(--line);padding:12px 16px;border-radius:12px;user-select:all}
+#copied{color:var(--champagne);font-size:.85rem}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.8rem;display:grid;gap:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Обложка отчёта в шапке: строгий документ, одинаковый в светлой и тёмной теме */
+.report{margin:0;position:relative;padding:10px 12px 0 0;max-width:440px;justify-self:end;width:100%}
+.sheet{background:#fdfbf8;color:#1d1416;border-radius:3px}
+.sheet-back{position:absolute;inset:22px 0 50px 12px;background:#e9e2db;box-shadow:0 14px 30px rgba(0,0,0,.25)}
+.sheet-front{position:relative;margin-right:12px;padding:26px 28px 18px;box-shadow:0 22px 50px rgba(0,0,0,.38);border-top:4px solid #1d1416}
+.r-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid #d9cfc8}
+.r-logo{font-family:var(--display);font-size:1.15rem;letter-spacing:.12em}
+.r-conf{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:#9e1d35;border:1px solid #9e1d35;padding:3px 7px}
+.r-kicker{margin-top:20px;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#6b5f5f;font-weight:600}
+.r-title{font-family:var(--display);font-size:2.1rem;line-height:1.05;margin-top:6px;color:#1d1416}
+.r-meta{display:grid;grid-template-columns:1.2fr 1.2fr .8fr;gap:10px;margin:18px 0 0;padding:12px 0;border-block:1px solid #d9cfc8;font-size:.76rem}
+.r-meta dt{color:#6b5f5f;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase}
+.r-meta dd{margin:3px 0 0;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.r-mask{display:inline-block;height:.9em;vertical-align:-1px;background:#1d1416}
+.r-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.76rem}
+.r-table th{text-align:left;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#6b5f5f;font-weight:600;padding:0 0 6px;border-bottom:1px solid #1d1416}
+.r-table td{padding:7px 0;border-bottom:1px solid #ebe3dd}
+.r-table td:nth-child(2),.r-table th:nth-child(2){text-align:right;padding-right:14px;font-variant-numeric:tabular-nums;font-weight:600}
+.r-table td:last-child,.r-table th:last-child{text-align:right}
+.lvl{white-space:nowrap;font-size:.64rem;font-weight:700;letter-spacing:.04em;padding-left:10px;position:relative}
+.lvl::before{content:"";position:absolute;left:0;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:currentColor}
+.lvl.hi{color:#9e1d35}.lvl.md{color:#a0611c}.lvl.lo{color:#5d6b5a}.lvl.ok{color:#6b5f5f}
+.r-score{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;margin-top:16px;font-size:.7rem;color:#6b5f5f}
+.r-score .bar{height:6px;background:#ebe3dd}
+.r-score .bar i{display:block;height:100%;background:#9e1d35}
+.r-score b{color:#1d1416;font-variant-numeric:tabular-nums}
+.r-foot{display:flex;justify-content:space-between;margin-top:18px;padding-top:10px;border-top:1px solid #d9cfc8;font-size:.6rem;color:#6b5f5f;letter-spacing:.06em;text-transform:uppercase}
+.report figcaption{margin-top:20px;color:var(--muted);font-size:.78rem;text-align:center}
+@media (max-width:820px){.report{justify-self:center;margin-top:8px}}
+@media (max-width:420px){.sheet-front{padding:22px 18px 16px}.r-title{font-size:1.75rem}.r-meta{grid-template-columns:1fr 1fr}.r-meta div:first-child{grid-column:1/-1}.r-score{grid-template-columns:1fr auto}.r-score .bar{grid-column:1/-1;grid-row:2}}
+</style>
+<header class="top"><div class="wrap">
+<a class="logo" href="/uk/">PRIVÉ</a>
+<nav aria-label="Розділи"><a href="/uk/#how">Як ми шукаємо</a><a href="/uk/#services">Послуги</a><a href="/uk/#prices">Ціни</a><a href="/uk/#friend">Подрузі</a><a href="/uk/private">Private</a><a href="/uk/partners">Агенціям</a><a aria-current="page" href="/uk/blog/">Блог</a></nav>
+<style>.lang-sw{display:inline-flex;gap:2px;align-items:center;font:600 12px/1 system-ui,sans-serif;letter-spacing:.06em;margin:0 10px}.lang-sw a{padding:6px 7px;border-radius:999px;color:inherit;opacity:.55;text-decoration:none}.lang-sw a:hover{opacity:1}.lang-sw a[aria-current]{opacity:1;background:rgba(127,127,127,.16)}.lang-sw.fix{position:fixed;top:12px;right:12px;z-index:9999;margin:0;padding:3px;border-radius:999px;background:rgba(18,13,15,.82);color:#f3e9e4;backdrop-filter:blur(6px)}.lang-sw.fix.bot{top:auto;bottom:16px}@media(max-width:560px){.lang-sw{margin:0 2px 0 auto;font-size:10.5px;gap:0}.lang-sw a{padding:5px 3px}header.top .wrap{gap:8px}.lang-sw+.sos-pill{padding-left:10px;padding-right:10px;font-size:12px}}</style><span class="lang-sw" data-i18n-sw><a href="/blog/doksing/" hreflang="ru" lang="ru">RU</a><a href="/uk/blog/doksing/" hreflang="uk" lang="uk" aria-current="true">UA</a><a href="/en/blog/doksing/" hreflang="en" lang="en">EN</a></span><a class="sos-pill" href="/uk/sos"><b>SOS</b> · шантажують?</a>
+</div></header>
+<style>
+.post-wrap{max-width:760px;margin:0 auto;padding:56px 0 40px}
+.crumbs{font-size:.8rem;color:var(--muted)}
+.crumbs a{color:var(--muted)}
+.post-wrap h1{font-size:clamp(2.1rem,5.4vw,3.4rem);line-height:1.05;margin-top:14px}
+.post-wrap h1 em{color:var(--accent);font-style:italic}
+.lede{font-size:1.15rem;line-height:1.55;color:var(--muted);margin-top:18px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.meta-row span{font-size:.74rem;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.post-body{margin-top:36px;font-size:1.02rem;line-height:1.7}
+.post-body h2{font-size:clamp(1.5rem,3.4vw,2rem);margin:46px 0 12px;line-height:1.15}
+.post-body h3{font-size:1.15rem;margin:28px 0 8px;font-family:var(--body);font-weight:700}
+.post-body p{margin:12px 0}
+.post-body ul,.post-body ol{margin:12px 0;padding-left:1.25em}
+.post-body li{margin:6px 0}
+.post-body a{color:var(--champagne)}
+.post-body strong{color:var(--fg)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:24px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.stat b{display:block;font-family:var(--display);font-size:2rem;line-height:1;color:var(--accent);font-weight:400}
+.stat span{display:block;font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.35}
+.bars{margin:18px 0;display:grid;gap:9px}
+.bar-row{display:grid;grid-template-columns:minmax(150px,240px) 1fr 56px;gap:10px;align-items:center;font-size:.86rem}
+.bar-row .track{height:10px;background:var(--accent-soft);border-radius:99px;overflow:hidden}
+.bar-row .track i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.bar-row .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.cols{display:flex;align-items:flex-end;gap:4px;height:150px;margin:20px 0 4px;border-bottom:1px solid var(--line)}
+.cols div{flex:1;background:var(--accent);border-radius:3px 3px 0 0;min-height:2px;position:relative}
+.cols-labels{display:flex;gap:4px;font-size:.62rem;color:var(--muted)}
+.cols-labels span{flex:1;text-align:center}
+.note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:16px 18px;margin:22px 0;font-size:.95rem}
+.note.gold{border-left-color:var(--champagne)}
+.note b.lbl{display:block;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.quote{border-left:2px solid var(--line);padding:4px 0 4px 16px;margin:14px 0;color:var(--muted);font-style:italic}
+.tbl{width:100%;border-collapse:collapse;margin:18px 0;font-size:.9rem}
+.tbl th{text-align:left;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--fg)}
+.tbl td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:600}
+.tbl-wrap{overflow-x:auto}
+.timeline{list-style:none;padding:0!important;margin:22px 0;border-left:2px solid var(--line)}
+.timeline>li{position:relative;padding:0 0 22px 22px;margin:0!important}
+.timeline>li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.timeline .t{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.timeline h3{margin:4px 0 6px}
+.cta{margin:46px 0 10px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:26px}
+.cta h2{margin:0 0 8px!important;font-size:1.6rem!important}
+.cta p{color:var(--muted)}
+.cta .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.cta a.b{display:inline-block;padding:11px 18px;border-radius:999px;background:var(--accent);color:var(--on-accent);text-decoration:none;font-weight:600}
+.cta a.b2{background:transparent;border:1px solid var(--line);color:var(--fg)}
+.sources{margin-top:40px;font-size:.84rem;color:var(--muted)}
+.sources ol{padding-left:1.3em}
+.sources a{color:var(--muted);word-break:break-word}
+.related{margin-top:34px;display:grid;gap:10px}
+.related a{display:block;padding:14px 16px;border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--fg)}
+.related a small{display:block;color:var(--muted);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
+@media (max-width:620px){.bar-row{grid-template-columns:1fr 46px}.bar-row .track{grid-column:1/-1;grid-row:2}.post-wrap{padding-top:36px}}
+</style>
+<main class="wrap" id="top">
+<article class="post-wrap">
+<p class="crumbs"><a href="/uk/blog/">Блог PRIVÉ</a> · Гайд</p>
+<h1>Доксинг: <em>як захиститися</em> заздалегідь і що робити під час атаки</h1>
+<p class="lede">Двочастинний гайд Electronic Frontier Foundation — про профілактику й реагування, — адаптований для України та Грузії: інструменти, шаблон журналу інцидентів, ролі для близьких і план PACE.</p>
+<div class="meta-row"><span>Гайд · за матеріалами EFF · 3 вересня 2026</span><span>CC BY 4.0</span><span>≈ 10 хвилин читання</span></div>
+<div class="cover"><img alt="" onerror="this.remove()" src="https://images.unsplash.com/photo-1764295105302-3c239de00917?auto=format&amp;fit=crop&amp;w=1600&amp;q=70"/><span class="credit">Фото: Unsplash</span><div class="cv"><div class="big">Доксинг</div><div class="sub">Як скоротити цифровий слід до атаки і що робити, якщо ваші дані вже виклали. Адаптація двочастинного гайду Electronic Frontier Foundation</div><div class="tags"><span>за матеріалами EFF</span><span>CC BY 4.0</span><span>профілактика</span><span>реагування</span></div></div></div>
+<div class="post-body">
+<style>
+.cover{position:relative;margin:30px 0 0;border-radius:24px;overflow:hidden;min-height:340px;display:flex;align-items:flex-end;color:#fff;
+ background:radial-gradient(120% 90% at 85% 10%,#6b1d2e 0%,#2a0f17 55%,#120a0d 100%)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,5,8,.05) 20%,rgba(10,5,8,.85) 100%)}
+.cover .cv{position:relative;z-index:1;padding:26px 28px;width:100%}
+.cover .big{color:#fff;font-family:var(--display);font-size:clamp(2.6rem,8vw,4.6rem);line-height:.95}
+.cover .sub{color:#f3e9e4;opacity:.9;font-size:.92rem;margin-top:8px;max-width:520px}
+.cover .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}.cover .tags span{color:#fff;font-size:.7rem;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.14);backdrop-filter:blur(4px)}
+.cover .credit{position:absolute;top:12px;right:14px;z-index:1;font-size:.62rem;opacity:.6}
+.kcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:12px;margin:24px 0}
+.kc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 16px 18px;position:relative;overflow:hidden}
+.kc b{display:block;font-family:var(--display);font-weight:400;font-size:2.1rem;line-height:1;color:var(--accent)}
+.kc span{display:block;font-size:.82rem;line-height:1.4;margin-top:8px}
+.kc small{display:block;font-size:.7rem;color:var(--muted);margin-top:6px}
+.kc.dark{background:#1a0e12;color:#f3e9e4;border-color:#1a0e12}.kc.dark b{color:#f0a3b4}.kc.dark small{color:#c9b5ba}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.vsc{border-radius:20px;padding:20px;border:1px solid var(--line);background:var(--surface)}
+.vsc.a{background:#1a0e12;color:#f3e9e4;border-color:#1a0e12}
+.vsc .lbl{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.vsc h3{margin:6px 0 10px!important;font-family:var(--display)!important;font-weight:400!important;font-size:1.5rem!important}
+.vsc dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.84rem;margin:0}.vsc dt{opacity:.7}.vsc dd{margin:0;font-weight:600;text-align:right}
+.meter{height:10px;border-radius:99px;background:rgba(127,127,127,.25);overflow:hidden;margin:12px 0 4px}.meter i{display:block;height:100%;background:var(--accent)}
+.vsc.a .meter i{background:#f0a3b4}.meter-l{font-size:.72rem;opacity:.75}
+.trap{display:grid;grid-template-columns:64px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;margin:16px 0}
+.trap .no{font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--accent)}
+.trap h3{margin:0 0 8px!important;font-size:1.2rem!important}
+.trap .ad{background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:.86rem;font-style:italic;margin:8px 0}
+.trap .ad::before{content:"Как выглядит: ";font-style:normal;font-weight:700;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.trap .real{font-size:.92rem}
+.trap .flag{margin-top:10px;font-size:.84rem;padding:8px 12px;border-radius:10px;background:var(--accent-soft)}
+.trap .flag::before{content:"Флаг: ";font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.chips span{font-size:.72rem;padding:3px 10px;border-radius:99px;border:1px solid var(--line)}
+.chips span b{color:var(--accent)}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px;margin:20px 0}
+.tc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.tc h4{margin:0 0 4px;font-size:1rem}.tc p{font-size:.84rem;margin:8px 0 0;line-height:1.5}
+.spark{display:flex;gap:6px;margin-top:10px}
+.spark>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.spark .bw{height:52px;width:100%;display:flex;align-items:flex-end}
+.spark i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:color-mix(in srgb,var(--accent) 45%,transparent)}
+.spark>div:last-child i{background:var(--accent)}
+.spark small{font-size:.62rem;color:var(--muted)}.spark em{font-style:normal;font-size:.7rem;font-variant-numeric:tabular-nums}
+.flags{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin:20px 0}
+.fl{border-radius:16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);display:grid;grid-template-columns:34px 1fr;gap:10px;font-size:.88rem;line-height:1.45}
+.fl i{font-style:normal;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-weight:700}
+.fl b{display:block}
+.ph{margin:26px 0;border-radius:18px;overflow:hidden;background:var(--surface);position:relative;border:1px solid var(--line)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 16px 10px;font-size:.74rem;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6))}
+details.method{margin:28px 0;border:1px solid var(--line);border-radius:14px;padding:12px 16px;background:var(--surface);font-size:.88rem}
+details.method summary{cursor:pointer;font-weight:600}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;font-size:.88rem;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cmp th{background:var(--surface);text-align:left;padding:12px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cmp td{padding:12px;border-top:1px solid var(--line);vertical-align:top}.cmp td:first-child{font-weight:600}
+.cmp td.win{background:color-mix(in srgb,var(--accent) 10%,transparent)}.cmp td.win::after{content:" ✓";color:var(--accent);font-weight:700}
+@media (max-width:620px){.vs{grid-template-columns:1fr}.trap{grid-template-columns:1fr}.trap .no{font-size:2rem}.cover{min-height:300px}}
+</style><style>
+.phase{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.phc{border-radius:20px;padding:20px;border:1px solid var(--line);background:var(--surface)}
+.phc.b{background:#1a0e12;color:#f3e9e4;border-color:#1a0e12}
+.phc .k{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.phc h3{margin:6px 0 10px!important;font-family:var(--display)!important;font-weight:400!important;font-size:1.45rem!important}
+.phc ol{margin:0;padding-left:1.2em;font-size:.88rem}.phc li{margin:5px 0}
+.phc.b a{color:#f0a3b4}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;margin:18px 0}
+.st{border-radius:18px;padding:18px;border:1px solid var(--line);background:var(--surface);font-size:.9rem;line-height:1.55}
+.st .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:.85rem;margin-bottom:8px}
+.st h3{margin:0 0 6px!important;font-size:1.05rem!important}
+.st .tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.st .tools span{font-size:.7rem;padding:3px 9px;border-radius:99px;border:1px solid var(--line);background:var(--bg)}
+.st .ua{margin-top:10px;font-size:.82rem;padding:8px 11px;border-radius:10px;background:var(--accent-soft)}
+.st .ua::before{content:"У нас: ";font-weight:700}
+.log{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;font-size:.84rem;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.log th{background:var(--surface);text-align:left;padding:10px 12px;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.log td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+.log td.m{font-family:ui-monospace,Menlo,monospace;font-size:.78rem;color:var(--muted)}
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px;margin:16px 0}
+.role{border-radius:16px;padding:14px;background:var(--surface);border:1px solid var(--line);font-size:.84rem}
+.role b{display:block;font-size:.95rem;margin-bottom:4px}
+.role small{display:block;color:var(--muted);font-size:.72rem;margin-top:6px}
+.pace{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:18px 0;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.pace div{padding:16px 14px;font-size:.82rem;line-height:1.45;border-left:1px solid var(--line);background:var(--surface)}
+.pace div:first-child{border-left:0}
+.pace b{display:block;font-family:var(--display);font-weight:400;font-size:2rem;line-height:1;color:var(--accent)}
+.pace i{display:block;font-style:normal;font-weight:700;margin:4px 0 6px}
+.pace div:nth-child(4){background:#1a0e12;color:#f3e9e4}.pace div:nth-child(4) b{color:#f0a3b4}
+.cc{margin-top:30px;padding:16px 18px;border-radius:14px;border:1px dashed var(--line);font-size:.8rem;color:var(--muted);line-height:1.55}
+@media (max-width:620px){.phase{grid-template-columns:1fr}.pace{grid-template-columns:1fr 1fr}.pace div:nth-child(3){border-left:0}}
+</style>
+<div class="note gold"><b class="lbl">Про цей матеріал</b>Це адаптований переклад двочастинного гайду <a href="https://www.eff.org/deeplinks/2026/08/doxxing-safety-pt-i-prevention-and-footprint-management" rel="noopener" target="_blank">«Doxxing Safety»</a> Дейлі Барнетт (Daly Barnett) з Electronic Frontier Foundation, опублікованого 31 серпня 2026 року за ліцензією CC BY 4.0. Авторка працює в EFF і є членкинею Hacking//Hustling — організації, що захищає права секс-працівників. Ми скоротили текст, замінили американські інструменти й приклади на актуальні для України та Грузії й додали дані нашого дослідження. Повний перелік змін — наприкінці.</div>
+<p><strong>Доксинг</strong> — це умисна публікація чиїхось особистих даних, щоб цькувати людину або завдати їй шкоди: адреса, справжнє ім’я, місце роботи, номер рідних, фото без макіяжу поруч зі знімками з анкети. Закони захищають від цього слабко й із запізненням, тому більшу частину роботи доводиться робити самій. Гайд EFF складається з двох частин — що зробити заздалегідь і що робити, коли атака вже триває. Вони перетинаються, тож прочитайте обидві <em>до</em> того, як вони знадобляться.</p>
+<div class="kcards">
+<div class="kc dark"><b>1 351</b><span>раз у живому жіночому чаті, який ми вивчали, обговорюють «пробив» — пошук людини за номером чи фото</span><small><a href="/uk/blog/issledovanie-chata/" style="color:#c9b5ba">дослідження PRIVÉ</a></small></div>
+<div class="kc"><b>2</b><span>частини гайду: профілактика й реагування на інцидент</span></div>
+<div class="kc"><b>13</b><span>кроків реагування, від журналу інцидентів до плану PACE</span></div>
+<div class="kc"><b>1</b><span>правило, яке EFF повторює всюди: це командна робота, а не одиночна</span></div>
+</div>
+<div class="phase">
+<div class="phc"><span class="k">Частина I · до атаки</span><h3>Скоротити слід</h3><ol><li>Подивитися на себе очима того, хто шукає</li><li>Перевірити витоки</li><li>Відкриті реєстри й «дзеркала»</li><li>Соцмережі й забуті акаунти</li><li>Брокери даних і «пробив»</li><li>Пошук за обличчям</li><li>Захист акаунтів</li><li>Команда й темп</li></ol></div>
+<div class="phc b"><span class="k">Частина II · під час атаки</span><h3>Відбити й задокументувати</h3><ol><li>Журнал інцидентів</li><li>Ролі в команді</li><li>Моніторинг майданчиків, де організовують цькування</li><li>Сповіщення про нові згадки</li><li>Закрити або заморозити акаунти</li><li>Повторна чистка брокерів і реєстрів</li><li>Поліція — за ситуацією</li><li>План PACE, захист номера й банку</li><li>Власна стійкість</li></ol></div>
+</div>
+<h2>Частина I. Профілактика: скоротити цифровий слід</h2>
+<div class="steps">
+<div class="st"><span class="n">1</span><h3>Подивіться на себе очима того, хто шукає</h3>Доксинг будується на OSINT — розвідці з відкритих джерел: з розрізнених публічних відомостей збирають профіль. Ті самі методи працюють і для захисту. Професійні пакети на кшталт Maltego й Lampyre розраховані на організації; одній людині зручніше починати з каталогів інструментів. Конкретні сервіси змінюються, принципи — ні.<div class="tools"><span>OSINT Framework</span><span>OSINT4all на start.me</span></div></div>
+<div class="st"><span class="n">2</span><h3>Перевірте, чи не витекли ваші дані</h3>Безкоштовний Have I Been Pwned показує, чи є ваша пошта або телефон у відомих витоках; DeHashed робить те саме платно. Якщо знайшлися — подумайте про зміну пошти чи номера, хоч як це незручно.<div class="tools"><span>Have I Been Pwned</span><span>DeHashed</span></div></div>
+<div class="st"><span class="n">3</span><h3>Відкриті реєстри й сайти-«дзеркала»</h3>Реєстри нерухомості, підприємців, судових рішень існують задля прозорості — і водночас розкривають адреси. Видалити першоджерело зазвичай не можна, але сайти, які передруковують такі дані, часто приймають запити на видалення: запис стає важче знайти.<div class="ua">перевірте, що про вас видно в реєстрі ФОП, базах судових рішень і оголошеннях про нерухомість; у Грузії — у публічному реєстрі й на сайтах оголошень.</div></div>
+<div class="st"><span class="n">4</span><h3>Соцмережі й забуті акаунти</h3>Посильте налаштування приватності в усіх акаунтах і переведіть видимість у режим «закритий» чи «прихований» — назва залежить від застосунку. Сервіси What's My Name і Namechk шукають нік на сотнях сайтів: так знаходяться забуті профілі й чужі акаунти, що видають себе за вас. Результати неповні, але це добрий початок.<div class="tools"><span>What's My Name</span><span>Namechk</span><span>гайд EFF про соцмережі</span></div></div>
+<div class="st"><span class="n">5</span><h3>Брокери даних і «пробив»</h3>EFF називає брокерів даних однією з головних загроз приватності. Найефективніше — ручні запити на видалення: за даними Consumer Reports, платні сервіси чистки справляються гірше, ніж ви самі. Для США є список BADBOOL Яель Ґрауер.<div class="ua">роль брокерів в Україні та Грузії відіграють Telegram-боти «пробиву» й злиті бази: за номером телефону в них знаходять ім’я, адреси й зв’язки. Видалити себе звідти не можна — тому головний захист тут окремий номер для всіх, кого ви не знаєте особисто.</div></div>
+<div class="st"><span class="n">6</span><h3>Пошук за обличчям</h3>PimEyes і Lenso за одним фото знаходять сторінки, де є ваше обличчя, — так виявляються знімки, опубліковані без згоди. EFF критикує ці сервіси: ними користуються й сталкери. Компроміс: перевіряючи себе, ви віддаєте сервісу своє обличчя. Але якщо вас цілеспрямовано цькують зображеннями, це може бути того варте.<div class="tools"><span>PimEyes</span><span>Lenso</span></div></div>
+<div class="st"><span class="n">7</span><h3>Посилений захист акаунтів</h3>Якщо користуєтеся сервісами Google — увімкніть програму Advanced Protection. Для відстеження скоординованих кампаній EFF радить Open Measures: у нього є безкоштовний API, але для автоматизації потрібні технічні навички.<div class="tools"><span>Google Advanced Protection</span><span>Open Measures</span><span>двофакторний захист</span></div></div>
+<div class="st"><span class="n">8</span><h3>Команда й темп</h3>Скоординоване цькування зачіпає і ваше оточення, тому приватність — спільна справа. Розподіліть завдання між близькими, спілкуйтеся через Signal. Чистка сліду — довга й виснажлива робота: робіть перерви й починайте з того, що найважливіше саме у вашій ситуації.<div class="tools"><span>Signal</span><span>ssd.eff.org</span></div></div>
+</div>
+<figure class="ph" style="aspect-ratio:16/7"><img alt="Телефон у руці" loading="lazy" onerror="this.closest('figure').style.display='none'" src="https://images.unsplash.com/photo-1718866033984-c3ddab9af2a0?auto=format&amp;fit=crop&amp;w=1400&amp;q=70"/><figcaption>Що менше зв’язків між вашими акаунтами, номером і обличчям, то важче зібрати профіль</figcaption></figure>
+<h2>Частина II. Якщо вас уже доксять</h2>
+<h3>1. Ведіть журнал інцидентів</h3>
+<p>Проста таблиця всього підозрілого: вона знадобиться поліції, платформам і юристу — і допомагає не тримати все в голові.</p>
+<div class="tbl-wrap"><table class="log">
+<tr><th>Поле</th><th>Що записувати</th><th>Приклад</th></tr>
+<tr><td>Майданчик</td><td>Де це сталося</td><td class="m">Telegram, канал @…</td></tr>
+<tr><td>Дата й час</td><td>З часовим поясом</td><td class="m">08.11.2026 21:40 (Київ)</td></tr>
+<tr><td>Що сталося</td><td>Коротко, без оцінок</td><td class="m">опубліковано адресу й фото під’їзду</td></tr>
+<tr><td>Хто</td><td>Нік, ID, номер, прикмети</td><td class="m">акаунт без фото, ID …</td></tr>
+<tr><td>Інші учасники</td><td>Хто репостив, хто писав вам</td><td class="m">2 канали-агрегатори</td></tr>
+<tr><td>Докази</td><td>Скриншоти, посилання, записи екрана</td><td class="m">тека «08-11», 6 файлів</td></tr>
+</table></div>
+<h3>2. Розподіліть ролі</h3>
+<p>Спирайтеся на людей, яким довіряєте, і дайте їм цей текст, щоб усі діяли за одним планом.</p>
+<div class="roles">
+<div class="role"><b>Спостерігачка</b>Стежить за майданчиками, де організовують цькування<small>через Tor Browser, ні з ким не вступаючи в контакт</small></div>
+<div class="role"><b>Літописиця</b>Веде журнал інцидентів</div>
+<div class="role"><b>Сповіщення</b>Налаштовує й розбирає сповіщення про нові згадки<small>Google Alerts за ім’ям і ніком</small></div>
+<div class="role"><b>Акаунти</b>Закриває й захищає соцмережі</div>
+<div class="role"><b>Зв’язок із поліцією</b>Якщо ситуація цього потребує</div>
+</div>
+<h3>3. Закрийте й захистіть акаунти</h3>
+<p>Для акаунтів, які лишаєте: перегляньте налаштування приватності, увімкніть двофакторну автентифікацію, переведіть профіль у закритий режим, заглушіть образливі слова й заблокуйте агресивні акаунти. Якщо акаунт атакують або через нього витікають дані — тимчасово деактивуйте його: багато платформ дозволяють відновити профіль, коли все вщухне.</p>
+<h3>4. Поверніться до брокерів і реєстрів</h3>
+<p>Під час атаки повторіть чистку з частини I: запити на видалення із сайтів-«дзеркал», перевірку реєстрів. Якщо видалити не можна — принаймні знайте, де й що про вас опубліковано, щоб планувати з урахуванням цього.</p>
+<h3>5. Поліція — за ситуацією</h3>
+<p>EFF чесно визнає: для багатьох людей звернення до поліції може погіршити становище. Але якщо погрожують прийти додому або опублікували адресу — повідомте поліцію заздалегідь і попередьте близьких. Як оформити заяву в Україні та Грузії, ми розібрали в <a href="/uk/blog/slili-foto-24-chasa/">інструкції на 24 години</a>.</p>
+<h3>6. Складіть план PACE</h3>
+<p>PACE — Primary, Alternate, Contingency, Emergency: заздалегідь узгоджений план на випадок, якщо ситуація погіршується. Пропишіть його разом із близькими людьми — він працює лише за умови підготовки.</p>
+<div class="pace">
+<div><b>P</b><i>Основний</i>Звичайний зв’язок: месенджер із близькими, домовленість про щоденне «я в порядку»</div>
+<div><b>A</b><i>Запасний</i>Якщо основний канал скомпрометовано: Signal або інший номер, відомий лише своїм</div>
+<div><b>C</b><i>На крайній випадок</i>Якщо опубліковано адресу: де переночувати, хто забере, які речі й документи взяти</div>
+<div><b>E</b><i>Екстрений</i>Пряма загроза: 102 / 112, кодове слово для близьких, номер консульства за кордоном</div>
+</div>
+<h3>7. Захистіть номер і банк</h3>
+<p>Під час атаки можуть спробувати перевипустити вашу SIM-картку — видати себе за вас перед оператором, отримати номер і через нього увійти в акаунти. Поставте паролі чи PIN-коди на рахунки в банку й у мобільного оператора, де це можливо.</p>
+<div class="note"><b class="lbl">У нас</b>Спитайте у свого оператора, чи можна встановити кодове слово або заборону на перевипуск SIM-картки без особистого візиту, і не використовуйте основний номер для входу у важливі акаунти, якщо є альтернатива — застосунок-автентифікатор.</div>
+<h3>8. Подбайте про себе</h3>
+<p>Доксинг лякає й вибиває з колії, а спокійні рішення — безпечніші. Заздалегідь вирішіть, що допомагає вам триматися: друзі, перерви, звичні ритуали. EFF наголошує: частіше мішенню стають люди з уразливих груп, і захист від цього можливий. Цифровим слідом можна керувати — і далі жити в мережі безпечно.</p>
+<div class="cta"><h2>Якщо це відбувається зараз</h2><p>Напиши в SOS-лінію PRIVÉ: живий оператор протягом години скаже, що робити, і складе план. Це конфіденційно.</p><div class="btns"><a class="b" href="https://t.me/prive_scan_bot?start=sos">Написати в SOS</a><a class="b b2" href="/uk/sos">Як працює SOS</a></div></div>
+<div class="cc"><b>Ліцензія та зміни.</b> За матеріалами: Daly Barnett, «Doxxing Safety Pt I: Prevention and Footprint Management» і «Doxxing Safety Part II: Incident Response», Electronic Frontier Foundation, 31 серпня 2026, ліцензія <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener" target="_blank">CC BY 4.0</a>. Зміни PRIVÉ: переклад українською, скорочення, заміна американських прикладів (реєстри виборців, програми конфіденційності адреси, каліфорнійський інструмент DROP, інструкції американських операторів, «сватинг») на відомості для України та Грузії, додано дані дослідження PRIVÉ й посилання на наші інструкції. EFF не брала участі в адаптації й не відповідає за неї.</div>
+</div>
+<section class="sources"><h3>Джерела</h3><ol><li><a href="https://www.eff.org/deeplinks/2026/08/doxxing-safety-pt-i-prevention-and-footprint-management" rel="noopener" target="_blank">EFF, Daly Barnett: Doxxing Safety Pt I — Prevention and Footprint Management (31.08.2026, CC BY 4.0)</a></li><li><a href="https://www.eff.org/deeplinks/2026/08/doxxing-safety-part-ii-incident-response" rel="noopener" target="_blank">EFF, Daly Barnett: Doxxing Safety Part II — Incident Response (31.08.2026, CC BY 4.0)</a></li><li><a href="https://www.bespacific.com/eff-releases-two-part-guide-to-online-safety-and-doxxing/" rel="noopener" target="_blank">beSpacific: EFF releases two-part guide to online safety and doxxing</a></li><li><a href="https://ssd.eff.org/" rel="noopener" target="_blank">EFF Surveillance Self-Defense</a></li><li><a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener" target="_blank">Creative Commons Attribution 4.0 International</a></li><li><a href="/uk/blog/issledovanie-chata/" rel="noopener" target="_blank">Власний аналіз відкритого Telegram-чату: згадки «пробиву», 2024 — 2026</a></li></ol></section>
+<section class="related"><a href="/uk/blog/shantazh-i-sliv/"><small>Розбір</small>Шантаж, злив, деанон: як це працює і що робити</a><a href="/uk/blog/slili-foto-24-chasa/"><small>Інструкція</small>Злили фото: що робити в перші 24 години</a><a href="/uk/blog/udalenie-po-zakonu/"><small>Як це влаштовано</small>Твоє фото — твоя власність: як контент видаляють за законом</a></section>
+</article>
+<footer><span><b>PRIVÉ</b> · Від своїх — для своїх. Не для чужих очей.</span>
+<span>18+ · <a href="/uk/">Головна</a> · <a href="/uk/sos">SOS</a> · <a href="/uk/private">Private</a> · <a href="/uk/partners">Партнерам</a> · <a href="/uk/blog/">Блог</a></span>
+<span>Ми надаємо послуги захисту приватності й авторських прав. Ми не надаємо й не рекламуємо інтимних послуг.</span></footer>
+</main>
+</head></html>

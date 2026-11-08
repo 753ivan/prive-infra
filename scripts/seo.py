@@ -34,6 +34,24 @@ GA4_ID = "G-55DZMGMHMN"  # Google Analytics 4 — подключён напря�
 GTM_ID = "GTM-K67NSMPB"  # Google Tag Manager (GA4 и прочие теги настраиваются внутри GTM)
 RENDER = "--no-render" not in sys.argv
 
+# ---- Языковые версии: site/uk/… и site/en/… собирает scripts/i18n.py из русских страниц ----
+LANGS = {"ru": "", "uk": "/uk", "en": "/en"}
+LOCALE = {"ru": "ru_RU", "uk": "uk_UA", "en": "en_US"}
+L10N = {  # подписи, которые скрипт пишет сам (крошки, OG-карточки, 404)
+    "ru": dict(blog="Блог", blog_brand="Блог PRIVÉ", slogan=SLOGAN,
+               blog_card="Честные гайды о приватности, безопасности и жизни за границей",
+               home_card="Сливы, фейки, поиск по лицу — удалим. Шантаж — остановим.",
+               nf_title="Страница не найдена — PRIVÉ", nf_desc="Такой страницы нет. Вернитесь на главную PRIVÉ или откройте блог."),
+    "uk": dict(blog="Блог", blog_brand="Блог PRIVÉ", slogan="Не для чужих очей",
+               blog_card="Чесні гайди про приватність, безпеку й життя за кордоном",
+               home_card="Зливи, фейки, пошук за обличчям — видалимо. Шантаж — зупинимо.",
+               nf_title="Сторінку не знайдено — PRIVÉ", nf_desc="Такої сторінки немає. Поверніться на головну PRIVÉ або відкрийте блог."),
+    "en": dict(blog="Blog", blog_brand="PRIVÉ Blog", slogan="Not for strangers’ eyes",
+               blog_card="Honest guides on privacy, safety and life abroad",
+               home_card="Leaks, fakes, face search — we remove them. Blackmail — we stop it.",
+               nf_title="Page not found — PRIVÉ", nf_desc="This page doesn’t exist. Go back to the PRIVÉ home page or open the blog."),
+}
+
 # ---- Основные страницы: path -> (файл, title, description, тип JSON-LD, крошка) ----
 PAGES = {
     "/": dict(
@@ -164,7 +182,7 @@ def crumbs(items):
         for i, (n, u) in enumerate(items)]}
 
 
-def build_block(*, url, title, desc, og_title, og_desc, og_image, og_type, ld, noindex=False):
+def build_block(*, url, title, desc, og_title, og_desc, og_image, og_type, ld, noindex=False, lang="ru", alternates=None):
     e = lambda t: html.escape(t, quote=True)
     lines = [
         SEO_START,
@@ -189,9 +207,11 @@ def build_block(*, url, title, desc, og_title, og_desc, og_image, og_type, ld, n
             f'<link rel="canonical" href="{e(url)}">',
             '<meta name="robots" content="index, follow, max-image-preview:large">',
         ]
+        for code, href in (alternates or {}).items():
+            lines.append(f'<link rel="alternate" hreflang="{code}" href="{e(href)}">')
     lines += [
         f'<meta property="og:site_name" content="{BRAND}">',
-        '<meta property="og:locale" content="ru_RU">',
+        f'<meta property="og:locale" content="{LOCALE[lang]}">',
         f'<meta property="og:type" content="{og_type}">',
         f'<meta property="og:title" content="{e(og_title)}">',
         f'<meta property="og:description" content="{e(og_desc)}">',
@@ -256,11 +276,11 @@ h1{font-weight:400;font-style:italic;line-height:1.08;text-wrap:balance}
 """
 
 
-def og_html(eyebrow, title, size):
+def og_html(eyebrow, title, size, slogan=SLOGAN):
     e = html.escape
     return (f"<html><head><meta charset=utf-8><style>{OG_CSS}</style></head><body><div class=bar></div>"
             f"<div class=in><div class=eb>{e(eyebrow)}</div><h1 style='font-size:{size}px'>{e(title)}</h1>"
-            f"<div class=ft><b>{BRAND}</b><span>{e(SLOGAN)} · getprive.me</span></div></div></body></html>")
+            f"<div class=ft><b>{BRAND}</b><span>{e(slogan)} · getprive.me</span></div></div></body></html>")
 
 
 ICON_HTML = """<html><head><meta charset=utf-8><style>*{margin:0}body{width:%(s)dpx;height:%(s)dpx;
@@ -293,10 +313,13 @@ def render_assets(cards):
             b = await p.chromium.launch(executable_path=exe, args=["--no-sandbox"])
             pg = await b.new_page(viewport={"width": 1200, "height": 630})
             (SITE / "og").mkdir(exist_ok=True)
-            for out, eb, title in cards:
+            for card in cards:
+                out, eb, title = card[:3]
+                slogan = card[3] if len(card) > 3 else SLOGAN
+                out.parent.mkdir(parents=True, exist_ok=True)
                 title = title[:1].upper() + title[1:]
                 size = 76 if len(title) < 40 else 62 if len(title) < 70 else 50
-                await pg.set_content(og_html(eb, title, size))
+                await pg.set_content(og_html(eb, title, size, slogan))
                 await pg.screenshot(path=str(out), type="jpeg", quality=88)
             for name, s in [("favicon-48.png", 48), ("apple-touch-icon.png", 180), ("logo-512.png", 512)]:
                 await pg.set_viewport_size({"width": s, "height": s})
@@ -328,84 +351,109 @@ def render_assets(cards):
 
 
 # ---------------------------------------------------------------- main
+def alt_urls(path):
+    """hreflang для страницы (path без языкового префикса) — только для языков, где файл есть."""
+    out = {}
+    for code, pre in LANGS.items():
+        rel = path.strip("/")
+        f = SITE / pre.strip("/") / (rel + "/index.html" if path.endswith("/") and rel else
+                                     "index.html" if not rel else rel + ".html")
+        if f.exists():
+            out[code] = BASE + pre + path
+    if out:
+        out["x-default"] = BASE + path
+    return out
+
+
 def main():
     entries = []   # (url, file) для sitemap
     cards = []
 
-    # статьи
-    posts_meta = {}
-    for slug, published in POSTS.items():
-        f = SITE / "blog" / slug / "index.html"
-        if not f.exists():
-            print("нет файла", f); continue
-        s = f.read_text(encoding="utf-8")
-        z = s[:head_zone(s)] if SEO_START not in s else s
-        title = attr(z, r"<title>(.*?)</title>")
-        desc = attr(z, r'<meta\s+name="?description"?\s+content="([^"]*)"')
-        short = attr(z, r'<meta\s+property="?og:title"?\s+content="([^"]*)"') or \
-            re.sub(r"\s*·\s*(Блог )?PRIVÉ\s*$", "", title)
-        if slug in TITLE_OVERRIDES:
-            title = TITLE_OVERRIDES[slug]
-        posts_meta[slug] = (title, desc, short, published, f)
+    for lang, pre in LANGS.items():
+        root = SITE / pre.strip("/") if pre else SITE
+        T = L10N[lang]
+        og_dir = "og" + pre  # og/, og/uk/, og/en/
+        if pre and not root.exists():
+            continue
 
-    for slug, (title, desc, short, published, f) in posts_meta.items():
-        url = f"{BASE}/blog/{slug}/"
-        img = f"{BASE}/og/{slug}.jpg"
-        cards.append((SITE / "og" / f"{slug}.jpg", "Блог PRIVÉ", short))
-        modified = git_lastmod(f) or published
-        ld = [ORG,
-              {"@type": "BlogPosting", "headline": short[:110], "description": desc, "inLanguage": "ru",
-               "url": url, "mainEntityOfPage": url, "image": img,
-               "datePublished": published, "dateModified": max(modified, published),
-               "author": {"@id": BASE + "/#org"}, "publisher": {"@id": BASE + "/#org"},
-               "isPartOf": {"@type": "Blog", "@id": BASE + "/blog/#blog"}},
-              crumbs([("PRIVÉ", "/"), ("Блог", "/blog/"), (short, f"/blog/{slug}/")])]
-        inject(f, build_block(url=url, title=title, desc=desc, og_title=short, og_desc=desc,
-                              og_image=img, og_type="article", ld=ld))
-        entries.append((url, f, "0.7"))
+        # статьи
+        posts_meta = {}
+        for slug, published in POSTS.items():
+            f = root / "blog" / slug / "index.html"
+            if not f.exists():
+                print("нет файла", f); continue
+            s = f.read_text(encoding="utf-8")
+            z = s[:head_zone(s)] if SEO_START not in s else s
+            title = attr(z, r"<title>(.*?)</title>")
+            desc = (attr(z, r'<meta\s+name="?description"?\s+content="([^"]*)"') or attr(z, r'<meta\s+content="([^"]*)"\s+name="?description"?'))
+            short = re.sub(r"\s*·\s*(Блог PRIVÉ|PRIVÉ Blog|PRIVÉ)\s*$", "", title)
+            if lang == "ru":
+                short = attr(z, r'<meta\s+property="?og:title"?\s+content="([^"]*)"') or short
+                if slug in TITLE_OVERRIDES:
+                    title = TITLE_OVERRIDES[slug]
+            posts_meta[slug] = (title, desc, short, published, f)
 
-    # основные страницы
-    for path, cfg in PAGES.items():
-        f = SITE / cfg["file"]
-        s = f.read_text(encoding="utf-8")
-        z = s[:head_zone(s)] if SEO_START not in s else s
-        title = cfg.get("title") or attr(z, r"<title>(.*?)</title>")
-        desc = cfg.get("desc") or attr(z, r'<meta\s+name="?description"?\s+content="([^"]*)"')
-        og_title = cfg.get("og_title") or title
-        url = BASE + path
-        slug = "home" if path == "/" else path.strip("/").replace("/", "-")
-        img = f"{BASE}/og/{slug}.jpg"
-        eyebrow = {"/": SLOGAN, "/blog/": "Блог PRIVÉ"}.get(path, "PRIVÉ")
-        card_title = {"/": "Сливы, фейки, поиск по лицу — удалим. Шантаж — остановим.",
-                      "/blog/": "Честные гайды о приватности, безопасности и жизни за границей"}.get(path, og_title.split(" — ", 1)[-1])
-        cards.append((SITE / "og" / f"{slug}.jpg", eyebrow, card_title))
-        if path == "/":
-            faq = faq_from(s)
-            ld = [ORG, {"@type": "WebSite", "@id": BASE + "/#site", "name": BRAND, "url": BASE + "/",
-                        "inLanguage": "ru", "publisher": {"@id": BASE + "/#org"}}]
-            if faq:
-                ld.append({"@type": "FAQPage", "mainEntity": faq})
-        elif path == "/blog/":
-            ld = [ORG, {"@type": "Blog", "@id": BASE + "/blog/#blog", "name": "Блог PRIVÉ", "url": url,
-                        "inLanguage": "ru", "publisher": {"@id": BASE + "/#org"},
-                        "blogPost": [{"@type": "BlogPosting", "headline": m[2],
-                                      "url": f"{BASE}/blog/{k}/"} for k, m in posts_meta.items()]},
-                  crumbs([("PRIVÉ", "/"), ("Блог", "/blog/")])]
-        else:
-            ld = [ORG, {"@type": "Service", "name": og_title, "description": desc, "url": url,
-                        "provider": {"@id": BASE + "/#org"}, "areaServed": ["UA", "GE", "Europe"]},
-                  crumbs([("PRIVÉ", "/"), (cfg["crumb"], path)])]
-        inject(f, build_block(url=url, title=title, desc=desc, og_title=og_title, og_desc=desc,
-                              og_image=img, og_type="website", ld=ld))
-        entries.append((url, f, "1.0" if path == "/" else "0.8"))
+        for slug, (title, desc, short, published, f) in posts_meta.items():
+            path = f"/blog/{slug}/"
+            url = f"{BASE}{pre}{path}"
+            img = f"{BASE}/{og_dir}/{slug}.jpg"
+            cards.append((SITE / og_dir / f"{slug}.jpg", T["blog_brand"], short, T["slogan"]))
+            modified = git_lastmod(f) or published
+            ld = [ORG,
+                  {"@type": "BlogPosting", "headline": short[:110], "description": desc, "inLanguage": lang,
+                   "url": url, "mainEntityOfPage": url, "image": img,
+                   "datePublished": published, "dateModified": max(modified, published),
+                   "author": {"@id": BASE + "/#org"}, "publisher": {"@id": BASE + "/#org"},
+                   "isPartOf": {"@type": "Blog", "@id": BASE + pre + "/blog/#blog"}},
+                  crumbs([("PRIVÉ", pre + "/"), (T["blog"], pre + "/blog/"), (short, pre + path)])]
+            inject(f, build_block(url=url, title=title, desc=desc, og_title=short, og_desc=desc,
+                                  og_image=img, og_type="article", ld=ld, lang=lang, alternates=alt_urls(path)))
+            entries.append((url, f, "0.7"))
 
-    # 404
-    f404 = SITE / "404.html"
-    if f404.exists():
-        inject(f404, build_block(url=BASE + "/404", title="Страница не найдена — PRIVÉ",
-                                 desc="Такой страницы нет. Вернитесь на главную PRIVÉ или откройте блог.",
-                                 og_title="PRIVÉ", og_desc=SLOGAN, og_image=f"{BASE}/og/home.jpg",
-                                 og_type="website", ld=None, noindex=True))
+        # основные страницы
+        for path, cfg in PAGES.items():
+            f = root / cfg["file"]
+            if not f.exists():
+                continue
+            s = f.read_text(encoding="utf-8")
+            z = s[:head_zone(s)] if SEO_START not in s else s
+            ru = lang == "ru"
+            title = (cfg.get("title") if ru else None) or attr(z, r"<title>(.*?)</title>")
+            desc = (cfg.get("desc") if ru else None) or (attr(z, r'<meta\s+name="?description"?\s+content="([^"]*)"') or attr(z, r'<meta\s+content="([^"]*)"\s+name="?description"?'))
+            og_title = (cfg.get("og_title") if ru else None) or title
+            url = BASE + pre + path
+            slug = "home" if path == "/" else path.strip("/").replace("/", "-")
+            img = f"{BASE}/{og_dir}/{slug}.jpg"
+            eyebrow = {"/": T["slogan"], "/blog/": T["blog_brand"]}.get(path, "PRIVÉ")
+            card_title = {"/": T["home_card"], "/blog/": T["blog_card"]}.get(path, og_title.split(" — ", 1)[-1])
+            cards.append((SITE / og_dir / f"{slug}.jpg", eyebrow, card_title, T["slogan"]))
+            if path == "/":
+                faq = faq_from(s)
+                ld = [ORG, {"@type": "WebSite", "@id": BASE + pre + "/#site", "name": BRAND, "url": BASE + pre + "/",
+                            "inLanguage": lang, "publisher": {"@id": BASE + "/#org"}}]
+                if faq:
+                    ld.append({"@type": "FAQPage", "mainEntity": faq})
+            elif path == "/blog/":
+                ld = [ORG, {"@type": "Blog", "@id": BASE + pre + "/blog/#blog", "name": T["blog_brand"], "url": url,
+                            "inLanguage": lang, "publisher": {"@id": BASE + "/#org"},
+                            "blogPost": [{"@type": "BlogPosting", "headline": m[2],
+                                          "url": f"{BASE}{pre}/blog/{k}/"} for k, m in posts_meta.items()]},
+                      crumbs([("PRIVÉ", pre + "/"), (T["blog"], pre + "/blog/")])]
+            else:
+                crumb = {"uk": {"Партнёрам": "Партнерам"}, "en": {"Партнёрам": "Partners"}}.get(lang, {}).get(cfg["crumb"], cfg["crumb"])
+                ld = [ORG, {"@type": "Service", "name": og_title, "description": desc, "url": url,
+                            "provider": {"@id": BASE + "/#org"}, "areaServed": ["UA", "GE", "Europe"]},
+                      crumbs([("PRIVÉ", pre + "/"), (crumb, pre + path)])]
+            inject(f, build_block(url=url, title=title, desc=desc, og_title=og_title, og_desc=desc,
+                                  og_image=img, og_type="website", ld=ld, lang=lang, alternates=alt_urls(path)))
+            entries.append((url, f, "1.0" if path == "/" else "0.8"))
+
+        # 404
+        f404 = root / "404.html"
+        if f404.exists():
+            inject(f404, build_block(url=BASE + pre + "/404", title=T["nf_title"], desc=T["nf_desc"],
+                                     og_title="PRIVÉ", og_desc=T["slogan"], og_image=f"{BASE}/{og_dir}/home.jpg",
+                                     og_type="website", ld=None, noindex=True, lang=lang))
 
     (SITE / "favicon.svg").write_text(FAVICON_SVG, encoding="utf-8")
 
