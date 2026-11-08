@@ -13,12 +13,28 @@
         Permissions-Policy "camera=(), microphone=(), geolocation=()"
         -Server
     }
+    # Кэш для картинок и иконок (HTML не кэшируем — деплой виден сразу)
+    @assets path *.jpg *.jpeg *.png *.webp *.svg *.ico
+    header @assets Cache-Control "public, max-age=604800"
+
+    # SEO: одна страница = один адрес. /sos.html → /sos, /blog/index.html → /blog/ (301)
+    @index_html path_regexp idx ^(.*/)index\.html$
+    redir @index_html {re.idx.1} 301
+    @dot_html path_regexp ext ^(/.+)\.html$
+    redir @dot_html {re.ext.1} 301
+
     # Красивые URL: /sos → sos.html
     try_files {path} {path}.html
     file_server
+
+    # Настоящая 404 (раньше был 302 на главную — поисковики считали это «мягкой 404»)
     handle_errors {
         @404 expression {http.error.status_code} == 404
-        redir @404 / 302
+        handle @404 {
+            root * /srv/site
+            rewrite * /404.html
+            file_server
+        }
     }
 }
 
@@ -33,7 +49,10 @@ getprive.me {
     import prive_site
 }
 
-# www.getprive.me — добавить сюда redir после создания DNS-записи www
+# www.getprive.me → getprive.me (раскомментировать ПОСЛЕ создания DNS-записи A www → 2.29.103.21)
+# www.getprive.me {
+#     redir https://getprive.me{uri} 301
+# }
 
 # Панель операторов (вход: HTTP Basic внутри приложения)
 ops.getprive.me {

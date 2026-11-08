@@ -32,3 +32,10 @@ cd /opt/prive && docker compose logs -f caddy
 - База: PostgreSQL (volume `pgdata`); файлы (кружки, эталоны, доказательства): volume `ops_storage`.
 - Бэкапы: ежедневно в `/opt/prive/backups/` (дамп БД + архив хранилища, 14 последних).
 - Deep-links с сайта: `t.me/prive_scan_bot?start=sos|scan|partner|private`.
+
+## SEO сайта
+- После любого изменения в `site/` (новая статья, правка страницы) запустить `python3 scripts/seo.py` и закоммитить результат.
+  Скрипт чинит `<head>` (title, description, canonical, Open Graph, JSON-LD), рисует OG-картинки в `site/og/`,
+  пререндерит React-гид в статический HTML и пересобирает `sitemap.xml` / `robots.txt`.
+- Новая статья: `site/blog/<slug>/index.html` + строка в `POSTS` в `scripts/seo.py` + ссылка в `site/blog/index.html`.
+- Caddy: `/x.html` → `/x` (301), настоящая страница 404 (`site/404.html`).
