@@ -46,6 +46,10 @@ getprive.me {
         header X-Robots-Tag "noindex, nofollow"
         file_server browse
     }
+    # Контактная форма сайта → ops (пересылает заявку операторам в Telegram)
+    handle /public/contact {
+        reverse_proxy ops:8000
+    }
     import prive_site
 }
 

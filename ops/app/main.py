@@ -772,6 +772,48 @@ async def telegram_webhook(request: Request, x_telegram_bot_api_secret_token: st
     return {"ok": True}
 
 
+# ---------------------------------------------------------------------------
+# Контактная форма сайта (публично; Caddy проксирует getprive.me/public/contact сюда)
+# ---------------------------------------------------------------------------
+
+_CONTACT_HITS: dict[str, list[float]] = {}
+_CONTACT_TOPICS = {"sos": "SOS", "private": "Private", "partners": "Партнёрство", "other": "Другое"}
+
+
+class ContactIn(BaseModel):
+    name: str = ""
+    contact: str
+    topic: str = "other"
+    message: str
+    page: str = ""
+    lang: str = "ru"
+    website: str = ""  # ловушка для ботов: люди это поле не видят
+
+
+@app.post("/public/contact")
+def public_contact(body: ContactIn, request: Request):
+    import html as _html
+    import time as _time
+    if body.website:  # бот заполнил скрытое поле — делаем вид, что всё хорошо
+        return {"ok": True}
+    contact, message = body.contact.strip(), body.message.strip()
+    if not (3 <= len(contact) <= 200) or not (5 <= len(message) <= 4000) or len(body.name) > 120:
+        raise HTTPException(422, "Проверьте поля формы")
+    ip = (request.headers.get("x-forwarded-for") or (request.client.host if request.client else "?")).split(",")[0].strip()
+    t = _time.time()
+    hits = [x for x in _CONTACT_HITS.get(ip, []) if t - x < 3600]
+    if len(hits) >= 5:
+        raise HTTPException(429, "Слишком много заявок, попробуйте позже")
+    _CONTACT_HITS[ip] = hits + [t]
+    e = lambda v: _html.escape(v.strip()[:4000])
+    text = (f"<b>Заявка с сайта · {e(_CONTACT_TOPICS.get(body.topic, body.topic))}</b>\n"
+            f"Имя: {e(body.name) or '—'}\nКонтакт: {e(contact)}\n"
+            f"Страница: {e(body.page) or '—'} · язык: {e(body.lang)}\n\n{e(message)}")
+    if not tg_svc.alert_operators(text):
+        raise HTTPException(503, "Не удалось отправить, напишите на hello@getprive.me")
+    return {"ok": True}
+
+
 @app.post("/api/telegram/set-webhook")
 def set_webhook(user: Principal = Depends(require("manager"))):
     try:

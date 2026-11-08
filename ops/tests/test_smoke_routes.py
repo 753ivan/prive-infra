@@ -17,3 +17,13 @@ def test_all_get_routes(client):
         if resp.status_code >= 500:
             failed.append((path, resp.status_code, resp.text[:200]))
     assert not failed, failed
+
+
+def test_public_contact(client):
+    from unittest import mock
+    from app.services import telegram as tg
+    with mock.patch.object(tg, "alert_operators", lambda text: True):
+        r = client.post("/public/contact", json={"contact": "@test_user", "message": "Помогите, пожалуйста", "topic": "sos"})
+        assert r.status_code == 200 and r.json()["ok"]
+        assert client.post("/public/contact", json={"contact": "x", "message": "hi"}).status_code == 422
+        assert client.post("/public/contact", json={"contact": "@bot", "message": "spam spam", "website": "x"}).json()["ok"]

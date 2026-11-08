@@ -145,12 +145,49 @@ section h2{font-size:clamp(1.9rem,5vw,2.6rem)}
       <p>Начинаем с разговора: в течение часа оператор говорит, что делать, и составляет план. Платишь после него. Если нужна помощь дальше — 72 часа с тобой живой оператор, а не бот, и $149 засчитываются в эту сумму. Если после этого захочешь остаться под защитой — первый месяц подписки VIP за полцены. Если тебя заставляют работать — поможем бесплатно и свяжем с La Strada.</p>
     </div>
   </section>
+<style id="cf-css">.cf{border:1px solid var(--line);background:var(--surface);border-radius:22px;padding:26px;display:grid;gap:14px;margin-top:48px}
+.cf h2{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,4vw,2.1rem);margin:0}
+.cf p{margin:0;color:var(--muted)}.cf form{display:grid;gap:12px}
+.cf .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:620px){.cf .row{grid-template-columns:1fr}}
+.cf label{display:grid;gap:6px;font-size:.85rem;color:var(--muted)}
+.cf input,.cf textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%;box-sizing:border-box}
+.cf textarea{min-height:120px;resize:vertical}.cf input:focus,.cf textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.cf .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cf button{justify-self:start;font:700 1rem var(--body,inherit);padding:13px 22px;border-radius:999px;border:0;background:var(--accent);color:var(--on-accent,#fff);cursor:pointer}
+.cf button[disabled]{opacity:.6;cursor:wait}.cf .note{font-size:.82rem}.cf .st{font-weight:600}.cf .st.ok{color:var(--champagne)}.cf .st.err{color:var(--accent)}
+.cf a{color:inherit}</style>
+<section class="cf" id="contact" aria-labelledby="cf-h">
+  <h2 id="cf-h">Не хотите в Telegram? Напишите здесь</h2>
+  <p>Оставьте контакт, и дежурный оператор свяжется с вами сам — днём и ночью.</p>
+  <form data-topic="sos" novalidate>
+    <div class="row">
+      <label>Как к вам обращаться<input name="name" autocomplete="off" maxlength="120" placeholder="Можно ник"></label>
+      <label>Как с вами связаться *<input name="contact" required maxlength="200" placeholder="Telegram, почта или телефон"></label>
+    </div>
+    <label>Сообщение *<textarea name="message" required maxlength="4000" placeholder="Коротко опишите ситуацию — без фото и документов"></textarea></label>
+    <label class="hp" aria-hidden="true">Сайт<input name="website" tabindex="-1" autocomplete="off"></label>
+    <button type="submit">Отправить</button>
+    <p class="st" role="status" aria-live="polite"></p>
+    <p class="note">Заявка уходит дежурному оператору PRIVÉ. Не прикладывайте фото и документы: их попросим в защищённом канале, если понадобятся. Почта: <a href="mailto:hello@getprive.me">hello@getprive.me</a></p>
+  </form>
+</section>
+<script>(function(){var f=document.querySelector('.cf form');if(!f)return;var st=f.querySelector('.st'),b=f.querySelector('button');
+var T={ru:['Отправляем…','Спасибо! Оператор ответит в течение часа.','Заполните контакт и сообщение.','Не получилось отправить. Напишите на hello@getprive.me'],
+uk:['Надсилаємо…','Дякуємо! Оператор відповість протягом години.','Заповніть контакт і повідомлення.','Не вдалося надіслати. Напишіть на hello@getprive.me'],
+en:['Sending…','Thank you! An operator will reply within an hour.','Please fill in your contact and message.','Couldn’t send. Please email hello@getprive.me']};
+var L=T[(document.documentElement.lang||'ru').slice(0,2)]||T.ru;
+f.addEventListener('submit',function(e){e.preventDefault();var d=Object.fromEntries(new FormData(f));
+if((d.contact||'').trim().length<3||(d.message||'').trim().length<5){st.className='st err';st.textContent=L[2];return}
+d.topic=f.dataset.topic;d.page=location.pathname;d.lang=document.documentElement.lang||'ru';b.disabled=true;st.className='st';st.textContent=L[0];
+fetch('/public/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){if(!r.ok)throw 0;
+st.className='st ok';st.textContent=L[1];f.reset();try{gtag('event','contact_form',{topic:d.topic})}catch(_){}}).catch(function(){st.className='st err';st.textContent=L[3]}).finally(function(){b.disabled=false})})})();</script>
+
 
   <p class="foot"><b>PRIVÉ</b> · Не для чужих глаз. Закрытый сервис, который возвращает тебе контроль над тем, что о тебе видно в интернете.<br>18+. Мы не пробиваем и не ищем людей, только защищаем тебя. <a href="/">Все услуги</a></p>
 </div>
 
 <div class="bar"><div class="in">
-  <div><code id="h">@prive_scan_bot</code><small>Telegram · ответ за 15 минут</small></div>
+  <div><b>SOS · 24/7</b><small>Telegram · ответ за 15 минут</small></div>
   <a class="btn" href="https://t.me/prive_scan_bot?start=sos">Написать в SOS</a>
 </div></div>
 </body>
