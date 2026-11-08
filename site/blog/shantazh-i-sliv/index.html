@@ -271,57 +271,139 @@ footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);fo
   <p class="crumbs"><a href="/blog/">Блог PRIVÉ</a> · Разбор</p>
   <h1>Шантаж, слив, деанон: <em>как это работает</em> и что делать</h1>
   <p class="lede">В живом женском чате о шантаже за два года стали писать почти в полтора раза чаще. Разбираем пять схем, которые девушки описывают сами, и что делать, если это уже происходит.</p>
-  <div class="meta-row"><span>Разбор · 8 ноября 2026</span><span>по данным чата: 408 сообщений о шантаже</span><span>≈ 6 минут чтения</span></div>
-  
+  <div class="meta-row"><span>Разбор · 8 ноября 2026</span><span>по данным чата: 408 сообщений о шантаже</span><span>≈ 8 минут чтения</span></div>
+  <div class="cover"><img src="https://images.unsplash.com/photo-1510004562889-0d4db4f3367a?auto=format&fit=crop&w=1600&q=70" alt="" onerror="this.remove()"><span class="credit">Фото: Unsplash</span><div class="cv"><div class="big">408</div><div class="sub">сообщений о шантаже за три года в одном живом женском чате — и пять схем, которые девушки описывают сами</div><div class="tags"><span>поиск по лицу</span><span>«менеджеры» с паспортом</span><span>утечки верификации</span><span>фейк-анкеты</span></div></div></div>
   <div class="post-body">
+<style>
+.cover{position:relative;margin:30px 0 0;border-radius:24px;overflow:hidden;min-height:340px;display:flex;align-items:flex-end;color:#fff;
+ background:radial-gradient(120% 90% at 85% 10%,#6b1d2e 0%,#2a0f17 55%,#120a0d 100%)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,5,8,.05) 20%,rgba(10,5,8,.85) 100%)}
+.cover .cv{position:relative;z-index:1;padding:26px 28px;width:100%}
+.cover .big{color:#fff;font-family:var(--display);font-size:clamp(2.6rem,8vw,4.6rem);line-height:.95}
+.cover .sub{color:#f3e9e4;opacity:.9;font-size:.92rem;margin-top:8px;max-width:520px}
+.cover .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}.cover .tags span{color:#fff;font-size:.7rem;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.14);backdrop-filter:blur(4px)}
+.cover .credit{position:absolute;top:12px;right:14px;z-index:1;font-size:.62rem;opacity:.6}
+.kcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:12px;margin:24px 0}
+.kc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 16px 18px;position:relative;overflow:hidden}
+.kc b{display:block;font-family:var(--display);font-weight:400;font-size:2.1rem;line-height:1;color:var(--accent)}
+.kc span{display:block;font-size:.82rem;line-height:1.4;margin-top:8px}
+.kc small{display:block;font-size:.7rem;color:var(--muted);margin-top:6px}
+.kc.dark{background:#1a0e12;color:#f3e9e4;border-color:#1a0e12}.kc.dark b{color:#f0a3b4}.kc.dark small{color:#c9b5ba}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.vsc{border-radius:20px;padding:20px;border:1px solid var(--line);background:var(--surface)}
+.vsc.a{background:#1a0e12;color:#f3e9e4;border-color:#1a0e12}
+.vsc .lbl{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.vsc h3{margin:6px 0 10px!important;font-family:var(--display)!important;font-weight:400!important;font-size:1.5rem!important}
+.vsc dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.84rem;margin:0}.vsc dt{opacity:.7}.vsc dd{margin:0;font-weight:600;text-align:right}
+.meter{height:10px;border-radius:99px;background:rgba(127,127,127,.25);overflow:hidden;margin:12px 0 4px}.meter i{display:block;height:100%;background:var(--accent)}
+.vsc.a .meter i{background:#f0a3b4}.meter-l{font-size:.72rem;opacity:.75}
+.trap{display:grid;grid-template-columns:64px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;margin:16px 0}
+.trap .no{font-family:var(--display);font-size:2.6rem;line-height:1;color:var(--accent)}
+.trap h3{margin:0 0 8px!important;font-size:1.2rem!important}
+.trap .ad{background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:.86rem;font-style:italic;margin:8px 0}
+.trap .ad::before{content:"Как выглядит: ";font-style:normal;font-weight:700;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.trap .real{font-size:.92rem}
+.trap .flag{margin-top:10px;font-size:.84rem;padding:8px 12px;border-radius:10px;background:var(--accent-soft)}
+.trap .flag::before{content:"Флаг: ";font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.chips span{font-size:.72rem;padding:3px 10px;border-radius:99px;border:1px solid var(--line)}
+.chips span b{color:var(--accent)}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px;margin:20px 0}
+.tc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.tc h4{margin:0 0 4px;font-size:1rem}.tc p{font-size:.84rem;margin:8px 0 0;line-height:1.5}
+.spark{display:flex;gap:6px;margin-top:10px}
+.spark>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.spark .bw{height:52px;width:100%;display:flex;align-items:flex-end}
+.spark i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:color-mix(in srgb,var(--accent) 45%,transparent)}
+.spark>div:last-child i{background:var(--accent)}
+.spark small{font-size:.62rem;color:var(--muted)}.spark em{font-style:normal;font-size:.7rem;font-variant-numeric:tabular-nums}
+.flags{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin:20px 0}
+.fl{border-radius:16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);display:grid;grid-template-columns:34px 1fr;gap:10px;font-size:.88rem;line-height:1.45}
+.fl i{font-style:normal;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-weight:700}
+.fl b{display:block}
+.ph{margin:26px 0;border-radius:18px;overflow:hidden;background:var(--surface);position:relative;border:1px solid var(--line)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 16px 10px;font-size:.74rem;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6))}
+details.method{margin:28px 0;border:1px solid var(--line);border-radius:14px;padding:12px 16px;background:var(--surface);font-size:.88rem}
+details.method summary{cursor:pointer;font-weight:600}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;font-size:.88rem;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cmp th{background:var(--surface);text-align:left;padding:12px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cmp td{padding:12px;border-top:1px solid var(--line);vertical-align:top}.cmp td:first-child{font-weight:600}
+.cmp td.win{background:color-mix(in srgb,var(--accent) 10%,transparent)}.cmp td.win::after{content:" ✓";color:var(--accent);font-weight:700}
+@media (max-width:620px){.vs{grid-template-columns:1fr}.trap{grid-template-columns:1fr}.trap .no{font-size:2rem}.cover{min-height:300px}}
+</style><style>
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 12px}
+.chain span{font-size:.76rem;padding:6px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.chain span:last-child{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+.chain i{font-style:normal;color:var(--accent);font-weight:700}
+.sch{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px 20px 18px;margin:14px 0;display:grid;grid-template-columns:56px 1fr;gap:14px}
+.sch .no{font-family:var(--display);font-size:2.4rem;line-height:1;color:var(--accent)}
+.sch h3{margin:0 0 4px!important;font-size:1.15rem!important}
+.sch p{font-size:.92rem;margin:6px 0}
+.sch .def{margin-top:10px;font-size:.84rem;padding:9px 12px;border-radius:10px;background:var(--accent-soft)}
+.sch .def::before{content:"Защита: ";font-weight:700}
+.lawc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.lc{border-radius:18px;padding:18px;background:#1a0e12;color:#f3e9e4}
+.lc .c{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.lc b{display:block;font-family:var(--display);font-weight:400;font-size:1.5rem;margin:6px 0;color:#f0a3b4}
+.lc p{font-size:.84rem;margin:4px 0;opacity:.9}
+@media (max-width:620px){.sch{grid-template-columns:1fr}.lawc{grid-template-columns:1fr}}
+</style>
+<p>В живом женском чате, который мы изучали (526 тысяч сообщений, январь 2024 — ноябрь 2026), слово «шантаж» встречается всё чаще. Это не пересказы новостей, а то, что девушки рассказывают друг другу: что случилось с ними или с подругой. Мы разобрали эти истории на пять повторяющихся схем — и для каждой собрали, как защититься заранее и что делать, если это уже происходит.</p>
 
-<p>Слово «шантаж» в живом женском чате, который мы изучали (526 тысяч сообщений, январь 2024 — ноябрь 2026), встречается всё чаще: 104 сообщения в 2024 году, по 152 в 2025-м и 2026-м. Ещё 286 сообщений — о том, что «слили» фото, анкету или данные. Это не пересказы новостей, а то, что девушки рассказывают друг другу: что случилось с ними или с подругой.</p>
-
-<div class="stats">
-<div class="stat"><b>408</b><span>сообщений о шантаже и вымогательстве от 194 участниц</span></div>
-<div class="stat"><b>+46 %</b><span>рост темы шантажа с 2024 к 2025 году — и столько же в 2026-м</span></div>
-<div class="stat"><b>286</b><span>сообщений о слитых фото, анкетах, данных</span></div>
-<div class="stat"><b>120 → 214</b><span>вопросов о «верификации» на сайтах: 2024 → 2026</span></div>
+<div class="kcards">
+<div class="kc dark"><b>408</b><span>сообщений о шантаже и вымогательстве</span><small>194 разные участницы</small></div>
+<div class="kc"><b>+46 %</b><span>рост темы шантажа с 2024 к 2025 году — и столько же в 2026-м</span></div>
+<div class="kc"><b>286</b><span>сообщений о слитых фото, анкетах, данных</span></div>
+<div class="kc"><b>×1,8</b><span>больше вопросов о «верификации» на сайтах, чем в 2024-м</span><small>120 → 214</small></div>
 </div>
-<p style="font-size:.78rem;color:var(--muted)">Подсчёт по ключевым словам в обезличенном экспорте открытого чата; подробности — в <a href="/blog/issledovanie-chata/">нашем исследовании</a>.</p>
+
+<div class="tcards">
+<div class="tc"><h4>Шантаж</h4><div class="spark"><div><em>104</em><span class="bw"><i style="height:68%"></i></span><small>2024</small></div><div><em>152</em><span class="bw"><i style="height:100%"></i></span><small>2025</small></div><div><em>152</em><span class="bw"><i style="height:100%"></i></span><small>2026*</small></div></div><p>Растёт с 2024 года и держится на новом уровне.</p></div>
+<div class="tc"><h4>Слили фото, данные</h4><div class="spark"><div><em>100</em><span class="bw"><i style="height:100%"></i></span><small>2024</small></div><div><em>89</em><span class="bw"><i style="height:89%"></i></span><small>2025</small></div><div><em>97</em><span class="bw"><i style="height:97%"></i></span><small>2026*</small></div></div><p>Стабильный фон: около сотни историй в год.</p></div>
+<div class="tc"><h4>Верификация</h4><div class="spark"><div><em>120</em><span class="bw"><i style="height:56%"></i></span><small>2024</small></div><div><em>186</em><span class="bw"><i style="height:87%"></i></span><small>2025</small></div><div><em>214</em><span class="bw"><i style="height:100%"></i></span><small>2026*</small></div></div><p>Всё больше селфи и документов уходит незнакомым.</p></div>
+</div>
+<p style="font-size:.78rem;color:var(--muted)">Число сообщений в чате по годам; подсчёт по ключевым словам в обезличенном экспорте, подробности — в <a href="/blog/issledovanie-chata/">нашем исследовании</a>. *2026 — по 8 ноября.</p>
 
 <h2>Пять схем, о которых пишут сами девушки</h2>
 
-<h3>1. Поиск по лицу → настоящее имя → «заплати, или отправлю родным»</h3>
-<p>Сервисы поиска по лицу находят все страницы, где есть твоё фото: анкету, старый профиль во «ВКонтакте», школьный альбом. Одна из участниц так и нашла свои школьные фото, о которых давно забыла. В чате прямо называют такие сервисы и пишут, что вокруг них выросла целая индустрия: «пробивают» девушку по фото, находят родственников и требуют денег за молчание.</p>
+<div class="sch"><div class="no">01</div><div><h3>Поиск по лицу → имя → «заплати, или отправлю родным»</h3><div class="chain"><span>фото из анкеты</span><i>→</i><span>поиск по лицу</span><i>→</i><span>старый профиль с именем</span><i>→</i><span>родные и работа</span><i>→</i><span>требование денег</span></div><p>Сервисы поиска по лицу находят все страницы, где есть ваше фото: анкету, старый профиль во «ВКонтакте», школьный альбом. Одна из участниц так и нашла свои школьные фото, о которых давно забыла. В чате прямо называют такие сервисы и пишут, что вокруг них выросла целая индустрия: девушку «пробивают» по фото, находят родственников и требуют денег за молчание.</p><div class="def">проверьте себя через поиск по лицу раньше, чем это сделает кто-то другой, и разведите лицо и настоящее имя.</div></div></div>
 
-<h3>2. «Менеджер» или «агентство» с копией твоего паспорта</h3>
-<p>Паспорт, селфи с документом, адрес, номер мамы «на всякий случай» — всё это уходит человеку, которого ты никогда не видела. Девушки описывают случаи, когда «менеджеры» сами «пробивали» новеньких, а потом требовали деньги, чтобы ничего не «сливать». Из-за страха такого шантажа некоторые, по их словам, даже не берут кредиты: боятся, что паспортными данными воспользуются.</p>
+<div class="sch"><div class="no">02</div><div><h3>«Менеджер» или «агентство» с копией вашего паспорта</h3><div class="chain"><span>паспорт «для оформления»</span><i>→</i><span>селфи с документом</span><i>→</i><span>номер мамы «на всякий случай»</span><i>→</i><span>требование «не сливать»</span></div><p>Паспорт, селфи с документом, адрес, номер родных — всё это уходит человеку, которого вы никогда не видели. Девушки описывают случаи, когда «менеджеры» сами «пробивали» новеньких, а потом требовали деньги, чтобы ничего не «сливать». Из-за страха такого шантажа некоторые, по их словам, даже не берут кредиты: боятся, что паспортными данными воспользуются.</p><div class="def">документы — только государственным органам и самому сайту в его официальной форме. Как проверить «менеджера» — в <a href="/blog/proverka-menedzhera/">чек-листе</a>.</div></div></div>
 
-<h3>3. Утечка с сайта или после «верификации»</h3>
-<p>Сайты объявлений требуют подтвердить, что фото настоящие: селфи с листком, видео, иногда документ. За три года вопросов о верификации в чате стало почти вдвое больше, и параллельно появились объявления «пройду верификацию за вас» и «продам готовый профиль». То есть твои верификационные фото видит не только модератор. Отдельно девушки пишут о сайтах, которые годами собирают и публикуют присланные им фото, и удалить оттуда что-то никто не может.</p>
+<div class="sch"><div class="no">03</div><div><h3>Утечка с сайта или после «верификации»</h3><div class="chain"><span>селфи с листком</span><i>→</i><span>видео для сайта</span><i>→</i><span>база попадает к посредникам</span><i>→</i><span>шантаж</span></div><p>Сайты объявлений требуют подтвердить, что фото настоящие: селфи с листком, видео, иногда документ. За три года вопросов о верификации стало почти вдвое больше, и параллельно появились объявления «пройду верификацию за вас» и «продам готовый профиль». То есть ваши верификационные фото видит не только модератор. Отдельно девушки пишут о сайтах, которые годами собирают и публикуют присланные им фото, — удалить оттуда что-то никто не может.</p><div class="def">минимум данных на верификацию, никогда — через посредника, и никогда — фото, по которому вас легко узнать вне сайта.</div></div></div>
 
-<h3>4. Чужие анкеты с твоими фото</h3>
-<p>«Нашла свои фото на сайте, позвонила — интересно, кто под ними работает». Фейковые анкеты делают из украденных снимков, а потом этими же анкетами шантажируют: «докажи родным, что это не ты». В том же чате открыто продают «фейк-анкеты под ваш город» — то есть на чужих фото зарабатывают отдельно.</p>
+<figure class="ph" style="aspect-ratio:16/7"><img src="https://images.unsplash.com/photo-1654764450278-17bb78c00eb6?auto=format&fit=crop&w=1400&q=70" alt="Телефон на столе" loading="lazy" onerror="this.closest('figure').style.display='none'"><figcaption>Шантаж почти всегда начинается с сообщения от незнакомого аккаунта</figcaption></figure>
 
-<h3>5. Бывший клиент или партнёр</h3>
-<p>Самый старый сценарий: снимки, сделанные «для себя», или переписка, которая всплывает после ссоры. Здесь шантажист знает тебя лично и знает, на что давить.</p>
+<div class="sch"><div class="no">04</div><div><h3>Чужие анкеты с вашими фото</h3><div class="chain"><span>украденные снимки</span><i>→</i><span>фейк-анкета</span><i>→</i><span>«докажи родным, что это не ты»</span></div><p>«Нашла свои фото на сайте, позвонила — интересно, кто под ними работает». Фейковые анкеты делают из украденных снимков, а потом этими же анкетами шантажируют: «докажи родным, что это не ты». В том же чате открыто продают «фейк-анкеты под ваш город» — на чужих фото зарабатывают отдельно.</p><div class="def">если снимок ваш — у вас есть авторское право, и анкету можно снять по закону: <a href="/blog/udalenie-po-zakonu/">как это работает</a>.</div></div></div>
 
-<div class="note"><b class="lbl">Главное</b>Во всех пяти схемах шантажист рассчитывает на одно: что тебе стыдно и ты будешь молчать. Шантаж — уголовное преступление и в Украине (ст. 189 УК, вымогательство), и в Грузии. Неважно, чем ты занимаешься: преступник — тот, кто угрожает.</div>
+<div class="sch"><div class="no">05</div><div><h3>Бывший клиент или партнёр</h3><div class="chain"><span>снимки «для себя»</span><i>→</i><span>ссора или расставание</span><i>→</i><span>угроза отправить</span></div><p>Самый старый сценарий: снимки, сделанные «для себя», или переписка, которая всплывает после ссоры. Здесь шантажист знает вас лично и знает, на что давить.</p><div class="def">не платить, сохранить всё и действовать по <a href="/blog/slili-foto-24-chasa/">плану на 24 часа</a>.</div></div></div>
 
-<h2>Если тебя шантажируют прямо сейчас</h2>
+<h2>Что говорит закон</h2>
+<p>Во всех пяти схемах шантажист рассчитывает на одно: что вам стыдно и вы будете молчать. Но шантаж — уголовное преступление и в Украине, и в Грузии. Неважно, чем вы занимаетесь: преступник — тот, кто угрожает.</p>
+<div class="lawc">
+<div class="lc"><span class="c">Украина</span><b>ст. 189 и 182 УК</b><p>Вымогательство — до 5 лет, при отягчающих до 12. Распространение сведений о частной жизни без согласия — отдельный состав.</p></div>
+<div class="lc"><span class="c">Грузия</span><b>ст. 157 УК</b><p>Незаконное получение, хранение и распространение сведений о частной жизни, в том числе угроза их распространить, — от 4 до 7 лет.</p></div>
+</div>
+
+<h2>Если вас шантажируют прямо сейчас</h2>
 <ol class="timeline">
-<li><span class="t">Шаг 1</span><h3>Не плати</h3><p>Это главный совет всех, кто помогает жертвам шантажа. Оплата не покупает молчание: шантажист узнаёт, что ты платишь, и требует ещё. Если уже заплатила — остановись и сразу напиши в банк или платёжный сервис: иногда перевод ещё можно отменить.</p></li>
-<li><span class="t">Шаг 2</span><h3>Не спорь и не уговаривай</h3><p>Любой ответ, даже «я не буду платить», показывает, что ты читаешь и боишься. Перестань отвечать. Блокировать — уже после шага 3.</p></li>
-<li><span class="t">Шаг 3</span><h3>Сохрани всё</h3><p>Скриншоты переписки с датами, ник и цифровой ID аккаунта, номер телефона, реквизиты, на которые просят перевод, ссылки на посты. Ничего не удаляй, даже если очень хочется: это доказательства.</p></li>
-<li><span class="t">Шаг 4</span><h3>Закрой то, что можно закрыть</h3><p>Сделай профили закрытыми, временно скрой списки друзей и подписчиков: именно по ним шантажист ищет, кому отправить. Аккаунты не удаляй — только скрывай.</p></li>
-<li><span class="t">Шаг 5</span><h3>Если фото уже выложили — удаляй по шагам</h3><p>Жалобы в платформу, StopNCII для крупных сайтов, форма Google для поиска — по порядку это разобрано в инструкции <a href="/blog/slili-foto-24-chasa/">«Слили фото: что делать в первые 24 часа»</a>, а законные основания для удаления — в разборе <a href="/blog/udalenie-po-zakonu/">«Удаление по закону»</a>.</p></li>
-<li><span class="t">Шаг 6</span><h3>Заявление</h3><p>В Украине — заявление в полицию или киберполицию о вымогательстве. В Грузии прокуратура возбуждает дела за угрозы распространить интимные фото. В чате девушки советуют друг другу ещё одно: если шантажист сам грозит «заявой», встречное заявление о вымогательстве обычно быстро остужает его пыл.</p></li>
+<li><span class="t">Шаг 1</span><h3>Не платите</h3><p>Это главный совет всех, кто помогает жертвам шантажа. Оплата не покупает молчание: шантажист узнаёт, что вы платите, и требует ещё. Если уже заплатили — остановитесь и сразу напишите в банк или платёжный сервис: иногда перевод ещё можно отменить.</p></li>
+<li><span class="t">Шаг 2</span><h3>Не спорьте и не уговаривайте</h3><p>Любой ответ, даже «я не буду платить», показывает, что вы читаете и боитесь. Перестаньте отвечать. Блокировать — уже после шага 3.</p></li>
+<li><span class="t">Шаг 3</span><h3>Сохраните всё</h3><p>Скриншоты переписки с датами, ник и цифровой ID аккаунта, номер телефона, реквизиты для перевода, ссылки на публикации. Ничего не удаляйте: это доказательства.</p></li>
+<li><span class="t">Шаг 4</span><h3>Закройте то, что можно закрыть</h3><p>Сделайте профили закрытыми, временно скройте списки друзей и подписчиков: именно по ним шантажист ищет, кому отправить. Аккаунты не удаляйте — только скрывайте.</p></li>
+<li><span class="t">Шаг 5</span><h3>Если фото уже выложили — удаляйте по шагам</h3><p>Уведомления платформам, StopNCII, форма Google — в инструкции <a href="/blog/slili-foto-24-chasa/">«Слили фото: что делать в первые 24 часа»</a>; правовые основания — в разборе <a href="/blog/udalenie-po-zakonu/">«Удаление по закону»</a>.</p></li>
+<li><span class="t">Шаг 6</span><h3>Заявление</h3><p>В Украине — заявление в полицию или киберполицию о вымогательстве. В Грузии — 112 или отдел полиции. В чате девушки советуют друг другу ещё одно: если шантажист сам грозит «заявой», встречное заявление о вымогательстве обычно быстро остужает его пыл.</p></li>
 </ol>
 
 <h2>Как снизить риск заранее</h2>
-<ul>
-<li><strong>Проверь, что видно о тебе.</strong> Найди себя сама через поиск по лицу раньше, чем это сделает кто-то другой. Посмотри, какие старые страницы, альбомы и анкеты связывают твоё лицо с твоим именем.</li>
-<li><strong>Разведи лицо и имя.</strong> Фото, по которым тебя узнают, не должны жить на страницах с настоящим именем, номером телефона, геометкой дома.</li>
-<li><strong>Попроси убрать тебя из поиска по лицу.</strong> Например, у PimEyes есть бесплатная форма отказа. Но там просят селфи и документ, а скрывают тебя только в собственной выдаче: сами фото на других сайтах никуда не исчезают.</li>
-<li><strong>Не отправляй паспорт и селфи с документом посредникам.</strong> Ни «менеджеру», ни «для проверки», ни «на всякий случай». Если документ требует сайт, подавай его только самому сайту и только в его форму.</li>
-<li><strong>Отдельный номер.</strong> Номер, по которому тебя находят незнакомые люди, не должен быть привязан к твоим соцсетям, банку и семейному чату.</li>
-</ul>
+<div class="flags">
+<div class="fl"><i>1</i><div><b>Проверьте, что видно о вас</b>Найдите себя через поиск по лицу раньше, чем это сделает кто-то другой.</div></div>
+<div class="fl"><i>2</i><div><b>Разведите лицо и имя</b>Узнаваемые фото не должны жить рядом с настоящим именем, номером и геометкой дома.</div></div>
+<div class="fl"><i>3</i><div><b>Попросите убрать вас из поиска по лицу</b>У PimEyes есть бесплатная форма отказа, но там просят селфи и документ, а скрывают только в собственной выдаче.</div></div>
+<div class="fl"><i>4</i><div><b>Не отправляйте паспорт посредникам</b>Ни «менеджеру», ни «для проверки». Документ — только самому сайту и только в его форму.</div></div>
+<div class="fl"><i>5</i><div><b>Отдельный номер</b>Номер для незнакомых не должен быть привязан к соцсетям, банку и семейному чату.</div></div>
+</div>
 <div class="cta"><h2>Если это происходит сейчас</h2><p>Напиши в SOS-линию PRIVÉ: живой оператор в течение часа скажет, что делать, и составит план. Это конфиденциально.</p><div class="btns"><a class="b" href="https://t.me/prive_scan_bot?start=sos">Написать в SOS</a><a class="b b2" href="/sos">Как работает SOS</a></div></div>
 
   </div>
