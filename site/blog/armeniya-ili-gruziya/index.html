@@ -69,7 +69,7 @@ nav a{text-decoration:none}
 nav a:hover{color:var(--fg)}
 .sos-pill{background:var(--accent-soft);color:var(--fg);padding:8px 14px;border-radius:999px;font-size:.82rem;font-weight:600;text-decoration:none;white-space:nowrap}
 .sos-pill b{color:var(--accent)}
-@media (max-width:860px){nav{display:none}}
+@media (max-width:860px){header.top .wrap{flex-wrap:wrap;row-gap:6px}header.top nav{display:flex;order:3;flex:1 0 100%;gap:18px;overflow-x:auto;white-space:nowrap;padding:4px 0 2px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}header.top nav::-webkit-scrollbar{display:none}header.top nav a{padding:4px 0}}
 
 .hero{padding-block:72px 64px;border:0;display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:end}
 .hero h1{font-size:clamp(2.9rem,8.5vw,6.2rem);letter-spacing:-.01em}
