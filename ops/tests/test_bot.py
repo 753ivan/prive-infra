@@ -29,3 +29,21 @@ def test_bot_sos_and_payment(client):
     assert "давай деньги" in inc["already_sent_to"]
     _hook(client, {"callback_query": {"id": "2", "data": f"paid:{sos['id']}", "message": chat}})
     assert client.get(f"/api/orders/{sos['id']}").json()["payment_claimed_at"]
+
+
+def test_circle_deleted_after_verify(client):
+    from app.config import settings
+    chat = {"chat": {"id": 9003}}
+    _hook(client, {"message": {**chat, "text": "/start"}})
+    _hook(client, {"callback_query": {"id": "1", "data": "menu:check", "message": chat}})
+    _hook(client, {"callback_query": {"id": "1", "data": "consent:yes", "message": chat}})
+    for i in range(3):
+        _hook(client, {"message": {**chat, "photo": [{"file_id": f"q{i}"}]}})
+    _hook(client, {"message": {**chat, "video_note": {"file_id": "vn9003"}}})
+    cl = next(c for c in client.get("/api/clients").json() if c["telegram_id"] == "9003")
+    circle = cl["circle_file"]
+    assert circle and (settings.storage_dir / circle).exists()  # кружок на диске до сверки
+    client.post(f"/api/clients/{cl['id']}/verify", json={"decision": "verified", "note": ""})
+    cl = next(c for c in client.get("/api/clients").json() if c["id"] == cl["id"])
+    assert not cl["circle_file"]  # поле очищено после сверки
+    assert not (settings.storage_dir / circle).exists()  # файл удалён с диска

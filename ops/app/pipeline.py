@@ -467,7 +467,7 @@ def sla_reminders(hours_before: int = 4) -> int:
 
 def scheduled_tick() -> dict:
     """Вызывается каждый час: повторные проверки снятий, сканы подписок, удаление эталонов, напоминания."""
-    done = {"rechecks": 0, "scans": 0, "photos_purged": 0}
+    done = {"rechecks": 0, "scans": 0, "photos_purged": 0, "circles_purged": 0}
     with session_scope() as db:
         due_td = db.query(Takedown).filter(Takedown.next_check_at <= now(), Takedown.status.in_(["sent", "removed", "escalated"])).all()
         td_ids = [t.id for t in due_td]
@@ -483,6 +483,11 @@ def scheduled_tick() -> dict:
                         pass
                 c.reference_photos, c.photos_expire_at = [], None
                 done["photos_purged"] += 1
+        # страховка приватности: у решённых клиенток (verified/rejected) кружок жить не должен
+        from .services import face as _face
+        for c in db.query(Client).filter(Client.circle_file != "", Client.status.in_(["verified", "rejected"])).all():
+            if _face.delete_circle(c):
+                done["circles_purged"] += 1
     from . import bot as bot_mod
     done["payment_reminders"] = bot_mod.payment_reminders()
     done["sla_reminders"] = sla_reminders()
