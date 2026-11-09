@@ -25,10 +25,11 @@ class Settings(BaseSettings):
     reference_photo_ttl_days: int = 7  # «не храним лишнее»
 
     # --- поиск по тексту (M3) ---
-    google_cse_key: str = ""
-    google_cse_cx: str = ""
-    brave_search_key: str = ""
-    serpapi_key: str = ""  # для Yandex / Google Images
+    searxng_url: str = ""  # self-hosted SearXNG, бесплатный первый проход (нужен JSON-формат)
+    dataforseo_login: str = ""  # DataForSEO Live Advanced — платный добор
+    dataforseo_password: str = ""
+    brave_search_key: str = ""  # опционально
+    serpapi_key: str = ""  # Yandex для СНГ / Google Lens по изображению
 
     # --- поиск по лицу (M4, внешние) ---
     facecheck_api_token: str = ""
