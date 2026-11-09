@@ -5,7 +5,7 @@
     python3 scripts/i18n.py build     # собрать site/uk/ и site/en/
     python3 scripts/seo.py            # потом как обычно (head, hreflang, OG, пререндер, sitemap)
 
-Словари: i18n/<lang>.json — {русский фрагмент: перевод}. Фрагмент — внутренний HTML «листового»
+Словари: i18n/<lang>.json – {русский фрагмент: перевод}. Фрагмент – внутренний HTML «листового»
 блока (абзац, пункт списка, заголовок, ячейка…), значение атрибута (alt/title/aria-label/placeholder)
 или строковый литерал в JS-бандле гида. После правки русской страницы: extract -> перевести todo ->
 добавить в словарь -> build. Непереведённые фрагменты остаются по-русски и печатаются в отчёте.
@@ -126,7 +126,7 @@ JS_LIT = re.compile(r'"((?:[^"\\\n]|\\.)*)"')
 
 
 def guide_split(src):
-    """(до бандла, бандл) — пререндер выкидываем, его заново делает seo.py."""
+    """(до бандла, бандл) – пререндер выкидываем, его заново делает seo.py."""
     src = re.sub(re.escape(PRE_START) + r".*?" + re.escape(PRE_END), "", src, flags=re.S)
     i = src.find('<script type="module">')
     return src[:i], src[i:]
@@ -140,7 +140,7 @@ def _js_tokens(js):
         if t.type == "String" and CYR.search(t.value):
             out.append((t.range[0], t.range[1], t.value[1:-1], t.value[0]))
         elif t.type == "Template" and CYR.search(t.value):
-            out.append((t.range[0], t.range[1], t.value, None))  # ключ — вместе с ` } ${
+            out.append((t.range[0], t.range[1], t.value, None))  # ключ – вместе с ` } ${
     return out
 
 
@@ -294,7 +294,7 @@ def cmd_build():
             dst = out_root / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             dst.write_text(s, encoding="utf-8")
-            # локальные картинки поста — общие, ссылки остаются на русские пути (/blog/<slug>/img/…)
+            # локальные картинки поста – общие, ссылки остаются на русские пути (/blog/<slug>/img/…)
         print(f"{lang}: собрано, без перевода {len(set(missing))} фрагментов")
         for x in list(dict.fromkeys(missing))[:15]:
             print("   ·", x[:90].replace("\n", " "))

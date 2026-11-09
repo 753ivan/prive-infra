@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://getprive.me/</loc><lastmod>2026-11-08</lastmod><priority>1.0</priority></url>
-  <url><loc>https://getprive.me/en/</loc><priority>1.0</priority></url>
-  <url><loc>https://getprive.me/uk/</loc><priority>1.0</priority></url>
+  <url><loc>https://getprive.me/en/</loc><lastmod>2026-11-08</lastmod><priority>1.0</priority></url>
+  <url><loc>https://getprive.me/uk/</loc><lastmod>2026-11-08</lastmod><priority>1.0</priority></url>
   <url><loc>https://getprive.me/blog/</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/en/blog/</loc><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/en/partners</loc><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/en/private</loc><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/en/sos</loc><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/en/blog/</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/en/partners</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/en/private</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/en/sos</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://getprive.me/partners</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://getprive.me/private</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://getprive.me/sos</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/uk/blog/</loc><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/uk/partners</loc><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/uk/private</loc><priority>0.8</priority></url>
-  <url><loc>https://getprive.me/uk/sos</loc><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/uk/blog/</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/uk/partners</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/uk/private</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
+  <url><loc>https://getprive.me/uk/sos</loc><lastmod>2026-11-08</lastmod><priority>0.8</priority></url>
   <url><loc>https://getprive.me/blog/armeniya-ili-gruziya/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://getprive.me/blog/byuti-v-gruzii/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://getprive.me/blog/doksing/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
@@ -24,22 +24,22 @@
   <url><loc>https://getprive.me/blog/slili-foto-24-chasa/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://getprive.me/blog/udalenie-po-zakonu/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
   <url><loc>https://getprive.me/blog/zima-v-gruzii/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/armeniya-ili-gruziya/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/byuti-v-gruzii/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/doksing/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/issledovanie-chata/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/proverka-menedzhera/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/shantazh-i-sliv/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/slili-foto-24-chasa/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/udalenie-po-zakonu/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/en/blog/zima-v-gruzii/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/armeniya-ili-gruziya/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/byuti-v-gruzii/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/doksing/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/issledovanie-chata/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/proverka-menedzhera/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/shantazh-i-sliv/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/slili-foto-24-chasa/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/udalenie-po-zakonu/</loc><priority>0.7</priority></url>
-  <url><loc>https://getprive.me/uk/blog/zima-v-gruzii/</loc><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/armeniya-ili-gruziya/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/byuti-v-gruzii/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/doksing/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/issledovanie-chata/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/proverka-menedzhera/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/shantazh-i-sliv/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/slili-foto-24-chasa/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/udalenie-po-zakonu/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/en/blog/zima-v-gruzii/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/armeniya-ili-gruziya/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/byuti-v-gruzii/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/doksing/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/issledovanie-chata/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/proverka-menedzhera/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/shantazh-i-sliv/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/slili-foto-24-chasa/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/udalenie-po-zakonu/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
+  <url><loc>https://getprive.me/uk/blog/zima-v-gruzii/</loc><lastmod>2026-11-08</lastmod><priority>0.7</priority></url>
 </urlset>

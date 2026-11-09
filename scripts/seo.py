@@ -17,7 +17,7 @@
 Новая статья блога: положить site/blog/<slug>/index.html с <title> и <meta name="description">,
 добавить slug в POSTS ниже (дата публикации), запустить скрипт, закоммитить.
 
-Языковые версии (/uk/, /en/): после правки русских страниц — `python3 scripts/i18n.py extract`,
+Языковые версии (/uk/, /en/): после правки русских страниц – `python3 scripts/i18n.py extract`,
 перевести i18n/todo-*.txt (см. i18n/merge.py), `python3 scripts/i18n.py build`, затем этот скрипт.
 """
 import html
@@ -33,7 +33,7 @@ BASE = "https://getprive.me"
 BRAND = "PRIVÉ"
 SLOGAN = "Не для чужих глаз"
 BOT = "https://t.me/prive_scan_bot"
-GA4_ID = "G-55DZMGMHMN"  # Google Analytics 4 — подключён напрямую; НЕ добавлять второй GA4-тег в GTM (будет двойной счёт)
+GA4_ID = "G-55DZMGMHMN"  # Google Analytics 4 – подключён напрямую; НЕ добавлять второй GA4-тег в GTM (будет двойной счёт)
 GTM_ID = "GTM-K67NSMPB"  # Google Tag Manager (GA4 и прочие теги настраиваются внутри GTM)
 RENDER = "--no-render" not in sys.argv
 
@@ -43,50 +43,50 @@ LOCALE = {"ru": "ru_RU", "uk": "uk_UA", "en": "en_US"}
 L10N = {  # подписи, которые скрипт пишет сам (крошки, OG-карточки, 404)
     "ru": dict(blog="Блог", blog_brand="Блог PRIVÉ", slogan=SLOGAN,
                blog_card="Честные гайды о приватности, безопасности и жизни за границей",
-               home_card="Сливы, фейки, поиск по лицу — удалим. Шантаж — остановим.",
-               nf_title="Страница не найдена — PRIVÉ", nf_desc="Такой страницы нет. Вернитесь на главную PRIVÉ или откройте блог."),
+               home_card="Сливы, фейки, поиск по лицу – удалим. Шантаж – остановим.",
+               nf_title="Страница не найдена – PRIVÉ", nf_desc="Такой страницы нет. Вернитесь на главную PRIVÉ или откройте блог."),
     "uk": dict(blog="Блог", blog_brand="Блог PRIVÉ", slogan="Не для чужих очей",
                blog_card="Чесні гайди про приватність, безпеку й життя за кордоном",
-               home_card="Зливи, фейки, пошук за обличчям — видалимо. Шантаж — зупинимо.",
-               nf_title="Сторінку не знайдено — PRIVÉ", nf_desc="Такої сторінки немає. Поверніться на головну PRIVÉ або відкрийте блог."),
+               home_card="Зливи, фейки, пошук за обличчям – видалимо. Шантаж – зупинимо.",
+               nf_title="Сторінку не знайдено – PRIVÉ", nf_desc="Такої сторінки немає. Поверніться на головну PRIVÉ або відкрийте блог."),
     "en": dict(blog="Blog", blog_brand="PRIVÉ Blog", slogan="Not for strangers’ eyes",
                blog_card="Honest guides on privacy, safety and life abroad",
-               home_card="Leaks, fakes, face search — we remove them. Blackmail — we stop it.",
-               nf_title="Page not found — PRIVÉ", nf_desc="This page doesn’t exist. Go back to the PRIVÉ home page or open the blog."),
+               home_card="Leaks, fakes, face search – we remove them. Blackmail – we stop it.",
+               nf_title="Page not found – PRIVÉ", nf_desc="This page doesn’t exist. Go back to the PRIVÉ home page or open the blog."),
 }
 
 # ---- Основные страницы: path -> (файл, title, description, тип JSON-LD, крошка) ----
 PAGES = {
     "/": dict(
         file="index.html",
-        title="PRIVÉ — удалить слив, фейк-анкету и фото из поиска по лицу",
+        title="PRIVÉ – удалить слив, фейк-анкету и фото из поиска по лицу",
         desc="Не для чужих глаз. Находим тебя по лицу, удаляем сливы, фейковые анкеты и фото "
              "из PimEyes, помогаем при шантаже. Бесплатная проверка в Telegram-боте.",
-        og_title="PRIVÉ — Не для чужих глаз",
+        og_title="PRIVÉ – Не для чужих глаз",
         crumb=None,
     ),
     "/sos": dict(
         file="sos.html",
-        title="Шантаж интимными фото: срочная помощь 24/7 — PRIVÉ SOS",
+        title="Шантаж интимными фото: срочная помощь 24/7 – PRIVÉ SOS",
         desc="Шантажируют фото или перепиской? Не плати и ничего не удаляй. Ответим за 15 минут "
              "днём и ночью и возьмём первые 72 часа на себя: доказательства, удаление, заявления.",
-        og_title="PRIVÉ SOS — помощь при шантаже 24/7",
+        og_title="PRIVÉ SOS – помощь при шантаже 24/7",
         crumb="SOS",
     ),
     "/private": dict(
         file="private.html",
-        title="PRIVÉ Private — персональная защита репутации по NDA",
+        title="PRIVÉ Private – персональная защита репутации по NDA",
         desc="Не для чужих глаз. Персональный менеджер, договор и NDA до первого разговора: аудит "
              "телефона, чистка прошлого в сети, сопровождение переезда и новых этапов жизни.",
-        og_title="PRIVÉ Private — персональное сопровождение",
+        og_title="PRIVÉ Private – персональное сопровождение",
         crumb="Private",
     ),
     "/partners": dict(
         file="partners.html",
-        title="Партнёрская программа для агентств и админов чатов — PRIVÉ",
+        title="Партнёрская программа для агентств и админов чатов – PRIVÉ",
         desc="Комиссия до 30% с первого заказа и до 15% с подписок: рекомендуйте PRIVÉ моделям или "
              "оплачивайте их защиту пакетом. Меньше фейков и жалоб на агентство.",
-        og_title="PRIVÉ Partners — защищённые модели, спокойное агентство",
+        og_title="PRIVÉ Partners – защищённые модели, спокойное агентство",
         crumb="Партнёрам",
     ),
     "/blog/": dict(
@@ -110,7 +110,7 @@ POSTS = {
     "doksing": "2026-09-03",
 }
 
-# Если заголовок статьи длиннее ~65 символов, Google его обрежет — короткий <title> для выдачи
+# Если заголовок статьи длиннее ~65 символов, Google его обрежет – короткий <title> для выдачи
 # (H1 и OG-заголовок остаются авторскими).
 TITLE_OVERRIDES = {
     "zima-v-gruzii": "Зима со светом: Тбилиси на 3–4 месяца без визы · PRIVÉ",
@@ -241,7 +241,7 @@ def inject(path: Path, block: str):
     s = path.read_text(encoding="utf-8")
     # 1) убрать прошлый блок скрипта
     s = re.sub(re.escape(SEO_START) + r".*?" + re.escape(SEO_END) + r"\n?", "", s, flags=re.S)
-    # 2) обёртка экспорта артефакта закрывала <head> до <title> — мета-теги попадали в <body>
+    # 2) обёртка экспорта артефакта закрывала <head> до <title> – мета-теги попадали в <body>
     s = re.sub(r"</style></head><body>\s*", "</style>\n", s, count=1)
     # 3) выкинуть старые мета-теги из «головы»
     z = head_zone(s)
@@ -355,7 +355,7 @@ def render_assets(cards):
 
 # ---------------------------------------------------------------- main
 def alt_urls(path):
-    """hreflang для страницы (path без языкового префикса) — только для языков, где файл есть."""
+    """hreflang для страницы (path без языкового префикса) – только для языков, где файл есть."""
     out = {}
     for code, pre in LANGS.items():
         rel = path.strip("/")
@@ -428,7 +428,7 @@ def main():
             slug = "home" if path == "/" else path.strip("/").replace("/", "-")
             img = f"{BASE}/{og_dir}/{slug}.jpg"
             eyebrow = {"/": T["slogan"], "/blog/": T["blog_brand"]}.get(path, "PRIVÉ")
-            card_title = {"/": T["home_card"], "/blog/": T["blog_card"]}.get(path, og_title.split(" — ", 1)[-1])
+            card_title = {"/": T["home_card"], "/blog/": T["blog_card"]}.get(path, og_title.split(" – ", 1)[-1])
             cards.append((SITE / og_dir / f"{slug}.jpg", eyebrow, card_title, T["slogan"]))
             if path == "/":
                 faq = faq_from(s)
