@@ -41,8 +41,9 @@ def source_queries(src: dict, values: list[tuple[str, str]], city: str = "") -> 
     return out
 
 
-def crawl(values: list[tuple[str, str]], city: str = "", only_enabled: bool = True) -> tuple[list[dict], list[str]]:
-    """Прогоняет ники/телефоны по всем источникам. Возвращает (находки, ненастроенные провайдеры)."""
+def crawl(values: list[tuple[str, str]], city: str = "", only_enabled: bool = True, paid_ok: bool = True) -> tuple[list[dict], list[str]]:
+    """Прогоняет ники/телефоны по всем источникам. Возвращает (находки, ненастроенные провайдеры).
+    paid_ok пробрасывается в run_all: при исчерпании дневного лимита — только бесплатные провайдеры."""
     results, missing, seen = [], set(), set()
     for src in load_sources():
         if only_enabled and not src.get("enabled"):
@@ -65,7 +66,7 @@ def crawl(values: list[tuple[str, str]], city: str = "", only_enabled: bool = Tr
         if src.get("method") != "site_search":
             continue
         for qtype, value, qs in source_queries(src, values, city):
-            hits, miss = run_all(qs)
+            hits, miss = run_all(qs, paid_ok)
             missing.update(miss)
             for h in hits:
                 if h["url"] in seen:

@@ -63,11 +63,13 @@ def enqueue(db, order_id: int | None, type_: str, params: dict | None = None) ->
 def scan_order(order_id: int) -> dict:
     from .services.enrich import canonical_url
     from .services.rules import COSTS
+    from .services import budget
     with session_scope() as db:
         order = db.get(Order, order_id)
         queries = dict(order.queries or {})
         existing = {canonical_url(f.url) for f in order.findings}
         order.status = "scanning"
+        paid_ok = budget.allow_paid(db)  # есть ли остаток дневного лимита на платные источники
     added, missing_all, cost = 0, set(), 0.0
     new_items: list[dict] = []
 
@@ -80,7 +82,7 @@ def scan_order(order_id: int) -> dict:
         return True
 
     for qtype, value, qstring in search_svc.build_queries(queries):
-        results, missing = search_svc.run_all(qstring)
+        results, missing = search_svc.run_all(qstring, paid_ok)
         missing_all.update(missing)
         cost += sum(COSTS.get(r["source"], 0) for r in results[:1]) * len({r["source"] for r in results})
         for r in results:
@@ -90,7 +92,7 @@ def scan_order(order_id: int) -> dict:
     from .services import crawl as crawl_svc
     values = [("nick", n) for n in queries.get("nicks", []) if n.strip()] + [("phone", p) for p in queries.get("phones", []) if p.strip()]
     if values:
-        crawl_hits, miss = crawl_svc.crawl(values, city=queries.get("city", ""))
+        crawl_hits, miss = crawl_svc.crawl(values, city=queries.get("city", ""), paid_ok=paid_ok)
         missing_all.update(miss)
         cost += 0.005 * len(crawl_hits)
         for r in crawl_hits:
@@ -104,7 +106,7 @@ def scan_order(order_id: int) -> dict:
             missing_all.add("hibp")
         except Exception as e:  # noqa: BLE001
             search_svc.log_call("hibp", email, False, repr(e))
-    for qtype, key in (("phone", "phones"), ("email", "emails"), ("nick", "nicks")):
+    for qtype, key in ((("phone", "phones"), ("email", "emails"), ("nick", "nicks")) if paid_ok else ()):
         for value in queries.get(key, []):
             try:
                 for r in leaks_svc.dehashed(qtype, value):
@@ -126,12 +128,13 @@ def scan_order(order_id: int) -> dict:
             added += 1
         order.status = "review"
         order.api_cost_usd = (order.api_cost_usd or 0) + cost
+        budget.charge(db, order_id, cost, "scan")
         svc = SERVICES.get(order.service, {})
         if svc.get("kind") == "subscription":
             order.status = "monitoring"
             order.next_scan_at = now() + timedelta(days=svc.get("scan_every_days", 14))
     enriched = enrich_order(order_id)
-    return {"added": added, "not_configured": sorted(missing_all), "queries": len(search_svc.build_queries(queries)), "enrich": enriched}
+    return {"added": added, "not_configured": sorted(missing_all), "queries": len(search_svc.build_queries(queries)), "paid_skipped": not paid_ok, "enrich": enriched}
 
 
 def enrich_order(order_id: int, finding_ids: list[int] | None = None) -> dict:
@@ -231,6 +234,8 @@ def face_search_external(order_id: int, max_refs: int = 3) -> dict:
     from .services import facecheck, search4faces
     providers = {"facecheck": facecheck.search, "search4faces": search4faces.search}
     from .services import face as face_svc
+    from .services import budget
+    from .services.rules import COSTS
     with session_scope() as db:
         order = db.get(Order, order_id)
         all_refs = [p["file"] for p in (order.client.reference_photos or [])]
@@ -240,9 +245,12 @@ def face_search_external(order_id: int, max_refs: int = 3) -> dict:
             if pick["picked"]:
                 refs = pick["picked"]
         existing = {f.url for f in order.findings}
+        paid_ok = budget.allow_paid(db)
     if not refs:
         return {"error": "нет эталонов"}
-    added, errors, not_configured = 0, [], set()
+    if not paid_ok:
+        return {"skipped": "дневной лимит исчерпан — внешний поиск по лицу пропущен", "refs": len(refs), "paid_skipped": True}
+    added, errors, not_configured, used_cost = 0, [], set(), 0.0
     for ref in refs:
         data = (settings.storage_dir / ref).read_bytes()
         for name, fn in providers.items():
@@ -256,6 +264,7 @@ def face_search_external(order_id: int, max_refs: int = 3) -> dict:
             except Exception as e:  # noqa: BLE001
                 errors.append(f"{name}: {e!r}")
                 continue
+            used_cost += COSTS.get(name, 0)
             with session_scope() as db:
                 for h in hits:
                     if h["url"] in existing:
@@ -268,9 +277,10 @@ def face_search_external(order_id: int, max_refs: int = 3) -> dict:
                     added += 1
     with session_scope() as db:
         o = db.get(Order, order_id)
-        o.api_cost_usd = (o.api_cost_usd or 0) + len(refs) * (0.30 if "facecheck" not in not_configured else 0) + len(refs) * (0.015 if "search4faces" not in not_configured else 0)
+        o.api_cost_usd = (o.api_cost_usd or 0) + used_cost
+        budget.charge(db, order_id, used_cost, "face")
     enriched = enrich_order(order_id) if added else {}
-    return {"added": added, "refs": len(refs), "picked": [r.rsplit("/", 1)[-1] for r in refs], "errors": errors, "not_configured": sorted(not_configured), "enrich": enriched}
+    return {"added": added, "refs": len(refs), "picked": [r.rsplit("/", 1)[-1] for r in refs], "errors": errors, "not_configured": sorted(not_configured), "paid_skipped": False, "enrich": enriched}
 
 
 def import_pimeyes(order_id: int, data: bytes, filename: str, operator: str = "", source: str = "pimeyes") -> dict:

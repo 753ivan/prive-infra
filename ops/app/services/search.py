@@ -96,6 +96,7 @@ def serpapi_google_lens(image_url: str) -> list[dict]:
 
 
 PROVIDERS = {"searxng": searxng, "dataforseo": dataforseo, "brave": brave, "serpapi_yandex": serpapi_yandex}
+FREE = {"searxng"}  # бесплатные провайдеры (self-hosted) — доступны и при исчерпании дневного лимита
 
 
 def status() -> dict:
@@ -153,11 +154,14 @@ def _with_backoff(name: str, fn, search_string: str, tries: int = 3) -> list[dic
     return []
 
 
-def run_all(search_string: str) -> tuple[list[dict], list[str]]:
-    """Прогоняет запрос по всем настроенным провайдерам параллельно, с backoff на 429/5xx."""
+def run_all(search_string: str, paid_ok: bool = True) -> tuple[list[dict], list[str]]:
+    """Прогоняет запрос по настроенным провайдерам параллельно, с backoff на 429/5xx.
+    paid_ok=False (превышен дневной лимит) — только бесплатные (FREE) провайдеры."""
     from concurrent.futures import ThreadPoolExecutor
     configured = {n: f for n, f in PROVIDERS.items() if status().get(n.split("_")[0] if n.startswith("serpapi") else n)}
     missing = [n for n in PROVIDERS if n not in configured]
+    if not paid_ok:
+        configured = {n: f for n, f in configured.items() if n in FREE}
     if not configured:
         return [], missing
     results = []

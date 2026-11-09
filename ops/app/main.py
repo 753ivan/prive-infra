@@ -19,6 +19,7 @@ from .config import settings
 from .db import Base, engine, get_db, migrate_light, session_scope
 from .models import (FINDING_KINDS, FINDING_STATUSES, ORDER_STATUS_RU, SERVICES, TAKEDOWN_STATUSES, AuditLog, Client, Finding,
                      Incident, IntegrationLog, Job, Order, Takedown, User, now)
+from .services import budget as budget_svc
 from .services import evidence as ev_svc
 from .services import importer
 from .services import leaks as leaks_svc
@@ -365,6 +366,8 @@ def funnel(days: int = 30, db: Session = Depends(get_db), user: Principal = Depe
         "paid_orders_any": paid_any.count(),
         "revenue_usd": round(sum(o.paid_usd for o in paid_any.all()), 2),
         "api_cost_usd": round(sum(o.api_cost_usd or 0 for o in orders.all()), 2),
+        "spent_today_usd": round(budget_svc.spent_today(db), 2),
+        "daily_cost_limit_usd": settings.daily_cost_limit_usd,
         "takedown_orders": orders.filter(Order.service.in_(["fakes", "leaks", "exit_std", "exit_total"]), Order.paid_usd > 0).count(),
         "conversion_free_to_paid_pct": round(100 * paid_check.count() / done_free.count(), 1) if done_free.count() else None,
         "median_hours_to_free_report": round(sorted(durations)[len(durations) // 2], 1) if durations else None,
