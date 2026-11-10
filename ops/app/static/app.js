@@ -394,7 +394,7 @@ views.integrations = async () => {
     ${row("OpenTimestamps", s.evidence.ots_client, "M5: метка времени хешей для юриста", "", "pip install opentimestamps-client")}
     ${row("FaceCheck.ID API", s.face.facecheck, "M4: поиск по лицу — соцсети, объявления (WL)", "facecheck", "FACECHECK_API_TOKEN; ~$0.30 за поиск, оплата криптой")}
     ${row("Search4faces API", s.face.search4faces, "M4: поиск по лицу в VK / OK / TikTok — главный для СНГ (WL); имя и город из ответа не сохраняются", "search4faces", "SEARCH4FACES_API_KEY; от 1 900 ₽ за 5 000 запросов")}
-    ${row("InsightFace + ffmpeg", s.face.insightface && s.face.ffmpeg, "M1: авто-сверка кружка; M4: поиск лица на страницах (обрезанные фото, другой ракурс)", "", "pip install insightface onnxruntime opencv-python-headless; ffmpeg в системе")}
+    ${row("YuNet + SFace + ffmpeg", s.face.opencv && s.face.models && s.face.ffmpeg, "M1: авто-сверка кружка; M4: поиск лица на страницах (обрезанные фото, другой ракурс); OpenCV Zoo, Apache-2.0", "", "opencv-python-headless (в requirements); модели качаются сами; ffmpeg в системе")}
     </table>
     <div class="row" style="margin:12px 0"><button class="btn ghost" onclick="api('POST','/api/telegram/set-webhook').then(r=>toast(JSON.stringify(r)))">Установить Telegram webhook</button></div>
     <h2>Инструменты</h2>

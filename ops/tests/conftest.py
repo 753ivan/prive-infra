@@ -14,6 +14,7 @@ os.environ["STORAGE_DIR"] = f"{_tmp}/storage"
 from fastapi.testclient import TestClient  # noqa: E402
 
 from app.main import app  # noqa: E402
+from app.services import face  # noqa: E402
 from app.services import telegram as tg  # noqa: E402
 
 
@@ -25,7 +26,9 @@ def client():
         p.write_bytes(b"x")
         return str(p.relative_to(tg.settings.storage_dir)), "sha" + file_id
 
-    with mock.patch.object(tg, "send_message", lambda *a, **k: True), mock.patch.object(tg, "download_file", fake_dl), \
+    # модуль лица выключен в тестах: детерминизм и без сети (иначе available() скачивает модели)
+    with mock.patch.object(face, "available", lambda: False), \
+         mock.patch.object(tg, "send_message", lambda *a, **k: True), mock.patch.object(tg, "download_file", fake_dl), \
          mock.patch.object(tg, "answer_callback", lambda *a, **k: None), mock.patch.object(tg, "send_document", lambda *a, **k: True):
         c = TestClient(app)
         c.auth = ("operator", "test")
