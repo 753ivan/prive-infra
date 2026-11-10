@@ -86,10 +86,15 @@ def key_of(kind, node):
     return node[kind[1]].strip()
 
 
+# подписи из CSS (content:"Как выглядит: ") – тоже текст для читательницы
+CSS_CONTENT = re.compile(r'content:"([^"]*[А-Яа-яЁёІіЇїЄєҐґ][^"]*)"')
+
+
 def html_segments(src):
     soup = BeautifulSoup(src, "html.parser")
     segs = []
     walk(soup, lambda k, n: segs.append(key_of(k, n)))
+    segs += CSS_CONTENT.findall(src)
     return [s for s in segs if s]
 
 
@@ -118,7 +123,15 @@ def translate_html(src, d, lang, missing):
             node[kind[1]] = t
 
     walk(soup, apply)
-    return str(soup)
+
+    def css(m):
+        t = d.get(m.group(1))
+        if t is None:
+            missing.append(m.group(1))
+            return m.group(0)
+        return 'content:"' + t.replace('"', '\\"') + '"'
+
+    return CSS_CONTENT.sub(css, str(soup))
 
 
 # ------------------------------------------------------------------ гид (React-бандл)
