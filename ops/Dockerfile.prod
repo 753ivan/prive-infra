@@ -1,10 +1,10 @@
-# Полная сборка: Playwright (скриншоты), InsightFace (модуль лица), ffmpeg. ~2.5 ГБ, сборка 5–10 мин.
+# Полная сборка: Playwright (скриншоты) + модуль лица YuNet/SFace (opencv из requirements) + ffmpeg + tesseract-ocr (OCR кода с селфи). Модели лица качаются при первом запуске.
 FROM python:3.12-slim
 WORKDIR /srv
-RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg libgl1 libglib2.0-0 tesseract-ocr && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
- && pip install --no-cache-dir playwright insightface onnxruntime opencv-python-headless \
+ && pip install --no-cache-dir playwright \
  && playwright install --with-deps chromium
 COPY app ./app
 COPY scripts ./scripts

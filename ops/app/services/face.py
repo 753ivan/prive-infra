@@ -1,17 +1,22 @@
-"""Модуль лица (опциональный): InsightFace (buffalo_l, ArcFace) на CPU.
+"""Модуль лица (опциональный): YuNet (детектор) + SFace (распознавание) из OpenCV Zoo, на CPU.
+
+Лицензия моделей — Apache-2.0 (коммерческое использование разрешено), в отличие от
+InsightFace buffalo_l (non-commercial research only). Публичный интерфейс модуля не
+изменился: те же функции, что вызывают pipeline и bot.
 
 Используется в двух местах:
   1. Верификация кружка (M1, шаг 2): кадры из video_note сравниваются с эталонами.
-     Порог косинусного сходства 0.45 — «та же», ниже 0.30 — «не та», между — на оператора.
-  2. Поиск лица на страницах находок (M4): дополняет pHash там, где фото обрезано
-     или другой ракурс.
+     Порог косинусного сходства SFace ~0.363 — «та же», ниже NOT_SAME — «не та»,
+     между — на оператора. Пороги калибруются на эталонном тесте.
+  2. Поиск лица на страницах находок (M4): дополняет pHash.
 
-Установка: pip install insightface onnxruntime opencv-python-headless (модель ~300 МБ скачается при первом запуске).
-Если библиотеки нет — все функции возвращают None, и конвейер работает без них.
+Нужны: opencv-python-headless (cv2 с FaceDetectorYN/FaceRecognizerSF, >=4.5.4), ffmpeg
+(кадры из кружка) и два файла моделей из OpenCV Zoo (скачиваются при первом запуске в
+<storage>/../models/). Если cv2 или модели недоступны — функции возвращают None/пусто,
+и конвейер работает без них.
 """
 from __future__ import annotations
 
-import io
 import subprocess
 import tempfile
 from functools import lru_cache
@@ -22,14 +27,31 @@ import numpy as np
 from ..config import settings
 from .base import client, log_call
 
-SAME = 0.45
-NOT_SAME = 0.30
+# SFace: косинус, выше = более похоже. OpenCV рекомендует 0.363 для «та же личность».
+# Значения — стартовые, калибруются на эталонном тесте (эталонная персона + контролируемые страницы).
+SAME = 0.363
+NOT_SAME = 0.28
 
+# Модели лежат в хранилище (том), чтобы переживать пересоздание контейнера и не качаться на каждый деплой.
+_MODELS_DIR = settings.storage_dir / "_models"
+# Файлы в opencv_zoo — Git LFS, поэтому берём их с media-CDN (raw-ссылка отдаёт только указатель LFS).
+_YUNET = (
+    "face_detection_yunet_2023mar.onnx",
+    "https://media.githubusercontent.com/media/opencv/opencv_zoo/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx",
+)
+_SFACE = (
+    "face_recognition_sface_2021dec.onnx",
+    "https://media.githubusercontent.com/media/opencv/opencv_zoo/main/models/face_recognition_sface/face_recognition_sface_2021dec.onnx",
+)
+
+
+# ---------------------------------------------------------------------------
+# Чистка кружка (политика приватности — не зависит от наличия модуля лица)
 
 def delete_circle(client_row) -> bool:
     """Удаляет видео-кружок сразу после сверки личности — политика PRIVÉ:
     «кружок удаляем после сверки». Чистит файл на диске и очищает поле у клиентки.
-    Не зависит от InsightFace (работает и без модуля лица) и идемпотентна."""
+    Работает и без cv2/моделей, идемпотентна."""
     rel = (getattr(client_row, "circle_file", "") or "").strip()
     if not rel:
         return False
@@ -44,22 +66,65 @@ def delete_circle(client_row) -> bool:
     return True
 
 
-def available() -> bool:
+# ---------------------------------------------------------------------------
+# Доступность и модели
+
+@lru_cache(maxsize=1)
+def _cv2_ok() -> bool:
     try:
-        import insightface  # noqa: F401
-        import onnxruntime  # noqa: F401
-        return True
+        import cv2  # noqa: F401
+        return hasattr(cv2, "FaceDetectorYN_create") and hasattr(cv2, "FaceRecognizerSF_create")
     except Exception:
         return False
 
 
-@lru_cache(maxsize=1)
-def _app():
-    from insightface.app import FaceAnalysis
-    app = FaceAnalysis(name="buffalo_l", providers=["CPUExecutionProvider"], root=str(settings.storage_dir.parent / "models"))
-    app.prepare(ctx_id=-1, det_size=(640, 640))
-    return app
+def _models_present() -> bool:
+    return all((_MODELS_DIR / name).exists() and (_MODELS_DIR / name).stat().st_size > 0 for name, _ in (_YUNET, _SFACE))
 
+
+def _ensure_models() -> bool:
+    if _models_present():
+        return True
+    _MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    for name, url in (_YUNET, _SFACE):
+        dst = _MODELS_DIR / name
+        if dst.exists() and dst.stat().st_size > 0:
+            continue
+        try:
+            with client() as c:
+                r = c.get(url, timeout=120, follow_redirects=True)
+                r.raise_for_status()
+                data = r.content
+            if len(data) < 10_000:  # LFS-указатель вместо самого файла
+                log_call("face", f"download {name}", False, f"слишком мал ({len(data)} b) — не тот URL/LFS")
+                return False
+            dst.write_bytes(data)
+            log_call("face", f"download {name}", True, f"{len(data)} bytes")
+        except Exception as e:  # noqa: BLE001
+            log_call("face", f"download {name}", False, repr(e))
+            return False
+    return _models_present()
+
+
+def available() -> bool:
+    return _cv2_ok() and _ensure_models()
+
+
+@lru_cache(maxsize=1)
+def _detector():
+    import cv2
+    # input_size переопределяется под каждый кадр через setInputSize; score/nms/top_k — дефолты OpenCV.
+    return cv2.FaceDetectorYN_create(str(_MODELS_DIR / _YUNET[0]), "", (320, 320), 0.6, 0.3, 5000)
+
+
+@lru_cache(maxsize=1)
+def _recognizer():
+    import cv2
+    return cv2.FaceRecognizerSF_create(str(_MODELS_DIR / _SFACE[0]), "")
+
+
+# ---------------------------------------------------------------------------
+# Детекция и эмбеддинги
 
 def _img(data: bytes):
     import cv2
@@ -67,13 +132,40 @@ def _img(data: bytes):
     return cv2.imdecode(arr, cv2.IMREAD_COLOR)
 
 
-def embeddings(data: bytes) -> list[np.ndarray]:
-    """Все лица на картинке → нормированные эмбеддинги."""
-    img = _img(data)
+def _detect(img) -> list:
+    """Лица на изображении: список строк YuNet [x,y,w,h, 5×(x,y) ключевых точек, score]."""
     if img is None:
         return []
-    faces = _app().get(img)
-    return [f.normed_embedding for f in faces if f.det_score > 0.5]
+    det = _detector()
+    h, w = img.shape[:2]
+    det.setInputSize((w, h))
+    _, faces = det.detect(img)
+    return [] if faces is None else [f for f in faces]
+
+
+def _feature(img, face_row) -> np.ndarray | None:
+    """Выровнять лицо и получить L2-нормированный 128-мерный эмбеддинг SFace."""
+    rec = _recognizer()
+    try:
+        aligned = rec.alignCrop(img, face_row)
+        feat = np.asarray(rec.feature(aligned)).flatten().astype(np.float32)
+    except Exception:
+        return None
+    n = float(np.linalg.norm(feat))
+    return feat / n if n > 0 else None
+
+
+def embeddings(data: bytes) -> list[np.ndarray]:
+    """Все лица на картинке → L2-нормированные эмбеддинги (косинус = скалярное произведение)."""
+    if not available():
+        return []
+    img = _img(data)
+    out = []
+    for f in _detect(img):
+        emb = _feature(img, f)
+        if emb is not None:
+            out.append(emb)
+    return out
 
 
 def best_similarity(a: list[np.ndarray], b: list[np.ndarray]) -> float:
@@ -83,11 +175,12 @@ def best_similarity(a: list[np.ndarray], b: list[np.ndarray]) -> float:
 
 
 def reference_embeddings(client_row) -> list[np.ndarray]:
-    """Эмбеддинги эталонов; кэшируются в .npy рядом с фото, чтобы не считать повторно."""
+    """Эмбеддинги эталонов; кэшируются в .sface.npy рядом с фото, чтобы не считать повторно.
+    Суффикс отличается от прежнего .emb.npy (ArcFace 512-мерные) — старый кэш не подхватывается."""
     out = []
     for p in client_row.reference_photos or []:
         f = settings.storage_dir / p["file"]
-        cache = f.with_suffix(f.suffix + ".emb.npy")
+        cache = f.with_suffix(f.suffix + ".sface.npy")
         try:
             if cache.exists():
                 out.extend(list(np.load(cache)))
@@ -105,7 +198,7 @@ def video_frames(path: Path, n: int = 6) -> list[bytes]:
     """n кадров из кружка через ffmpeg."""
     frames = []
     with tempfile.TemporaryDirectory() as td:
-        subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(path), "-vf", f"fps=1,scale=640:-1", "-frames:v", str(n), f"{td}/f%02d.jpg"],
+        subprocess.run(["ffmpeg", "-loglevel", "error", "-i", str(path), "-vf", "fps=1,scale=640:-1", "-frames:v", str(n), f"{td}/f%02d.jpg"],
                        check=False, timeout=60)
         for f in sorted(Path(td).glob("f*.jpg")):
             frames.append(f.read_bytes())
@@ -162,19 +255,24 @@ def match_page_faces(url: str, refs: list[np.ndarray], max_images: int = 25) -> 
 
 
 def status() -> dict:
-    return {"insightface": available(), "ffmpeg": subprocess.run(["which", "ffmpeg"], capture_output=True).returncode == 0}
+    return {
+        "engine": "yunet+sface",
+        "opencv": _cv2_ok(),
+        "models": _models_present(),
+        "ffmpeg": subprocess.run(["which", "ffmpeg"], capture_output=True).returncode == 0,
+    }
 
 
 # ---------------------------------------------------------------------------
 # Автовыбор эталонов для внешнего поиска (SOP-1, шаг 11)
 
-def _pose_bucket(face) -> str:
-    """Грубый ракурс по ключевым точкам: нос между глаз → анфас, смещён → три четверти влево/вправо."""
+def _pose_bucket(face_row) -> str:
+    """Грубый ракурс по ключевым точкам YuNet [x,y,w,h, re_x,re_y, le_x,le_y, nose_x,nose_y, ...].
+    Нос между глаз → анфас, смещён → три четверти вбок (левый/правый — приблизительно)."""
     try:
-        kps = face.kps  # [left_eye, right_eye, nose, mouth_l, mouth_r]
-        eye_l, eye_r, nose = kps[0], kps[1], kps[2]
-        width = max(abs(eye_r[0] - eye_l[0]), 1.0)
-        rel = ((nose[0] - eye_l[0]) / width) - 0.5  # 0 = анфас
+        re_x, le_x, nose_x = float(face_row[4]), float(face_row[6]), float(face_row[8])
+        width = max(abs(le_x - re_x), 1.0)
+        rel = ((nose_x - re_x) / width) - 0.5  # 0 = анфас
         if rel < -0.18:
             return "left"
         if rel > 0.18:
@@ -195,7 +293,6 @@ def score_reference_photos(client_row) -> list[dict]:
     Возвращает список {file, ok, reason, score, pose, face_px, sharpness, consistency}."""
     if not available():
         return []
-    import cv2
     photos = list(client_row.reference_photos or [])
     entries = []
     for p in photos:
@@ -207,19 +304,19 @@ def score_reference_photos(client_row) -> list[dict]:
                 e["reason"] = "не читается"
                 entries.append(e)
                 continue
-            faces = [x for x in _app().get(img) if x.det_score > 0.5]
+            faces = _detect(img)
             if not faces:
                 e["reason"] = "лицо не найдено"
             elif len(faces) > 1:
                 e["reason"] = f"на фото {len(faces)} лица"
             else:
-                face = faces[0]
-                x1, y1, x2, y2 = [int(v) for v in face.bbox]
-                e["face_px"] = max(x2 - x1, y2 - y1)
-                crop = img[max(y1, 0):y2, max(x1, 0):x2]
+                fr = faces[0]
+                x, y, w, h = [int(v) for v in fr[0:4]]
+                e["face_px"] = max(w, h)
+                crop = img[max(y, 0):y + h, max(x, 0):x + w]
                 e["sharpness"] = round(_sharpness(crop), 1) if crop.size else 0.0
-                e["pose"] = _pose_bucket(face)
-                e["emb"] = face.normed_embedding
+                e["pose"] = _pose_bucket(fr)
+                e["emb"] = _feature(img, fr)
                 if e["face_px"] < 80:
                     e["reason"] = "лицо слишком мелкое"
                 elif e["sharpness"] < 40:
@@ -237,7 +334,7 @@ def score_reference_photos(client_row) -> list[dict]:
             continue
         others = [x for x in embs if x is not e["emb"]]
         e["consistency"] = round(float(np.mean([float(np.dot(e["emb"], o)) for o in others])), 3)
-        if e["consistency"] < 0.25:
+        if e["consistency"] < 0.2:
             e["ok"], e["reason"] = False, "не похоже на остальные эталоны"
     for e in entries:
         if e["ok"]:

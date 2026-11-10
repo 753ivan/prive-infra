@@ -11,8 +11,11 @@ reportlab>=4
 pypdf>=5
 apscheduler>=3.10,<4
 pytest>=8
+numpy>=1.24
+opencv-python-headless>=4.8  # модуль лица: YuNet + SFace (OpenCV Zoo, Apache-2.0); нужен ffmpeg; модели (~12 МБ) скачиваются сами
+pytesseract>=0.3.10  # OCR кода с селфи (тариф $29); нужен бинарь tesseract-ocr (в Dockerfile.prod)
+telethon>=1.36  # индексация Telegram-каналов в индекс лиц (user-сессия MTProto); инертно без TELEGRAM_API_*
 # необязательно:
 # playwright>=1.44          # скриншоты страниц (ENABLE_PLAYWRIGHT=true, затем: playwright install chromium)
 # opentimestamps-client     # метки времени для хешей
-# insightface onnxruntime opencv-python-headless   # модуль лица (авто-сверка кружка, поиск лица); нужен ffmpeg; модель ~300 МБ скачается сама
 psycopg[binary]>=3.1        # PostgreSQL (docker-compose.prod.yml)

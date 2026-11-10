@@ -49,7 +49,7 @@ views.dashboard = async () => {
   const open = [...sos, ...sos2].filter(o => !["done", "cancelled"].includes(o.status));
   const card = (n, l, cls = "", href = "") => `<div class="card ${cls} ${href ? "link" : ""}" ${href ? `onclick="location.hash='${href}'"` : ""}><div class="num">${n}</div><div class="lbl">${l}</div></div>`;
   const ints = d.integrations;
-  const intCount = [ints.search.google_cse, ints.search.brave, ints.search.serpapi, ints.leaks.hibp, ints.leaks.dehashed, ints.takedown.mail_configured, ints.telegram.bot].filter(Boolean).length;
+  const intCount = [ints.search.searxng, ints.search.dataforseo, ints.search.brave, ints.search.serpapi, ints.leaks.hibp, ints.leaks.dehashed, ints.takedown.mail_configured, ints.telegram.bot].filter(Boolean).length;
   $("#view").innerHTML = `
     <h1>Дашборд</h1>
     <div class="grid cards">
@@ -60,14 +60,14 @@ views.dashboard = async () => {
       ${card(d.takedowns_due, "снятий к повторной проверке", d.takedowns_due ? "warn" : "", "#takedowns")}
       ${card(d.orders_overdue, "заказов просрочено", d.orders_overdue ? "bad" : "", "#orders")}
       ${card(d.removed_total, "снято всего", "ok")}
-      ${card(intCount + "/7", "интеграций настроено", intCount < 3 ? "warn" : "ok", "#integrations")}
+      ${card(intCount + "/8", "интеграций настроено", intCount < 3 ? "warn" : "ok", "#integrations")}
     </div>
     <h2>Воронка за 30 дней</h2>
     <div class="grid cards">
       ${card(d.funnel.clients_new, "новых клиенток")}${card(d.funnel.clients_verified, "верифицировано")}${card(d.funnel.free_reports_sent + "/" + d.funnel.free_checks, "бесплатных отчётов / заявок")}
       ${card(d.funnel.paid_checks, "платных проверок", "ok")}${card(d.funnel.conversion_free_to_paid_pct ?? "—", "% конверсия в платную", (d.funnel.conversion_free_to_paid_pct ?? 0) < 6 ? "warn" : "ok")}
       ${card(d.funnel.median_hours_to_free_report ?? "—", "медиана часов до бесплатного отчёта", (d.funnel.median_hours_to_free_report ?? 0) > 24 ? "bad" : "ok")}
-      ${card("$" + d.funnel.revenue_usd, "выручка")}${card("$" + d.funnel.api_cost_usd, "расходы на API")}
+      ${card("$" + d.funnel.revenue_usd, "выручка")}${card("$" + d.funnel.api_cost_usd, "расходы на API")}${card("$" + d.funnel.spent_today_usd + " / $" + d.funnel.daily_cost_limit_usd, "расходы сегодня / лимит", d.funnel.daily_cost_limit_usd > 0 && d.funnel.spent_today_usd >= d.funnel.daily_cost_limit_usd ? "bad" : "ok")}${card(d.funnel.indexed_faces ?? 0, "лиц в индексе", (d.funnel.indexed_faces ?? 0) ? "ok" : "warn")}
     </div>
     ${open.length ? `<h2>SOS — ответить в течение 15 минут</h2>${ordersTable(open)}` : ""}
     <h2>Заказы по статусам</h2>
@@ -382,7 +382,8 @@ views.integrations = async () => {
   const row = (name, ok, what, test, how) => `<tr><td><span class="${ok ? "ok-dot" : "no-dot"}"></span><b>${name}</b></td><td>${what}</td><td>${ok ? tag("настроено", "ok") : tag("не настроено", "bad")}</td><td class="small muted">${how}</td><td>${test ? `<button class="btn sm ghost" onclick="testInt('${test}')">Тест</button>` : ""}</td></tr>`;
   $("#view").innerHTML = `<h1>Интеграции</h1><p class="muted small">Ключи задаются в файле <span class="mono">${esc(d.env_file)}</span> (образец — .env.example), после правки перезапустить сервер. Ненастроенные шаги конвейер пропускает и пишет это в задачу.</p>
     <table><tr><th>Сервис</th><th>Для чего</th><th>Статус</th><th>Переменные</th><th></th></tr>
-    ${row("Google Custom Search", s.search.google_cse, "M3: поиск по никам/телефонам (WL)", "google_cse", "GOOGLE_CSE_KEY, GOOGLE_CSE_CX")}
+    ${row("SearXNG (self-hosted)", s.search.searxng, "M3: бесплатный первый проход по тексту", "searxng", "SEARXNG_URL")}
+    ${row("DataForSEO", s.search.dataforseo, "M3: платный добор (Google organic, Live)", "dataforseo", "DATAFORSEO_LOGIN, DATAFORSEO_PASSWORD")}
     ${row("Brave Search API", s.search.brave, "M3: второй поисковик (WL)", "brave", "BRAVE_SEARCH_KEY")}
     ${row("SerpAPI (Yandex, Lens)", s.search.serpapi, "M3: Yandex для СНГ, Google Lens по изображению (WL)", "serpapi_yandex", "SERPAPI_KEY")}
     ${row("Have I Been Pwned", s.leaks.hibp, "Утечки по почте (WL)", "hibp", "HIBP_API_KEY")}
@@ -394,7 +395,7 @@ views.integrations = async () => {
     ${row("OpenTimestamps", s.evidence.ots_client, "M5: метка времени хешей для юриста", "", "pip install opentimestamps-client")}
     ${row("FaceCheck.ID API", s.face.facecheck, "M4: поиск по лицу — соцсети, объявления (WL)", "facecheck", "FACECHECK_API_TOKEN; ~$0.30 за поиск, оплата криптой")}
     ${row("Search4faces API", s.face.search4faces, "M4: поиск по лицу в VK / OK / TikTok — главный для СНГ (WL); имя и город из ответа не сохраняются", "search4faces", "SEARCH4FACES_API_KEY; от 1 900 ₽ за 5 000 запросов")}
-    ${row("InsightFace + ffmpeg", s.face.insightface && s.face.ffmpeg, "M1: авто-сверка кружка; M4: поиск лица на страницах (обрезанные фото, другой ракурс)", "", "pip install insightface onnxruntime opencv-python-headless; ffmpeg в системе")}
+    ${row("YuNet + SFace + ffmpeg", s.face.opencv && s.face.models && s.face.ffmpeg, "M1: авто-сверка кружка; M4: поиск лица на страницах (обрезанные фото, другой ракурс); OpenCV Zoo, Apache-2.0", "", "opencv-python-headless (в requirements); модели качаются сами; ffmpeg в системе")}
     </table>
     <div class="row" style="margin:12px 0"><button class="btn ghost" onclick="api('POST','/api/telegram/set-webhook').then(r=>toast(JSON.stringify(r)))">Установить Telegram webhook</button></div>
     <h2>Инструменты</h2>

@@ -103,6 +103,9 @@ def _handle_message(msg: dict) -> None:
 
         # --- файлы ---
         if msg.get("photo"):
+            if step == "await_selfie":
+                _verify_selfie(db, c, msg)
+                return
             if low == "чистить" or step == "clean_photo":
                 _clean_photo(db, c, msg)
                 return
@@ -219,6 +222,11 @@ def _handle_callback(cq: dict) -> None:
         elif data == "consent:no":
             _set(c, None)
             tg.send_message(chat_id, "Хорошо. Без согласия искать не можем — вернись, когда будешь готова.", MENU)
+        elif data == "verify:selfie":
+            import random
+            code = f"{random.randint(1000, 9999)}"
+            _set(c, "await_selfie", verify_method="selfie", verify_code=code)
+            tg.send_message(chat_id, f"Хорошо, без кружка — это тариф $29. Напиши на бумаге код <b>{code}</b>, сфотографируй себя так, чтобы было видно лицо и код, и пришли фото. Селфи удаляем после сверки.")
         elif data.startswith("svc:"):
             sid = data[4:]
             if sid == "sos":
@@ -301,7 +309,8 @@ def _ask_circle(c: Client):
         _ask_nicks(c)
         return
     _set(c, "await_circle")
-    tg.send_message(c.telegram_id, "Теперь кружок — короткое видео-сообщение с лицом, чтобы мы знали, что это ты. Удаляем после сверки.")
+    tg.send_message(c.telegram_id, "Теперь кружок — короткое видео-сообщение с лицом, чтобы мы знали, что это ты. Удаляем после сверки.",
+                    kb([[("Не могу кружок — селфи с кодом (+$29)", "verify:selfie")]]))
 
 
 def _ask_nicks(c: Client):
@@ -326,6 +335,8 @@ def _start_check(c: Client):
 def _create_order(db, c: Client, service: str, queries: dict):
     o = Order(client_id=c.id, service=service, queries=queries, status="new" if c.status == "verified" else "verifying")
     o.set_defaults()
+    if service == "check_free" and (c.bot_state or {}).get("draft", {}).get("verify_method") == "selfie":
+        o.price_usd = 29  # бесплатная проверка без кружка — тариф $29 (селфи с кодом)
     if c.referred_by and not any(x.paid_usd > 0 for x in c.orders) and o.price_usd:
         o.price_usd = round(o.price_usd * 0.8)
         o.notes = f"−20% по коду {c.referred_by}"
@@ -413,11 +424,44 @@ def _auto_verify(db, c: Client):
         tg.alert_operators(f"Кружок {c.code}: спорный (score {res.get('score')}). Посмотреть в панели.")
 
 
+def _verify_selfie(db, c: Client, msg: dict):
+    """Сверка селфи с кодом (тариф $29): лицо (SFace) + код (OCR). Спорное — оператору."""
+    from .services import face, ocr
+    draft = (c.bot_state or {}).get("draft", {})
+    code = draft.get("verify_code", "")
+    try:
+        rel, _ = tg.download_file(msg["photo"][-1]["file_id"], settings.storage_dir / "refs" / c.code)
+        c.circle_file = rel  # селфи — медиа верификации: видно в панели, удаляется после сверки
+    except Exception:  # noqa: BLE001
+        tg.send_message(c.telegram_id, "Селфи не загрузилось, попробуй ещё раз.")
+        return
+    tg.send_message(c.telegram_id, "Селфи получено. Сверяем.")
+    _ask_nicks(c)
+    data = (settings.storage_dir / rel).read_bytes()
+    refs = face.reference_embeddings(c) if face.available() else []
+    sims = face.best_similarity(face.embeddings(data), refs) if refs else -1.0
+    code_ok = ocr.has_code(data, code)
+    c.verification_score = round(sims, 3) if sims >= 0 else None
+    c.verification_note = f"селфи: score {c.verification_score}, код {'найден' if code_ok else 'не распознан'} (ожидался {code})"
+    if sims >= face.SAME and code_ok:
+        c.status = "verified"
+        for o in c.orders:
+            if o.status == "verifying":
+                o.status = "new"
+        tg.send_message(c.telegram_id, "Сверили — это ты.")
+        face.delete_circle(c)
+        _start_after_verify(db, c)
+    elif 0 <= sims < face.NOT_SAME:
+        tg.alert_operators(f"Селфи {c.code}: лицо не совпало (score {sims:.2f}). Решить вручную.")
+    else:
+        tg.alert_operators(f"Селфи {c.code}: на ручную сверку (score {c.verification_score}, код {'есть' if code_ok else 'не распознан'}, ожидался {code}).")
+
+
 def _start_after_verify(db, c: Client):
     """Бесплатная проверка после верификации уходит в скан сама (карта 1, шаг 3)."""
     from . import pipeline
     for o in c.orders:
-        if o.service == "check_free" and o.status == "new" and o.queries.get("nicks"):
+        if o.service == "check_free" and o.status == "new" and not o.price_usd and o.queries.get("nicks"):
             job = pipeline.enqueue(db, o.id, "scan", {"auto": True})
             db.flush()
             import threading

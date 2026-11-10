@@ -161,7 +161,7 @@ class Finding(Base):
     __tablename__ = "findings"
     id: Mapped[int] = mapped_column(primary_key=True)
     order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"))
-    source: Mapped[str] = mapped_column(String(32))  # google_cse | brave | serpapi_yandex | pimeyes | lens | manual | hibp | dehashed
+    source: Mapped[str] = mapped_column(String(32))  # searxng | dataforseo | brave | serpapi_yandex | crawl:* | facecheck | search4faces | pimeyes | lens | manual | hibp | dehashed
     query_type: Mapped[str] = mapped_column(String(16), default="nick")  # nick | phone | email | face | image | phrase
     query_value: Mapped[str] = mapped_column(String(255), default="")
     url: Mapped[str] = mapped_column(Text)
@@ -285,6 +285,28 @@ class Job(Base):
             "created_at": self.created_at.isoformat(),
             "finished_at": self.finished_at.isoformat() if self.finished_at else None,
         }
+
+
+class CostEntry(Base):
+    """Леджер расходов на внешние вызовы — для дневного лимита и аудита (см. services/budget.py)."""
+    __tablename__ = "cost_entries"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    order_id: Mapped[int | None] = mapped_column(ForeignKey("orders.id"), nullable=True)
+    source: Mapped[str] = mapped_column(String(32), default="scan")
+    amount_usd: Mapped[float] = mapped_column(Float, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
+
+
+class IndexedFace(Base):
+    """Индекс лиц: эмбеддинги SFace с публичных источников для бесплатного поиска (services/face_index.py)."""
+    __tablename__ = "indexed_faces"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    source: Mapped[str] = mapped_column(String(64), index=True)
+    page_url: Mapped[str] = mapped_column(String(512))
+    image_url: Mapped[str] = mapped_column(String(512), index=True)
+    face_idx: Mapped[int] = mapped_column(Integer, default=0)
+    embedding: Mapped[list] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
 
 
 class IntegrationLog(Base):

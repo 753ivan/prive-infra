@@ -19,6 +19,9 @@ from .config import settings
 from .db import Base, engine, get_db, migrate_light, session_scope
 from .models import (FINDING_KINDS, FINDING_STATUSES, ORDER_STATUS_RU, SERVICES, TAKEDOWN_STATUSES, AuditLog, Client, Finding,
                      Incident, IntegrationLog, Job, Order, Takedown, User, now)
+from .services import budget as budget_svc
+from .services import face_index as fidx_svc
+from .services import telegram_index as tgidx_svc
 from .services import evidence as ev_svc
 from .services import importer
 from .services import leaks as leaks_svc
@@ -316,6 +319,41 @@ def face_search(oid: int, bg: BackgroundTasks, db: Session = Depends(get_db), us
     return {"job_id": job.id}
 
 
+@app.get("/api/face-index/stats")
+def face_index_stats(db: Session = Depends(get_db), user: Principal = Depends(current_user)):
+    """Статистика индекса лиц: сколько лиц и по каким источникам."""
+    return fidx_svc.stats(db)
+
+
+@app.post("/api/face-index/ingest")
+def face_index_ingest(payload: dict, bg: BackgroundTasks, user: Principal = Depends(require("admin"))):
+    """Индексирует страницы в индекс лиц (фоном). payload: {"source": "...", "urls": ["..."]}."""
+    source = (payload.get("source") or "manual")[:64]
+    urls = [u for u in (payload.get("urls") or []) if isinstance(u, str)][:200]
+    if not urls:
+        raise HTTPException(400, "нужен непустой urls[]")
+    bg.add_task(fidx_svc.ingest_urls, source, urls)
+    return {"queued": len(urls), "source": source}
+
+
+@app.get("/api/telegram-index/status")
+def telegram_index_status(user: Principal = Depends(current_user)):
+    """Готовность индексации Telegram-каналов: установлен ли telethon, заданы ли ключи, какие каналы."""
+    return tgidx_svc.status()
+
+
+@app.post("/api/telegram-index/run")
+def telegram_index_run(payload: dict, bg: BackgroundTasks, user: Principal = Depends(require("admin"))):
+    """Запускает индексацию Telegram-каналов в индекс лиц (фоном). payload: {"limit": 200}."""
+    if not tgidx_svc.available():
+        raise HTTPException(400, "не настроено: нужен telethon и TELEGRAM_API_ID/HASH/SESSION в .env")
+    if not tgidx_svc.channels():
+        raise HTTPException(400, "пустой TELEGRAM_INDEX_CHANNELS")
+    limit = int(payload.get("limit") or 200)
+    bg.add_task(tgidx_svc.index_all, limit)
+    return {"queued": tgidx_svc.channels(), "limit": limit}
+
+
 @app.post("/api/orders/{oid}/import-report")
 async def import_report(oid: int, file: UploadFile, source: str = "pimeyes", db: Session = Depends(get_db), user: Principal = Depends(require("duty"))):
     """Импорт отчёта PimEyes/Lenso/любого сервиса: PDF, HTML или текст со ссылками."""
@@ -365,6 +403,9 @@ def funnel(days: int = 30, db: Session = Depends(get_db), user: Principal = Depe
         "paid_orders_any": paid_any.count(),
         "revenue_usd": round(sum(o.paid_usd for o in paid_any.all()), 2),
         "api_cost_usd": round(sum(o.api_cost_usd or 0 for o in orders.all()), 2),
+        "spent_today_usd": round(budget_svc.spent_today(db), 2),
+        "daily_cost_limit_usd": settings.daily_cost_limit_usd,
+        "indexed_faces": fidx_svc.stats(db)["faces"],
         "takedown_orders": orders.filter(Order.service.in_(["fakes", "leaks", "exit_std", "exit_total"]), Order.paid_usd > 0).count(),
         "conversion_free_to_paid_pct": round(100 * paid_check.count() / done_free.count(), 1) if done_free.count() else None,
         "median_hours_to_free_report": round(sorted(durations)[len(durations) // 2], 1) if durations else None,

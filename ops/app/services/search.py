@@ -1,7 +1,8 @@
-"""M3 — сканер по тексту: Google Custom Search, Brave Search, SerpAPI (Yandex).
+"""M3 — сканер по тексту: SearXNG (self-hosted, бесплатно), DataForSEO, Brave, SerpAPI (Yandex).
 
 Каждый провайдер возвращает список словарей {url, title, snippet, source}.
-Если ключ не задан — возвращается пустой список и NotConfigured пишется в лог.
+Если ключ/URL не задан — провайдер бросает NotConfigured и пропускается (пишется в лог).
+Google Custom Search убран: API закрыт для новых клиентов и выключается 01.01.2027.
 """
 from __future__ import annotations
 
@@ -19,16 +20,39 @@ def domain_of(url: str) -> str:
         return ""
 
 
-def google_cse(query: str, num: int = 10) -> list[dict]:
-    if not (settings.google_cse_key and settings.google_cse_cx):
-        raise NotConfigured("google_cse")
+def searxng(query: str, num: int = 20) -> list[dict]:
+    """SearXNG (self-hosted) — бесплатный первый проход. Нужен включённый JSON-формат на инстансе."""
+    if not settings.searxng_url:
+        raise NotConfigured("searxng")
     with client() as c:
-        r = c.get("https://www.googleapis.com/customsearch/v1", params={
-            "key": settings.google_cse_key, "cx": settings.google_cse_cx, "q": query, "num": min(num, 10)})
+        r = c.get(settings.searxng_url.rstrip("/") + "/search",
+                  params={"q": query, "format": "json", "language": "ru", "safesearch": 0})
         r.raise_for_status()
-        items = r.json().get("items", [])
-    log_call("google_cse", f"search {query!r}", True, f"{len(items)} results")
-    return [{"url": i["link"], "title": i.get("title", ""), "snippet": i.get("snippet", ""), "source": "google_cse"} for i in items]
+        items = r.json().get("results", [])[:num]
+    log_call("searxng", f"search {query!r}", True, f"{len(items)} results")
+    return [{"url": i["url"], "title": i.get("title", ""), "snippet": i.get("content", ""), "source": "searxng"}
+            for i in items if i.get("url")]
+
+
+def dataforseo(query: str, num: int = 20) -> list[dict]:
+    """DataForSEO — платный добор (Live Advanced, Google organic). Basic-auth login:password."""
+    if not (settings.dataforseo_login and settings.dataforseo_password):
+        raise NotConfigured("dataforseo")
+    with client() as c:
+        r = c.post("https://api.dataforseo.com/v3/serp/google/organic/live/advanced",
+                   auth=(settings.dataforseo_login, settings.dataforseo_password),
+                   json=[{"keyword": query, "language_code": "ru", "location_name": "Ukraine", "depth": min(num, 100)}])
+        r.raise_for_status()
+        data = r.json()
+    items: list[dict] = []
+    for task in data.get("tasks") or []:
+        for res in task.get("result") or []:
+            for it in res.get("items") or []:
+                if it.get("type") == "organic" and it.get("url"):
+                    items.append({"url": it["url"], "title": it.get("title", ""),
+                                  "snippet": it.get("description", ""), "source": "dataforseo"})
+    log_call("dataforseo", f"search {query!r}", True, f"{len(items)} results")
+    return items[:num]
 
 
 def brave(query: str, num: int = 20) -> list[dict]:
@@ -71,12 +95,14 @@ def serpapi_google_lens(image_url: str) -> list[dict]:
              "match_type": "similar"} for i in items]
 
 
-PROVIDERS = {"google_cse": google_cse, "brave": brave, "serpapi_yandex": serpapi_yandex}
+PROVIDERS = {"searxng": searxng, "dataforseo": dataforseo, "brave": brave, "serpapi_yandex": serpapi_yandex}
+FREE = {"searxng"}  # бесплатные провайдеры (self-hosted) — доступны и при исчерпании дневного лимита
 
 
 def status() -> dict:
     return {
-        "google_cse": bool(settings.google_cse_key and settings.google_cse_cx),
+        "searxng": bool(settings.searxng_url),
+        "dataforseo": bool(settings.dataforseo_login and settings.dataforseo_password),
         "brave": bool(settings.brave_search_key),
         "serpapi": bool(settings.serpapi_key),
     }
@@ -128,11 +154,14 @@ def _with_backoff(name: str, fn, search_string: str, tries: int = 3) -> list[dic
     return []
 
 
-def run_all(search_string: str) -> tuple[list[dict], list[str]]:
-    """Прогоняет запрос по всем настроенным провайдерам параллельно, с backoff на 429/5xx."""
+def run_all(search_string: str, paid_ok: bool = True) -> tuple[list[dict], list[str]]:
+    """Прогоняет запрос по настроенным провайдерам параллельно, с backoff на 429/5xx.
+    paid_ok=False (превышен дневной лимит) — только бесплатные (FREE) провайдеры."""
     from concurrent.futures import ThreadPoolExecutor
     configured = {n: f for n, f in PROVIDERS.items() if status().get(n.split("_")[0] if n.startswith("serpapi") else n)}
     missing = [n for n in PROVIDERS if n not in configured]
+    if not paid_ok:
+        configured = {n: f for n, f in configured.items() if n in FREE}
     if not configured:
         return [], missing
     results = []
