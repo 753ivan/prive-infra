@@ -234,7 +234,7 @@ def face_search_external(order_id: int, max_refs: int = 3) -> dict:
     from .services import facecheck, search4faces
     providers = {"facecheck": facecheck.search, "search4faces": search4faces.search}
     from .services import face as face_svc
-    from .services import budget
+    from .services import budget, face_index
     from .services.rules import COSTS
     with session_scope() as db:
         order = db.get(Order, order_id)
@@ -246,11 +246,26 @@ def face_search_external(order_id: int, max_refs: int = 3) -> dict:
                 refs = pick["picked"]
         existing = {f.url for f in order.findings}
         paid_ok = budget.allow_paid(db)
+        ref_embs = face_svc.reference_embeddings(order.client) if face_svc.available() else []
     if not refs:
         return {"error": "нет эталонов"}
-    if not paid_ok:
-        return {"skipped": "дневной лимит исчерпан — внешний поиск по лицу пропущен", "refs": len(refs), "paid_skipped": True}
     added, errors, not_configured, used_cost = 0, [], set(), 0.0
+    # 1) свой индекс лиц — бесплатно, лучший охват СНГ
+    own_added = 0
+    if ref_embs:
+        with session_scope() as db:
+            for m in face_index.search(db, ref_embs):
+                if m["page_url"] in existing:
+                    continue
+                existing.add(m["page_url"])
+                db.add(Finding(order_id=order_id, source="face_index", query_type="face", query_value="index",
+                               url=m["page_url"], domain=search_svc.domain_of(m["page_url"]), title="", snippet="",
+                               match_type="similar", confidence=m["similarity"], kind=guess_kind(m["page_url"]), status="new"))
+                own_added += 1
+    added += own_added
+    # 2) внешние API (FaceCheck — главный расход) только если свой индекс пусто и есть бюджет
+    if own_added or not paid_ok:
+        providers = {}
     for ref in refs:
         data = (settings.storage_dir / ref).read_bytes()
         for name, fn in providers.items():
@@ -280,7 +295,7 @@ def face_search_external(order_id: int, max_refs: int = 3) -> dict:
         o.api_cost_usd = (o.api_cost_usd or 0) + used_cost
         budget.charge(db, order_id, used_cost, "face")
     enriched = enrich_order(order_id) if added else {}
-    return {"added": added, "refs": len(refs), "picked": [r.rsplit("/", 1)[-1] for r in refs], "errors": errors, "not_configured": sorted(not_configured), "paid_skipped": False, "enrich": enriched}
+    return {"added": added, "own_index": own_added, "refs": len(refs), "picked": [r.rsplit("/", 1)[-1] for r in refs], "errors": errors, "not_configured": sorted(not_configured), "paid_skipped": (own_added == 0 and not paid_ok), "enrich": enriched}
 
 
 def import_pimeyes(order_id: int, data: bytes, filename: str, operator: str = "", source: str = "pimeyes") -> dict:

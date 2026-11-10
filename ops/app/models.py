@@ -297,6 +297,18 @@ class CostEntry(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
 
 
+class IndexedFace(Base):
+    """Индекс лиц: эмбеддинги SFace с публичных источников для бесплатного поиска (services/face_index.py)."""
+    __tablename__ = "indexed_faces"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    source: Mapped[str] = mapped_column(String(64), index=True)
+    page_url: Mapped[str] = mapped_column(String(512))
+    image_url: Mapped[str] = mapped_column(String(512), index=True)
+    face_idx: Mapped[int] = mapped_column(Integer, default=0)
+    embedding: Mapped[list] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
+
+
 class IntegrationLog(Base):
     __tablename__ = "integration_log"
     id: Mapped[int] = mapped_column(primary_key=True)
