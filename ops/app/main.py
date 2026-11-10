@@ -21,6 +21,7 @@ from .models import (FINDING_KINDS, FINDING_STATUSES, ORDER_STATUS_RU, SERVICES,
                      Incident, IntegrationLog, Job, Order, Takedown, User, now)
 from .services import budget as budget_svc
 from .services import face_index as fidx_svc
+from .services import telegram_index as tgidx_svc
 from .services import evidence as ev_svc
 from .services import importer
 from .services import leaks as leaks_svc
@@ -333,6 +334,24 @@ def face_index_ingest(payload: dict, bg: BackgroundTasks, user: Principal = Depe
         raise HTTPException(400, "нужен непустой urls[]")
     bg.add_task(fidx_svc.ingest_urls, source, urls)
     return {"queued": len(urls), "source": source}
+
+
+@app.get("/api/telegram-index/status")
+def telegram_index_status(user: Principal = Depends(current_user)):
+    """Готовность индексации Telegram-каналов: установлен ли telethon, заданы ли ключи, какие каналы."""
+    return tgidx_svc.status()
+
+
+@app.post("/api/telegram-index/run")
+def telegram_index_run(payload: dict, bg: BackgroundTasks, user: Principal = Depends(require("admin"))):
+    """Запускает индексацию Telegram-каналов в индекс лиц (фоном). payload: {"limit": 200}."""
+    if not tgidx_svc.available():
+        raise HTTPException(400, "не настроено: нужен telethon и TELEGRAM_API_ID/HASH/SESSION в .env")
+    if not tgidx_svc.channels():
+        raise HTTPException(400, "пустой TELEGRAM_INDEX_CHANNELS")
+    limit = int(payload.get("limit") or 200)
+    bg.add_task(tgidx_svc.index_all, limit)
+    return {"queued": tgidx_svc.channels(), "limit": limit}
 
 
 @app.post("/api/orders/{oid}/import-report")
