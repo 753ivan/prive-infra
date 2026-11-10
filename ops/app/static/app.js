@@ -60,14 +60,14 @@ views.dashboard = async () => {
       ${card(d.takedowns_due, "снятий к повторной проверке", d.takedowns_due ? "warn" : "", "#takedowns")}
       ${card(d.orders_overdue, "заказов просрочено", d.orders_overdue ? "bad" : "", "#orders")}
       ${card(d.removed_total, "снято всего", "ok")}
-      ${card(intCount + "/7", "интеграций настроено", intCount < 3 ? "warn" : "ok", "#integrations")}
+      ${card(intCount + "/8", "интеграций настроено", intCount < 3 ? "warn" : "ok", "#integrations")}
     </div>
     <h2>Воронка за 30 дней</h2>
     <div class="grid cards">
       ${card(d.funnel.clients_new, "новых клиенток")}${card(d.funnel.clients_verified, "верифицировано")}${card(d.funnel.free_reports_sent + "/" + d.funnel.free_checks, "бесплатных отчётов / заявок")}
       ${card(d.funnel.paid_checks, "платных проверок", "ok")}${card(d.funnel.conversion_free_to_paid_pct ?? "—", "% конверсия в платную", (d.funnel.conversion_free_to_paid_pct ?? 0) < 6 ? "warn" : "ok")}
       ${card(d.funnel.median_hours_to_free_report ?? "—", "медиана часов до бесплатного отчёта", (d.funnel.median_hours_to_free_report ?? 0) > 24 ? "bad" : "ok")}
-      ${card("$" + d.funnel.revenue_usd, "выручка")}${card("$" + d.funnel.api_cost_usd, "расходы на API")}
+      ${card("$" + d.funnel.revenue_usd, "выручка")}${card("$" + d.funnel.api_cost_usd, "расходы на API")}${card("$" + d.funnel.spent_today_usd + " / $" + d.funnel.daily_cost_limit_usd, "расходы сегодня / лимит", d.funnel.daily_cost_limit_usd > 0 && d.funnel.spent_today_usd >= d.funnel.daily_cost_limit_usd ? "bad" : "ok")}
     </div>
     ${open.length ? `<h2>SOS — ответить в течение 15 минут</h2>${ordersTable(open)}` : ""}
     <h2>Заказы по статусам</h2>

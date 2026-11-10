@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     brave_search_key: str = ""  # опционально
     serpapi_key: str = ""  # Yandex для СНГ / Google Lens по изображению
 
+    # --- лимиты расходов ---
+    daily_cost_limit_usd: float = 20.0  # дневной потолок внешних вызовов; при превышении — только бесплатные источники (0 = без лимита)
+
     # --- поиск по лицу (M4, внешние) ---
     facecheck_api_token: str = ""
     facecheck_demo: bool = False

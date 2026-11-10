@@ -287,6 +287,16 @@ class Job(Base):
         }
 
 
+class CostEntry(Base):
+    """Леджер расходов на внешние вызовы — для дневного лимита и аудита (см. services/budget.py)."""
+    __tablename__ = "cost_entries"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    order_id: Mapped[int | None] = mapped_column(ForeignKey("orders.id"), nullable=True)
+    source: Mapped[str] = mapped_column(String(32), default="scan")
+    amount_usd: Mapped[float] = mapped_column(Float, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now, index=True)
+
+
 class IntegrationLog(Base):
     __tablename__ = "integration_log"
     id: Mapped[int] = mapped_column(primary_key=True)
