@@ -26,6 +26,24 @@ SAME = 0.45
 NOT_SAME = 0.30
 
 
+def delete_circle(client_row) -> bool:
+    """Удаляет видео-кружок сразу после сверки личности — политика PRIVÉ:
+    «кружок удаляем после сверки». Чистит файл на диске и очищает поле у клиентки.
+    Не зависит от InsightFace (работает и без модуля лица) и идемпотентна."""
+    rel = (getattr(client_row, "circle_file", "") or "").strip()
+    if not rel:
+        return False
+    code = getattr(client_row, "code", "?")
+    try:
+        (settings.storage_dir / rel).unlink(missing_ok=True)
+    except Exception as e:  # noqa: BLE001
+        log_call("face", f"delete circle {code}", False, repr(e))
+        return False
+    client_row.circle_file = ""
+    log_call("face", f"delete circle {code}", True, "удалён после сверки")
+    return True
+
+
 def available() -> bool:
     try:
         import insightface  # noqa: F401

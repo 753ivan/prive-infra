@@ -149,6 +149,7 @@ class VerifyIn(BaseModel):
 
 @app.post("/api/clients/{cid}/verify")
 def verify_client(cid: int, data: VerifyIn, db: Session = Depends(get_db), user: Principal = Depends(require("duty"))):
+    from .services import face
     c = db.get(Client, cid) or _404()
     c.verification_note = data.note
     if data.decision == "verified":
@@ -164,6 +165,7 @@ def verify_client(cid: int, data: VerifyIn, db: Session = Depends(get_db), user:
         c.status = "new"
         gesture = data.note or "коснись носа"
         tg_svc.send_message(c.telegram_id, f"Нужен новый кружок: запиши его с жестом «{gesture}».") if c.telegram_id else None
+    face.delete_circle(c)  # оператор отработал кружок (подтвердил / отклонил / запросил новый) — удаляем
     db.commit()
     return c.to_dict()
 

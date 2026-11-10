@@ -405,6 +405,7 @@ def _auto_verify(db, c: Client):
             if o.status == "verifying":
                 o.status = "new"
         tg.send_message(c.telegram_id, "Сверили — это ты. Можно запускать проверку.")
+        face.delete_circle(c)  # кружок больше не нужен — удаляем сразу после сверки
         _start_after_verify(db, c)
     elif res["decision"] == "rejected":
         tg.alert_operators(f"Кружок {c.code}: авто-сверка «не совпало» (score {res.get('score')}). Решить вручную.")
