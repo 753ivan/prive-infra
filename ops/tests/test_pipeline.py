@@ -9,7 +9,7 @@ def test_order_flow(client):
     job = client.post(f"/api/orders/{o['id']}/scan").json()["job_id"]
     time.sleep(1.5)
     j = next(j for j in client.get("/api/jobs").json() if j["id"] == job)
-    assert j["status"] == "done" and "google_cse" in j["result"]["not_configured"]
+    assert j["status"] == "done" and "searxng" in j["result"]["not_configured"]
     f = client.post(f"/api/orders/{o['id']}/findings", json={"url": "https://instagram.com/fake.x", "kind": "fake"}).json()
     td = client.post(f"/api/findings/{f['id']}/takedown", json={}).json()
     assert td["template"] == "impersonation" and td["channel"] == "form"

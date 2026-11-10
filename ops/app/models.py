@@ -161,7 +161,7 @@ class Finding(Base):
     __tablename__ = "findings"
     id: Mapped[int] = mapped_column(primary_key=True)
     order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"))
-    source: Mapped[str] = mapped_column(String(32))  # google_cse | brave | serpapi_yandex | pimeyes | lens | manual | hibp | dehashed
+    source: Mapped[str] = mapped_column(String(32))  # searxng | dataforseo | brave | serpapi_yandex | crawl:* | facecheck | search4faces | pimeyes | lens | manual | hibp | dehashed
     query_type: Mapped[str] = mapped_column(String(16), default="nick")  # nick | phone | email | face | image | phrase
     query_value: Mapped[str] = mapped_column(String(255), default="")
     url: Mapped[str] = mapped_column(Text)

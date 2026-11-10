@@ -113,5 +113,5 @@ def classify(finding, verify: dict | None = None) -> dict:
 # ---------------------------------------------------------------------------
 # Стоимость внешних вызовов (USD) — для счётчика на заказ
 
-COSTS = {"google_cse": 0.005, "brave": 0.005, "serpapi_yandex": 0.015, "serpapi_lens": 0.015, "facecheck": 0.30,
-         "search4faces": 0.005, "hibp": 0.0, "dehashed": 0.002, "phash": 0.0, "verify": 0.0}
+COSTS = {"searxng": 0.0, "dataforseo": 0.002, "brave": 0.005, "serpapi_yandex": 0.015, "serpapi_lens": 0.015,
+         "facecheck": 0.30, "search4faces": 0.005, "hibp": 0.0, "dehashed": 0.002, "phash": 0.0, "verify": 0.0}

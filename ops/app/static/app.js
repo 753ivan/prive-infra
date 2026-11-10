@@ -49,7 +49,7 @@ views.dashboard = async () => {
   const open = [...sos, ...sos2].filter(o => !["done", "cancelled"].includes(o.status));
   const card = (n, l, cls = "", href = "") => `<div class="card ${cls} ${href ? "link" : ""}" ${href ? `onclick="location.hash='${href}'"` : ""}><div class="num">${n}</div><div class="lbl">${l}</div></div>`;
   const ints = d.integrations;
-  const intCount = [ints.search.google_cse, ints.search.brave, ints.search.serpapi, ints.leaks.hibp, ints.leaks.dehashed, ints.takedown.mail_configured, ints.telegram.bot].filter(Boolean).length;
+  const intCount = [ints.search.searxng, ints.search.dataforseo, ints.search.brave, ints.search.serpapi, ints.leaks.hibp, ints.leaks.dehashed, ints.takedown.mail_configured, ints.telegram.bot].filter(Boolean).length;
   $("#view").innerHTML = `
     <h1>Дашборд</h1>
     <div class="grid cards">
@@ -382,7 +382,8 @@ views.integrations = async () => {
   const row = (name, ok, what, test, how) => `<tr><td><span class="${ok ? "ok-dot" : "no-dot"}"></span><b>${name}</b></td><td>${what}</td><td>${ok ? tag("настроено", "ok") : tag("не настроено", "bad")}</td><td class="small muted">${how}</td><td>${test ? `<button class="btn sm ghost" onclick="testInt('${test}')">Тест</button>` : ""}</td></tr>`;
   $("#view").innerHTML = `<h1>Интеграции</h1><p class="muted small">Ключи задаются в файле <span class="mono">${esc(d.env_file)}</span> (образец — .env.example), после правки перезапустить сервер. Ненастроенные шаги конвейер пропускает и пишет это в задачу.</p>
     <table><tr><th>Сервис</th><th>Для чего</th><th>Статус</th><th>Переменные</th><th></th></tr>
-    ${row("Google Custom Search", s.search.google_cse, "M3: поиск по никам/телефонам (WL)", "google_cse", "GOOGLE_CSE_KEY, GOOGLE_CSE_CX")}
+    ${row("SearXNG (self-hosted)", s.search.searxng, "M3: бесплатный первый проход по тексту", "searxng", "SEARXNG_URL")}
+    ${row("DataForSEO", s.search.dataforseo, "M3: платный добор (Google organic, Live)", "dataforseo", "DATAFORSEO_LOGIN, DATAFORSEO_PASSWORD")}
     ${row("Brave Search API", s.search.brave, "M3: второй поисковик (WL)", "brave", "BRAVE_SEARCH_KEY")}
     ${row("SerpAPI (Yandex, Lens)", s.search.serpapi, "M3: Yandex для СНГ, Google Lens по изображению (WL)", "serpapi_yandex", "SERPAPI_KEY")}
     ${row("Have I Been Pwned", s.leaks.hibp, "Утечки по почте (WL)", "hibp", "HIBP_API_KEY")}
